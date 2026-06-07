@@ -3,16 +3,16 @@ title: "Reading Traces"
 type: concept
 aliases: ["reading traces", "trace reading", "model empathy", "trace debugging"]
 tags: [ai, agents, llm, debugging, observability]
-source_count: 1
+source_count: 2
 last_updated: 2026-06-07
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/generator-evaluator-pattern]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/long-running-agents]]"]
+relates-to: ["[[concepts/generator-evaluator-pattern]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/long-running-agents]]", "[[concepts/tracing-observability]]", "[[concepts/agent-evals]]"]
 contradicts: []
-supports: ["[[concepts/agent-harness]]"]
+supports: ["[[concepts/agent-harness]]", "[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
 ---
 
 # Reading Traces
@@ -38,6 +38,24 @@ stack trace, and inseparable from *empathizing* with the model's situation.
 - Observability for ultra-long-running agents is **not yet solved** — an interesting
   greenfield area ([[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]).
 
+### From Evals Workshop (Laurie Voss, Arize)
+
+- **Read traces before writing evals** — 15 minutes of reading real agent outputs beats hours
+  of blind prompt-fiddling; categorize what went wrong first, then decide what to measure
+  ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
+- **Traces as the prerequisite for evals** — [[concepts/tracing-observability]] captures the
+  raw execution data (spans, token counts, latency, cost) that makes trace-reading scalable;
+  hand-reading is the human skill, instrumentation is the infrastructure
+  ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
+- **Failures should seem fair** — if you look at a failing trace and think "that answer looks
+  fine to me," the problem is probably the eval, not the agent; trace-reading is the
+  meta-evaluation check on the eval itself
+  ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
+- **Filter by cost and latency, not just quality** — traces expose expensive paths (100 web
+  searches to get one answer) that pass quality evals but are unshippable in production
+  ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — Ash's "reading the traces" section + Q&A on traceability/observability
+- [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on reading traces as the first step before writing any eval; traces as meta-evaluation check

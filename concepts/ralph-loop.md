@@ -3,7 +3,7 @@ title: "Ralph Loop"
 type: concept
 aliases: ["ralph loop", "ralph wiggum technique", "ralph wiggum"]
 tags: [ai, agents, llm, technique]
-source_count: 1
+source_count: 2
 last_updated: 2026-06-07
 parent: []
 part-of: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/long-running-agents]]", "[[concepts/context-window-mana
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]"]
 ---
 
 # Ralph Loop
@@ -43,6 +43,23 @@ is better to fail predictably than to succeed unpredictably.
   reduce that need but it may still fit some use cases
   ([[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]).
 
+### From AI Coding Workflow (Matt Pocock)
+
+- **ralph-once.sh as the AFK implementation primitive** — Matt's `ralph-once.sh` script is
+  his concrete implementation of the Ralph Loop; it runs a single AFK agent session on one
+  [[concepts/kanban-for-agents|Kanban issue]] and exits. [[entities/sandcastle|Sandcastle]]
+  runs multiple ralph-once.sh instances in parallel Docker sandboxes
+  ([[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]).
+- **Ralph Loop + vertical slices + TDD** — Matt adds [[concepts/vertical-slices]] and
+  [[concepts/feedback-loops|TDD]] discipline on top of the basic Ralph Loop; the loop is
+  the execution mechanism, but the quality comes from the feedback loops and task sizing
+  ([[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]).
+- **Clear context > compact for Ralph Loop** — Matt prefers clearing context (returning to
+  a known state) over [[concepts/compaction]] between Ralph Loop iterations; predictability
+  beats continuity when running many parallel loops
+  ([[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]).
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — Andrew's history-tour interlude + Q&A on smart/dumb zones
+- [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — ralph-once.sh implementation; Sandcastle parallelization; clear-context preference over compaction

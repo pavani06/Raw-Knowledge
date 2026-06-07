@@ -3,7 +3,7 @@ title: "Compaction"
 type: concept
 aliases: ["compaction", "server-side compaction", "context compaction"]
 tags: [ai, llm, context, technique]
-source_count: 1
+source_count: 2
 last_updated: 2026-06-07
 parent: []
 part-of: ["[[concepts/context-window-management]]"]
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/context-rot]]", "[[concepts/ralph-loop]]", "[[concepts/
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]"]
 ---
 
 # Compaction
@@ -40,6 +40,26 @@ effectively indefinitely.
 > model generation and use case — Opus 4.6 holds coherence well enough that compaction
 > suffices, but lossy summaries still drift on harder work.
 
+### From AI Coding Workflow (Matt Pocock)
+
+- **Clear context > compact** — Matt explicitly prefers clearing context (returning to a
+  known, predictable state) over compacting; compaction accumulates "sediment" that may
+  degrade quality in unpredictable ways, whereas a cleared context is always the same
+  ([[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]).
+- **Predictability beats continuity** — the argument for clear-context is not that
+  compaction is wrong, but that for parallelized [[concepts/ralph-loop]] sessions (via
+  [[entities/sandcastle|Sandcastle]]), a known starting state is more reliable than a
+  compacted one; each Docker sandbox starts clean
+  ([[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]).
+
+> [!contradiction] Compaction vs. clear-context
+> The Anthropic Workshop (source 1) embraces single-session + compaction as the future of
+> long-running agents. Matt Pocock (source 2) prefers clearing context over compacting for
+> parallelized AFK loops. The resolution: compaction is better for single long-running
+> sessions (Anthropic's use case); clear-context is better for many short parallel sessions
+> (Matt's use case). Both are valid; the choice depends on the execution model.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — history tour + harness-adjustment + closing takeaways
+- [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — clear-context preference; predictability vs. continuity trade-off; Sandcastle clean-sandbox rationale

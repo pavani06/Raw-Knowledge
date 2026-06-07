@@ -3,16 +3,16 @@ title: "Generator-Evaluator Pattern"
 type: concept
 aliases: ["generator-evaluator", "generator evaluator pattern", "generator-critic", "adversarial evaluator", "GAN-style harness"]
 tags: [ai, agents, llm, architecture, verification]
-source_count: 1
+source_count: 2
 last_updated: 2026-06-07
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/verification-loop]]", "[[concepts/design-taste-rubric]]", "[[concepts/sub-agents]]"]
+relates-to: ["[[concepts/verification-loop]]", "[[concepts/design-taste-rubric]]", "[[concepts/sub-agents]]", "[[concepts/llm-as-judge]]", "[[concepts/agent-evals]]"]
 contradicts: []
-supports: ["[[concepts/long-running-agents]]"]
+supports: ["[[concepts/long-running-agents]]", "[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
 ---
 
 # Generator-Evaluator Pattern
@@ -47,6 +47,22 @@ hands a critique back to the generator, which then reflects and fixes.
   be paired with its own critic
   ([[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]).
 
+### From Evals Workshop (Laurie Voss, Arize)
+
+- **LLM-as-judge is the eval-time instantiation** — the [[concepts/llm-as-judge]] pattern
+  is the generator-evaluator pattern applied to evaluation: the generating agent produces
+  output; a separate judge LLM grades it. The same adversarial separation principle applies
+  ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
+- **Use a different model as judge** — self-preference bias means the generating model
+  rubber-stamps its own output; cross-provider judging (Claude generates, OpenAI judges)
+  is more reliable — the same logic as keeping generator and evaluator streams clean
+  ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
+- **Multi-judge systems** — at the frontier, multiple LLM judges can be run simultaneously
+  to get different opinions, look up facts, and verify claims — extending the pattern from
+  one evaluator to an evaluator ensemble
+  ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — the central state-of-the-art pattern presented by Ash
+- [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — LLM-as-judge as eval-time instantiation; cross-provider judging; multi-judge systems

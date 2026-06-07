@@ -1,8 +1,8 @@
 # Raw Knowledge
 
-A personal knowledge base built on the **LLM Wiki pattern** (Karpathy), specialized for **YouTube content**. You paste a YouTube link; an agent extracts the transcript and saves it as immutable raw data; a second agent curates that raw data into an interlinked, **typed-relationship ontology** you can search, cross-reference, and query inside Obsidian.
+A personal knowledge base built on the **LLM Wiki pattern** (Karpathy). You paste a URL — a **YouTube video** or a **web article**; an agent extracts the content and saves it as immutable raw data; a second agent curates that raw data into an interlinked, **typed-relationship ontology** you can search, cross-reference, and query inside Obsidian.
 
-Knowledge **compounds** — each new video enriches existing concept and entity pages rather than creating isolated notes.
+Knowledge **compounds** — each new source enriches existing concept and entity pages rather than creating isolated notes.
 
 > *"Obsidian is the IDE. The LLM is the programmer. The wiki is the codebase."*
 
@@ -12,23 +12,25 @@ Three immutable layers:
 
 | Layer | Directory | Owner | Rule |
 |---|---|---|---|
-| **Raw sources** | `sources/` | `transcript-extractor` agent | Never modified after creation (frontmatter + appended sections only) |
+| **Raw sources** | `sources/` | `source-extractor` agent | Never modified after creation (frontmatter + appended sections only) |
 | **The ontology** | `concepts/`, `entities/`, `digests/` | `knowledge-indexer` agent | Compounded over time, never replaced |
 | **The schema** | this file | Human + agents co-evolve | Governs all agent behavior |
 
-The critical inversion: **the agents do all the bookkeeping** — cross-referencing, deduplication, index maintenance, typed links. You curate inputs (YouTube links) and ask questions.
+The critical inversion: **the agents do all the bookkeeping** — cross-referencing, deduplication, index maintenance, typed links. You curate inputs (URLs) and ask questions.
 
 ## The Pipeline
 
 ```
-YouTube URL
+URL  (YouTube video  OR  web article)
     │
     ▼
-[transcript-extractor]  →  extracts transcript via fallback chain
-    │                       (youtube-transcript-api → yt-dlp subs → whisper)
+[source-extractor]  →  detects URL type, extracts via the right fallback chain:
+    │                    • video   → youtube-transcript-api → yt-dlp subs → whisper
+    │                    • article → markitdown → obscura (stealth headless)
     ▼
-sources/YYYY-MM-DD-slug.md  (status: unprocessed, immutable raw transcript)
-    │
+sources/YYYY-MM-DD-slug.md  (status: unprocessed, immutable raw content)
+    │                          • video   body in ## Transcript
+    │                          • article body in ## Content
     ▼
 [knowledge-indexer]  →  reads raw source, extracts concepts + entities,
     │                    compounds into ontology, writes typed links
@@ -45,27 +47,29 @@ Query / cross-reference / synthesize  (via Obsidian CLI + agents)
 Raw-Knowledge/
 ├── AGENTS.md              # This file — project schema and conventions
 ├── README.md             # Human-facing overview and usage
-├── Inbox.md              # Paste YouTube URLs here for processing
+├── Inbox.md              # Paste URLs (videos or articles) here for processing
 ├── index.md              # Agent-maintained catalog of all pages
 ├── log.md                # Append-only operation log (audit trail)
 ├── scripts/
-│   └── youtube-transcript.sh   # Fallback-chain transcript extractor
-├── sources/              # Immutable raw transcripts
+│   ├── youtube-transcript.sh   # Fallback-chain transcript extractor (video)
+│   └── article-extract.sh      # Fallback-chain article extractor (article)
+├── sources/              # Immutable raw sources (transcripts + articles)
 │   └── YYYY-MM-DD-slug.md
 ├── concepts/             # Ontology: ideas, techniques, terms, debates
 │   ├── concept-name.md
 │   └── _moc-cluster.md   # Map of Content (prefix _ sorts first)
 ├── entities/             # Ontology: projects, tools, companies, orgs
 │   └── entity-name.md
-├── digests/              # Periodic synthesis across recent videos
+├── digests/              # Periodic synthesis across recent sources
 │   └── YYYY-MM-DD.md
 └── .opencode/
     ├── opencode.json
     ├── agents/
-    │   ├── transcript-extractor.md
+    │   ├── source-extractor.md
     │   └── knowledge-indexer.md
     └── skills/
         ├── youtube-transcript/SKILL.md
+        ├── article-extractor/SKILL.md
         └── knowledge-indexer/SKILL.md
 ```
 
@@ -77,12 +81,16 @@ Every page is **exactly one** of four types. This is the ontology's backbone:
 
 | `type:` | Directory | What it is |
 |---|---|---|
-| `source` | `sources/` | Immutable transcript of one YouTube video |
+| `source` | `sources/` | Immutable raw content of one input — a YouTube video (`source_type: video`) or a web article (`source_type: article`) |
 | `concept` | `concepts/` | An idea, technique, term, or debate — compounds over time |
 | `entity` | `entities/` | A project, tool, company, or organization — **never a person** |
-| `digest` | `digests/` | Synthesis across recently ingested videos |
+| `digest` | `digests/` | Synthesis across recently ingested sources |
 
-**Why no people entities?** Author/channel attribution belongs in source frontmatter only (`channel:` field). People pages go stale, add privacy surface area, and dilute the ontology with biographical noise instead of ideas.
+A `source` page carries a `source_type` (`video` or `article`) that selects its body section
+and a few frontmatter fields (see Page Schemas). Everything else about the ontology is
+identical regardless of where the knowledge came from.
+
+**Why no people entities?** Author/channel attribution belongs in source frontmatter only (`channel:`/`author:` field). People pages go stale, add privacy surface area, and dilute the ontology with biographical noise instead of ideas.
 
 ### Atomic notes vs. MOC
 
@@ -127,12 +135,17 @@ sources:      ["[[sources/2026-06-07-slug]]"]   # raw sources that contributed
 
 ## Page Schemas
 
-### Source page (`sources/`) — created by `transcript-extractor`
+### Source page (`sources/`) — created by `source-extractor`
+
+Two shapes share `type: source`, distinguished by `source_type`.
+
+**Video** (`source_type: video`) — body section is `## Transcript`:
 
 ```yaml
 ---
 title: "Exact Video Title"
 type: source
+source_type: video
 source: "https://www.youtube.com/watch?v=VIDEO_ID"
 video_id: "VIDEO_ID"
 channel: "Channel Name"          # plain string, NEVER a wikilink to a person
@@ -156,8 +169,37 @@ status: unprocessed             # unprocessed | processed
 <full raw transcript text — IMMUTABLE>
 ```
 
+**Article** (`source_type: article`) — body section is `## Content`:
+
+```yaml
+---
+title: "Exact Article Title"
+type: source
+source_type: article
+source: "https://example.com/the-article"
+author: "Author Name"            # plain string, NEVER a wikilink; omit if unknown
+published: 2026-06-01            # article publish date if known
+created: 2026-06-07              # date extracted into the vault
+extraction_method: markitdown   # markitdown | obscura
+tags: [clippings]
+concepts: []
+entities: []
+status: unprocessed
+---
+
+# Exact Article Title
+
+> Source: https://example.com/the-article
+> Author: Author Name · Extracted: 2026-06-07 · Method: markitdown
+
+## Content
+
+<full cleaned article markdown — IMMUTABLE>
+```
+
 - `tags` placeholder is `[clippings]` so unprocessed sources are easy to spot.
-- The `## Transcript` section is **immutable**. The indexer may only edit frontmatter and **append** sections after it.
+- The body section (`## Transcript` for video, `## Content` for article) is **immutable**. The indexer may only edit frontmatter and **append** sections after it.
+- Video-only fields: `video_id`, `channel`, `duration`. Article-only field: `author`. Do not mix them.
 
 ### Concept page (`concepts/`) — owned by `knowledge-indexer`
 
@@ -224,7 +266,7 @@ What the entity does and how it relates to others (not biography).
 title: "Digest 2026-06-07"
 type: digest
 date: 2026-06-07
-videos_covered: 5
+sources_covered: 5
 sources: ["[[sources/2026-06-05-a]]", "[[sources/2026-06-06-b]]"]
 tags: [synthesis]
 ---
@@ -263,8 +305,8 @@ AI/ML/LLM (agents, models, training, inference) · Systems/Infra (NixOS, Linux, 
 
 ## Hard Rules
 
-- **Never modify a source's `## Transcript`** after creation — sources are immutable records. Frontmatter and appended sections only.
-- **No people entities** — channel/author stays in source `channel:` field.
+- **Never modify a source's body section** (`## Transcript` for video, `## Content` for article) after creation — sources are immutable records. Frontmatter and appended sections only.
+- **No people entities** — the channel (video) / author (article) stays in source frontmatter (`channel:` / `author:`) only.
 - **Check before create** — before any concept/entity page, search `index.md`, the directory, and `aliases:` for a near-match. If found, **update**; never create a duplicate.
 - **Compound, don't replace** — read existing pages first, append/merge, never overwrite.
 - **Flag contradictions** with a callout, never silent overwrite:

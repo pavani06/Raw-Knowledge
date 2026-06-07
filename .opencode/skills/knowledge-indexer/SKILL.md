@@ -37,18 +37,21 @@ obsidian search query="status: unprocessed" format=paths
 
 ### Step 2 — Read and analyze each source
 
-Read the full transcript. Extract:
+A source is either a **video** (`source_type: video`, body in `## Transcript`) or an
+**article** (`source_type: article`, body in `## Content`). Read the full body. Extract:
 
-1. **Core thesis** — the video's main argument (1–2 sentences).
+1. **Core thesis** — the source's main argument (1–2 sentences).
 2. **Key takeaways** — 3–7 actionable/notable insights.
 3. **Concepts** — technical ideas/techniques/terms/debates that deserve a page.
 4. **Entities** — projects, tools, companies, organizations (NEVER people).
 5. **Connections** — how this relates to existing wiki pages.
 6. **Contradictions** — conflicts with existing knowledge.
 
-> Transcripts are messy (filler words, no punctuation from auto-captions). Read for
-> *meaning*, not literal phrasing. Whisper transcripts may misspell names/jargon — use
-> your judgment and cross-check entity names.
+> **Video transcripts** are messy (filler words, no punctuation from auto-captions);
+> whisper transcripts may misspell names/jargon. **Articles** are cleaner but may carry
+> nav/boilerplate noise from extraction. In both cases read for *meaning*, not literal
+> phrasing, and cross-check entity names. The same concepts/entities can come from either
+> source type — compound them into the **same** ontology pages regardless of origin.
 
 ### Step 3 — Check before create (dedup — CRITICAL)
 
@@ -70,13 +73,14 @@ If a near-match exists → **update it**. Never create `attention.md` and
 
 ### Step 4 — Enrich the source frontmatter
 
-Edit ONLY the frontmatter (the `## Transcript` is immutable):
+Edit ONLY the frontmatter (the body section — `## Transcript` for video, `## Content` for
+article — is immutable):
 - Replace `tags: [clippings]` with real domain tags.
 - Fill `concepts: ["[[concepts/...]]", ...]`.
 - Fill `entities: ["[[entities/...]]", ...]`.
 - Set `status: processed`.
 
-Then **append** (after the transcript) a knowledge section:
+Then **append** (after the immutable body section) a knowledge section:
 
 ```markdown
 

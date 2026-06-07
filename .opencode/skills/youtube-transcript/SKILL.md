@@ -195,6 +195,7 @@ schema from `AGENTS.md`. Template:
 ---
 title: "<Video Title>"
 type: source
+source_type: video
 source: "<full youtube url>"
 video_id: "<VIDEO_ID>"
 channel: "<Channel Name>"

@@ -118,3 +118,18 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - `> [!inference]` callouts in `feedback-loops.md`, `deep-modules.md`, `doc-rot.md`, `kanban-for-agents.md`, `human-in-loop-vs-afk.md`, `vertical-slices.md`, `shared-design-concept.md`, `grill-me-skill.md`
 - `> [!contradiction]` callout added to `compaction.md` (clear-context vs. compaction: single long-running session vs. many short parallel sessions)
 - Ontology health: 3 concepts at source_count:3 (`sub-agents`, `skills-progressive-disclosure`, `context-window-management`, `verification-loop`); 5 at source_count:2; 22 at source_count:1; no orphans detected; strongest cluster: harness-engineering ↔ agent-harness ↔ context-window-management ↔ verification-loop ↔ feedback-loops
+
+## 2026-06-07T19:00Z — ingest | The Beginner's Guide to Learning Agentic AI — Harsh Singh
+
+- Source: `sources/2026-06-07-beginners-guide-to-learning-agentic-ai.md` (status: unprocessed → processed)
+- Source type: article (ai.plainenglish.io)
+- Created concepts (6): `agentic-ai`, `llm-vs-agents`, `agent-planning`, `tool-use`, `agent-memory`, `react-pattern`
+- Created entities (0): none — no specific tools, companies, or organizations named in the article
+- Compounded concepts (0): no existing pages directly compounded; cross-links added to `human-in-loop-vs-afk`, `verification-loop`, `agent-harness`, `planner-generator-evaluator-architecture`, `programmatic-tool-calling`, `eval-iterate-cycle` via source knowledge section
+- Updated: `index.md` (rebuilt: 47 concepts, 10 entities, 5 sources)
+- Pages touched: 9 (1 source + 6 new concepts + index.md + log.md)
+- Dedup checks: no near-matches found for any new concept; `human-in-loop-vs-afk` and `verification-loop` referenced but not compounded (article is beginner-level; existing pages are already richer — cross-links added instead)
+- Key themes: agentic AI as "AI that acts, not just responds"; LLM vs. agent distinction (suggest vs. suggest+act); six building blocks (goals, planning, tool use, memory, decision-making, human-in-loop); ReAct as the foundational loop pattern; beginner failure modes (over-complexity, too many tools, skipping testing, expecting full autonomy)
+- Cross-source connections: `agentic-ai` ↔ `agent-harness` (beginner framing of the same concept); `agent-planning` ↔ `planner-generator-evaluator-architecture` (foundational vs. formalized); `tool-use` ↔ `programmatic-tool-calling` (concept vs. implementation pattern); `react-pattern` ↔ `verification-loop` (micro-cycle vs. macro-cycle); `react-pattern` ↔ `eval-iterate-cycle` (loop pattern at different scales)
+- `> [!inference]` callouts in `agentic-ai.md`, `llm-vs-agents.md`, `agent-planning.md`, `tool-use.md`, `agent-memory.md`, `react-pattern.md`
+- Ontology health: 6 new concepts at source_count:1 (thin — prime for compounding); ontology now has foundational layer (agentic-ai, llm-vs-agents, agent-planning, tool-use, agent-memory, react-pattern) bridging beginner concepts to advanced harness-engineering cluster

@@ -7,10 +7,18 @@ author: "Harsh Singh"
 published: 2026-05-06
 created: 2026-06-07
 extraction_method: markitdown
-tags: [clippings]
-concepts: []
+tags: [ai, agents, llm, agentic-ai, beginner, workflow]
+concepts:
+  - "[[concepts/agentic-ai]]"
+  - "[[concepts/llm-vs-agents]]"
+  - "[[concepts/agent-planning]]"
+  - "[[concepts/tool-use]]"
+  - "[[concepts/agent-memory]]"
+  - "[[concepts/react-pattern]]"
+  - "[[concepts/human-in-loop-vs-afk]]"
+  - "[[concepts/verification-loop]]"
 entities: []
-status: unprocessed
+status: processed
 ---
 
 # The Beginner's Guide to Learning Agentic AI: From Zero to Your First AI Agent
@@ -188,3 +196,37 @@ If you are just starting out, do not worry about knowing everything. Pick one sm
 Hey, [Sunil](https://linkedin.com/in/sunilsandhu) here. I wanted to take a moment to thank you for reading until the end and for being a part of this community. Did you know that our team run these publications as a volunteer effort to over 3.5m monthly readers? We don’t receive any funding, we do this to support the community.
 
 If you want to show some love, please take a moment to follow me on [LinkedIn](https://linkedin.com/in/sunilsandhu), [TikTok](https://tiktok.com/@messyfounder), [Instagram](https://instagram.com/sunilsandhu). You can also subscribe to our [weekly newsletter](https://newsletter.plainenglish.io/). And before you go, don’t forget to clap and follow the writer️!
+---
+
+## Key Takeaways
+
+- [[concepts/agentic-ai]] is AI that can **plan, use tools, remember context, and execute multi-step tasks** — not just respond to prompts.
+- The core distinction ([[concepts/llm-vs-agents]]): an LLM *suggests*; an agent *suggests and acts*.
+- Every agent is built from six building blocks: goals, [[concepts/agent-planning|planning]], [[concepts/tool-use|tool usage]], [[concepts/agent-memory|memory]], decision-making, and [[concepts/human-in-loop-vs-afk|human-in-the-loop control]].
+- The agent execution loop: receive task → decompose → choose tool/action → execute → check result ([[concepts/verification-loop]]) → improve on feedback.
+- Common workflow patterns: Planner, Executor, Reflection loop, [[concepts/react-pattern|ReAct]], multi-step task handling.
+- Beginner advice: start with no-code tools, pick one small use case, build iteratively — complexity is the primary failure mode.
+
+## Concepts
+
+- [[concepts/agentic-ai|Agentic AI]] — the foundational concept introduced and defined throughout the article
+- [[concepts/llm-vs-agents|LLM vs. Agents]] — the key distinction: LLMs generate text; agents act on the world
+- [[concepts/agent-planning|Agent Planning]] — decomposing a goal into ordered steps before execution
+- [[concepts/tool-use|Tool Use]] — agents calling search, files, APIs, and other external capabilities
+- [[concepts/agent-memory|Agent Memory]] — retaining useful context across steps within a task
+- [[concepts/react-pattern|ReAct Pattern]] — reasoning and action interleaved: think → act → observe → repeat
+- [[concepts/human-in-loop-vs-afk|Human-in-Loop vs. AFK]] — human-in-the-loop control as a named building block of every agent
+- [[concepts/verification-loop|Verification Loop]] — the "check result and improve based on feedback" step in the agent loop
+
+## Entities
+
+*(No specific tools, companies, or organizations named in this article.)*
+
+## Connections
+
+- [[concepts/agentic-ai]] is the beginner-level framing of what the rest of the ontology calls [[concepts/agent-harness]] — the scaffolding that makes autonomous task completion possible.
+- [[concepts/agent-planning]] maps to the Planner role in [[concepts/planner-generator-evaluator-architecture]]; this article provides the foundational mental model.
+- [[concepts/tool-use]] is the beginner framing of [[concepts/programmatic-tool-calling]] — the article introduces the concept; the ontology has the advanced implementation pattern.
+- [[concepts/react-pattern]] is the loop-level pattern underlying [[concepts/verification-loop]] — reason, act, observe, repeat is the micro-cycle inside the larger harness loop.
+- [[concepts/human-in-loop-vs-afk]] is explicitly named as a building block here, reinforcing the Matt Pocock framing from the existing ontology.
+- The "reflection loop" workflow pattern described here is the beginner analog of [[concepts/eval-iterate-cycle]] — both describe the same improve-on-feedback loop at different levels of rigor.

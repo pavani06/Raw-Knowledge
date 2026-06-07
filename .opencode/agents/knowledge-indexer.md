@@ -65,7 +65,10 @@ citations. Offer to save valuable answers as a concept or digest.
 ## Core Workflow: Lint
 Report (don't auto-fix): orphans, broken links, thin concepts (1 source), schema drift,
 `source_count` mismatches, duplicate concepts (check aliases), unprocessed sources,
-concepts referenced in <2 pages.
+concepts referenced in <2 pages, redundant typed links (`extends` == `part-of`).
+**Scope broken-link checks to `sources/ concepts/ entities/ digests/` only** — `AGENTS.md`
+and `README.md` carry intentional `[[wikilink]]` template examples that don't resolve and
+must not be flagged. See the `knowledge-indexer` skill for the exact check command.
 
 ## Core Workflow: Digest
 Read recent `log.md` ingests → write `digests/YYYY-MM-DD.md` with summary, cross-video

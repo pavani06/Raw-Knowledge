@@ -169,6 +169,19 @@ obsidian orphans        # pages with zero incoming links
 obsidian unresolved     # broken [[wikilinks]]
 ```
 
+> **Scope link checks to the vault only.** `AGENTS.md` and `README.md` contain `[[wikilink]]`
+> *template examples* (e.g. `[[concepts/kv-cache]]`, `[[entities/openai]]`,
+> `[[sources/2026-06-07-some-video]]`) that intentionally don't resolve. A naive scan reports
+> them as broken. Exclude docs when checking by hand:
+> ```bash
+> grep -rhoE '\[\[(concepts|entities|sources|digests)/[a-z0-9-]+' \
+>   --include='*.md' sources/ concepts/ entities/ digests/ \
+>   | sed 's/\[\[//' | sort -u \
+>   | while read t; do [ -f "${t}.md" ] || echo "BROKEN: $t"; done
+> ```
+> Only links originating from pages under `sources/ concepts/ entities/ digests/` count as
+> real broken-link errors.
+
 Plus manual checks:
 - Concept pages with `source_count: 1` (thin knowledge).
 - Missing relationship fields (schema drift).
@@ -176,6 +189,8 @@ Plus manual checks:
 - Duplicate concepts (check `aliases`).
 - Sources still `status: unprocessed`.
 - Concept pages appearing in <2 other pages (orphan risk).
+- Redundant typed links: `extends` pointing at the same target as `part-of` (use one — `extends`
+  means *specializes*, `part-of` means *is a component of*).
 
 ---
 

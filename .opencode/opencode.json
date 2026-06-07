@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "transcript-extractor": {
+      "type": "subagent",
+      "description": "Extract a YouTube transcript and save it as an immutable raw source page. Uses a fallback chain: youtube-transcript-api -> yt-dlp subtitles -> whisper audio transcription.",
+      "model": "anthropic/claude-sonnet-4-6",
+      "skills": ["youtube-transcript"]
+    },
+    "knowledge-indexer": {
+      "type": "subagent",
+      "description": "Read raw transcript sources and curate them into a typed-relationship ontology of concept and entity pages. Compounds knowledge, never duplicates. Maintains index.md and log.md.",
+      "model": "anthropic/claude-sonnet-4-6",
+      "skills": ["knowledge-indexer", "obsidian"]
+    }
+  }
+}

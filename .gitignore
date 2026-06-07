@@ -1,0 +1,23 @@
+# OpenCode local artifacts
+.opencode/node_modules/
+.opencode/bun.lock
+.opencode/package-lock.json
+.opencode/.gitignore
+
+# Obsidian workspace state (keep config you want to share, ignore local UI state)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
+
+# Transcript extraction scratch
+/tmp/
+*.srt
+*.vtt
+*.wav
+*.mp3
+transcript*.txt
+
+# OS noise
+.DS_Store
+Thumbs.db

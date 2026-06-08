@@ -1,5 +1,5 @@
 ---
-description: Curate raw YouTube transcripts into a typed-relationship ontology of concept and entity pages. Compounds knowledge, deduplicates, maintains index.md and log.md. The second stage of the Raw Knowledge pipeline; also handles query, lint, and digest.
+description: Curate raw sources (YouTube transcripts and web articles) into a typed-relationship ontology of concept and entity pages. Compounds knowledge, deduplicates, maintains index.md and log.md. The second stage of the Raw Knowledge pipeline; also handles query, lint, and digest.
 mode: subagent
 model: anthropic/claude-sonnet-4-6
 temperature: 0.2
@@ -89,3 +89,7 @@ themes, contradictions, and 2–3 writing/research prompts → update `index.md`
 - **Today's date** for all date fields.
 - Prefer the **Obsidian CLI** for single-note CRUD when Obsidian is running (keeps links +
   index consistent); fall back to file tools otherwise.
+- The `obsidian` skill (`~/.claude/skills/obsidian/`) is **user-local and optional** — it
+  provides Obsidian CLI integration but is not bundled with this project. If it isn't
+  available in your environment, all operations fall back to plain file read/write/grep
+  (the vault is just markdown on disk). No functionality is lost.

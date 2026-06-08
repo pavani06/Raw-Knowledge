@@ -4,6 +4,9 @@
 .opencode/package-lock.json
 .opencode/.gitignore
 
+# OhMyOpenCode run-continuation session files
+.omo/run-continuation/
+
 # Obsidian workspace state (keep config you want to share, ignore local UI state)
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json

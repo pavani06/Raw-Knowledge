@@ -133,3 +133,15 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - Cross-source connections: `agentic-ai` ↔ `agent-harness` (beginner framing of the same concept); `agent-planning` ↔ `planner-generator-evaluator-architecture` (foundational vs. formalized); `tool-use` ↔ `programmatic-tool-calling` (concept vs. implementation pattern); `react-pattern` ↔ `verification-loop` (micro-cycle vs. macro-cycle); `react-pattern` ↔ `eval-iterate-cycle` (loop pattern at different scales)
 - `> [!inference]` callouts in `agentic-ai.md`, `llm-vs-agents.md`, `agent-planning.md`, `tool-use.md`, `agent-memory.md`, `react-pattern.md`
 - Ontology health: 6 new concepts at source_count:1 (thin — prime for compounding); ontology now has foundational layer (agentic-ai, llm-vs-agents, agent-planning, tool-use, agent-memory, react-pattern) bridging beginner concepts to advanced harness-engineering cluster
+
+## 2026-06-07T20:30Z — moc | Agent Harness cluster
+
+- Created MOC (1): `concepts/_moc-agent-harness.md` (first Map of Content in the vault)
+- Trigger: agent-harness cluster exceeded the 5-page MOC threshold (AGENTS.md rule) with 19 atomic members and no natural parent concept — `agent-harness` (technical substrate) and `harness-engineering` (operational discipline) are peers, not a hierarchy root
+- Cluster indexed (19 concepts, grouped into 5 themes): two load-bearing nodes (`agent-harness`, `harness-engineering`); context discipline (`context-window-management`, `compaction`, `context-rot`, `smart-zone-dumb-zone`, `skills-progressive-disclosure`, `programmatic-tool-calling`, `file-system-state`, `prompt-injection-patterns`); adversarial architecture (`generator-evaluator-pattern`, `planner-generator-evaluator-architecture`, `sub-agents`, `reviewer-agents`); verification (`verification-loop`, `design-taste-rubric`); human discipline (`reading-traces`, `non-functional-requirements`, `garbage-collection-day`, `code-as-free-resource`); enabler (`long-running-agents`)
+- Typed links: `relates-to` the 8 most central nodes; `sources` all 4 contributing sources
+- Updated: `index.md` (MOC added at top of Concepts section — `_` prefix sorts first)
+- Pages touched: 3 (1 new MOC + index.md + log.md)
+- Dedup checks: no existing MOC; no atomic concept pages duplicated (MOC indexes, does not contain)
+- `> [!inference]` callout in `_moc-agent-harness.md`: cluster is a web (no single parent), justifying a MOC over a parent concept page
+- Note: MOC does not count toward concept `source_count` compounding; it is a navigation layer, not a knowledge page. Vault now: 47 atomic concepts + 1 MOC, 10 entities, 5 sources, 1 digest

@@ -1,9 +1,9 @@
 ---
 name: knowledge-indexer
-description: "Curate raw YouTube transcript sources into a typed-relationship ontology of concept and entity pages. Compounds knowledge, deduplicates, maintains index.md and log.md. Use when sources need processing into the wiki, or for query/lint/digest operations."
+description: "Curate raw sources (YouTube transcripts and web articles) into a typed-relationship ontology of concept and entity pages. Compounds knowledge, deduplicates, maintains index.md and log.md. Use when sources need processing into the wiki, or for query/lint/digest operations."
 license: MIT
 compatibility: opencode
-allowed-tools: Bash(obsidian:*)
+allowed-tools: Bash
 metadata:
   version: "1.0.0"
   audience: AI agents maintaining a typed-link knowledge ontology

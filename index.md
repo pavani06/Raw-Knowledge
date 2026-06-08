@@ -6,6 +6,7 @@ within each section, with a one-line summary and source count.
 
 ## Concepts
 
+- [[concepts/_moc-agent-harness|MOC: Agent Harness]] — Map of Content for the agent-harness cluster: technical substrate, context discipline, adversarial architecture, verification, and the human discipline (4 sources)
 - [[concepts/agent-evals|Agent Evals]] — Three-tier evaluation framework (code → built-in → LLM-as-judge) for agentic systems (1 source)
 - [[concepts/agent-harness|Agent Harness]] — Scaffolding around the model that fills its gaps; co-evolves with the model (2 sources)
 - [[concepts/agent-memory|Agent Memory]] — Context retention across steps enabling multi-step task completion (1 source)

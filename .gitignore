@@ -7,10 +7,8 @@
 # OhMyOpenCode run-continuation session files
 .omo/run-continuation/
 
-# Obsidian workspace state (keep config you want to share, ignore local UI state)
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-.obsidian/cache
+# Obsidian — ignore entire folder (all local UI state)
+.obsidian/
 .trash/
 
 # Transcript extraction scratch

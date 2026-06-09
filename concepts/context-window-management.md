@@ -3,16 +3,16 @@ title: "Context Window Management"
 type: concept
 aliases: ["context window management", "context management", "context window", "context engineering"]
 tags: [ai, llm, context, architecture]
-source_count: 5
+source_count: 6
 last_updated: 2026-06-09
 parent: []
 part-of: []
 defines: ["[[concepts/context-rot]]", "[[concepts/smart-zone-dumb-zone]]"]
-relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/controlled-rag]]"]
+relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/controlled-rag]]", "[[concepts/12-factor-agents]]", "[[concepts/agent-state-management]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]"]
 ---
 
 # Context Window Management
@@ -124,6 +124,25 @@ external memory instead of cramming everything into context.
 > at anecdotally. The meta-analysis showing accuracy halving between 4K and 90K tokens gives
 > a concrete number to the "dumb zone" concept.
 
+### From 12-Factor Agents (Dex Horthy, HumanLayer)
+
+- **Own your context window** — Factor 3 of the [[concepts/12-factor-agents]] framework.
+  Don't blindly append errors to context; when the model screws up and calls a wrong API,
+  clear or summarize the error rather than dumping the full stack trace. "Figure out what
+  you want to tell the model so you get better results" ([[sources/2026-06-09-12-factor-agents]]).
+- **Optimize token density and clarity** — if you're not looking at every single token and
+  optimizing how you pass information to the LLM, "you might be missing out on upside and
+  quality." The model's output quality is a function of input token quality
+  ([[sources/2026-06-09-12-factor-agents]]).
+- **Own how you build the context** — you can model event state and thread history however
+  you want (single user message, system message, custom stringification). The standard
+  OpenAI messages format is just one option; own the construction so you can optimize
+  density ([[sources/2026-06-09-12-factor-agents]]).
+- **Context window is what enables pause/resume** — by owning the context window, you can
+  serialize it to a database before awaiting a long-running tool, then rehydrate and
+  continue seamlessly. See [[concepts/agent-state-management]]
+  ([[sources/2026-06-09-12-factor-agents]]).
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — recurring theme across the history tour and Q&A
@@ -131,3 +150,4 @@ external memory instead of cramming everything into context.
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — smart zone / dumb zone framing; system prompt size discipline; clear-context strategy; Kanban issue sizing
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — "context engineering" as the named umbrella; four optimization axes + trajectory; compressing truth via on-demand research; sharded onboarding
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on accuracy-drop data (70%→50% from 4K→90K tokens); static prompts as overhead; controlled RAG; sub-agents for context savings
+- [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on owning context construction; error clearing/summarization over blind appending; token density optimization; context window as pause/resume enabler

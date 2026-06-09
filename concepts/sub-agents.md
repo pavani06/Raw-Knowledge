@@ -3,16 +3,16 @@ title: "Sub-Agents"
 type: concept
 aliases: ["sub-agents", "sub agents", "subagents", "custom sub-agents"]
 tags: [ai, agents, llm, architecture]
-source_count: 5
+source_count: 6
 last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]", "[[concepts/research-plan-implement]]"]
+relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/micro-agents]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]"]
 ---
 
 # Sub-Agents
@@ -98,6 +98,24 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
 > context — they *reduce total token consumption* because each sub-agent's static prompt is
 > smaller than a monolithic agent's combined prompt would be.
 
+### From 12-Factor Agents (Dex Horthy, HumanLayer)
+
+- **Micro-agents as the architectural application** — sub-agents are the mechanism (separate
+  context windows); [[concepts/micro-agents]] are the architectural pattern (small 3-10 step
+  loops in deterministic DAGs). Dex advocates for sprinkling tiny agent moments into mostly
+  deterministic pipelines ([[sources/2026-06-09-12-factor-agents]]).
+- **Sub-agents at HumanLayer** — the deploy bot spawns small agent loops for specific
+  decisions (deploy frontend or backend first?) within an otherwise deterministic CI/CD
+  pipeline. "100 tools, 20 steps, easy" — each step is a focused sub-agent with manageable
+  context and clear responsibility ([[sources/2026-06-09-12-factor-agents]]).
+
+> [!inference] Dex's two talks present a layered view of sub-agents: the RPI talk
+> ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]])
+> focused on sub-agents as a **context-control mechanism** (fork-out-and-return-succinct).
+> The 12-Factor talk focuses on sub-agents as the **building block of micro-agent
+> architecture** (small loops in deterministic DAGs). Together, they form a complete
+> picture: sub-agents are *how* you implement micro-agents.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — Agent SDK primitives + closing how-to-build-your-own section
@@ -105,3 +123,4 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — explore sub-agent pattern; Sandcastle parallel dispatch; AFK classification as sub-agent delegation
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — "context not roles"; fork-out-and-return-succinct pattern; sub-agents powering on-demand research
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on specialized sub-agents saving context via smaller static prompts; instruction clash in monolithic agents
+- [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on micro-agents as the architectural pattern built on sub-agents; HumanLayer deploy bot as case study; 3-10 step agent loops in deterministic DAGs

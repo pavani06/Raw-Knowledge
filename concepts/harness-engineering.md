@@ -3,16 +3,16 @@ title: "Harness Engineering"
 type: concept
 aliases: ["harness engineering", "humans steer agents execute", "agent-driven development"]
 tags: [ai, agents, llm, software-engineering, methodology, coding-agents]
-source_count: 3
-last_updated: 2026-06-08
+source_count: 4
+last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/context-window-management]]"]
 defines: ["[[concepts/non-functional-requirements]]", "[[concepts/garbage-collection-day]]", "[[concepts/reviewer-agents]]"]
-relates-to: ["[[concepts/agent-harness]]", "[[concepts/code-as-free-resource]]", "[[concepts/codebase-uniformity]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/research-plan-implement]]"]
+relates-to: ["[[concepts/agent-harness]]", "[[concepts/code-as-free-resource]]", "[[concepts/codebase-uniformity]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/research-plan-implement]]", "[[concepts/12-factor-agents]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: ["[[concepts/agent-harness]]"]
-sources: ["[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]"]
+sources: ["[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-12-factor-agents]]"]
 ---
 
 # Harness Engineering
@@ -83,8 +83,27 @@ The [[concepts/agent-harness|agent harness]] is the technical substrate; harness
 > Dex from the context/token angle. Both agree the load-bearing skill is managing context and
 > specifying work; the label hierarchy is a framing choice (see [[concepts/semantic-diffusion]]).
 
+### From 12-Factor Agents (Dex Horthy, HumanLayer)
+
+- **Agents are just software** — the talk's thesis directly reinforces harness engineering:
+  "You all can build software. Anyone ever written a switch statement before? While loop?
+  Yeah. So we can do this stuff." The harness is the software around the LLM
+  ([[sources/2026-06-09-12-factor-agents]]).
+- **The 12-Factor Agents framework as harness engineering codified** — the 12 factors are
+  essentially a catalog of harness patterns. Factor 5 (own your control flow) and Factor 6
+  (manage execution/business state) are pure harness engineering: own the loop, own the
+  state, own the context building ([[sources/2026-06-09-12-factor-agents]]).
+- **Frameworks should handle non-AI hard parts** — a refinement of the harness engineering
+  thesis: tools should scaffold infrastructure, state management, and human contact so
+  builders can focus on prompts, context, and eval. See
+  [[concepts/frameworks-vs-libraries]] ([[sources/2026-06-09-12-factor-agents]]).
+- **LLMs are stateless pure functions** — the simplest, most important harness principle:
+  token in, token out. Everything else is the harness around that pure function
+  ([[sources/2026-06-09-12-factor-agents]]).
+
 ## Sources
 
 - [[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent|Harness Engineering: How to Build Software When Humans Steer, Agents Execute]] — Ryan Lopopolo's keynote + Q&A; the primary source defining this methodology
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — Matt's full workflow as harness engineering; software engineering fundamentals as harness principles; feedback loops and deep modules as harness infrastructure
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — harness engineering as "part of context engineering"; coding-agent commoditization; the seniority rift; pick-one-tool-and-get-reps
+- [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on agents as software; the 12 factors as harness patterns; frameworks should handle non-AI hard parts; LLMs as stateless pure functions

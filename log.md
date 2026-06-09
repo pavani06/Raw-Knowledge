@@ -221,6 +221,30 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Method: yt-dlp (auto-generated captions)
 - Status: unprocessed (awaiting knowledge-indexer)
 
+## 2026-06-09T13:30Z — ingest | 12-Factor Agents: Patterns of reliable LLM applications — Dex Horthy, HumanLayer
+
+- Source: `sources/2026-06-09-12-factor-agents.md` (status: unprocessed → processed)
+- Source type: video (AI Engineer / HumanLayer)
+- Created concepts (5): `12-factor-agents`, `micro-agents`, `agent-state-management`, `structured-output`, `frameworks-vs-libraries`
+- Created entities (1): `a2-protocol`
+- Compounded concepts (5): `tool-use` (source_count: 2→3), `context-window-management` (5→6), `sub-agents` (5→6), `harness-engineering` (3→4), `human-in-loop-vs-afk` (1→2)
+- Compounded entities (1): `humanlayer` (source_count: 1→2)
+- Updated: `index.md` (rebuilt: 67 atomic concepts + 2 MOCs, 13 entities, 10 sources)
+- Pages touched: 14 (1 source + 5 new concepts + 1 new entity + 5 compounded concepts + 1 compounded entity + index.md + log.md)
+- Dedup checks: `tool-use` already exists → compounded the "tool use is harmful" reframing rather than creating a separate page. `micro-agents` is distinct from `sub-agents` (architectural pattern vs. mechanism). `12-factor-agents` is a new framework-level concept. No near-matches for `agent-state-management`, `structured-output`, or `frameworks-vs-libraries`. `a2-protocol` is a new entity distinct from `humanlayer`.
+- Key themes: the 12-Factor Agents framework as harness engineering codified; "tool use is harmful" as provocative reframing (tools = JSON + code); micro-agents (3-10 step loops in deterministic DAGs) as the production pattern; agents as stateless reducers with external state management (pause/resume via DB); contacting humans with tools (natural-language first token); frameworks-vs-libraries applied to agent tooling (scaffolding like shadcn, not wrappers like bootstrap); A2 protocol as human-contact consolidation layer
+- Cross-source connections: this is Dex Horthy's second talk in the vault (after [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]). The RPI talk focused on context engineering as methodology; the 12-Factor talk codifies the full pattern language. `context-window-management` now compounded from both Dex talks + 4 other sources (6 sources — densest node). `sub-agents` (6 sources) tied with `context-window-management` as densest node. `harness-engineering` (4 sources) enriched with "agents are just software" + "LLMs as stateless pure functions" principles. `human-in-loop-vs-afk` graduated from single-source to compound (2 sources) via the human-contact factors.
+- Contradictions flagged (1): "tool use is harmful" (Dex) vs. the beginner framing of tools as "magical agent body" — flagged in `tool-use.md` as an abstraction-level tension, not a factual contradiction. See [[concepts/semantic-diffusion]].
+- `> [!inference]` callouts in all 5 new concept pages + 6 compounded pages.
+- Ontology health: 67 atomic concepts + 2 MOCs, 13 entities, 10 sources, 2 digests. Two concepts now at source_count:6 (`context-window-management`, `sub-agents` — densest nodes); `tool-use` at source_count:3; `harness-engineering` at source_count:4; `human-in-loop-vs-afk` at source_count:2. Five new concepts at source_count:1 (thin — prime for compounding). The 12-factor cluster bridges the harness-engineering and context-engineering hubs, with `12-factor-agents` as a new top-level framework concept.
+
+## 2026-06-09T13:10Z — extract | 12-Factor Agents: Patterns of reliable LLM applications — Dex Horthy, HumanLayer
+
+- Source: `sources/2026-06-09-12-factor-agents.md`
+- Video: https://www.youtube.com/watch?v=8kMaTybvDUw
+- Method: yt-dlp (auto-generated captions)
+- Status: unprocessed (awaiting knowledge-indexer)
+
 ## 2026-06-09T13:00Z — ingest | Why More Context Makes Your Agent Dumber and What to Do About It — Nupur Sharma, Qodo
 
 - Source: `sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou.md` (status: unprocessed → processed)

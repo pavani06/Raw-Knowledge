@@ -189,3 +189,21 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - Cross-source connections: both EDD articles deeply compound the eval cluster seeded by the Arize source ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]) — Masood = enterprise/governance framing, Ramchandani = hands-on RAG implementation, Voss = conference workshop. The MT-Bench biases corroborate Voss's bias list in `llm-as-judge`. `eval-governance` is a genuinely new dimension (evals as legal infrastructure). `rag-evaluation` is the first retrieval-specific eval page.
 - `> [!inference]` callouts in all 8 new concept pages + compounded `eval-driven-development`, `agent-evals`, `llm-as-judge`, `tracing-observability`.
 - Ontology health: the **eval cluster** is now a dense web rivaling the agent-harness cluster — `eval-driven-development`, `agent-evals`, `llm-as-judge`, `golden-dataset`, `tracing-observability` all at source_count:3; 8 new concepts at source_count:1-2 (prime for compounding). The eval cluster now exceeds the 5-page MOC threshold (≈21 pages) and has no single parent — **candidate for a `_moc-agent-evals.md` MOC on a future pass**, plus a digest covering the 2026-06-09 EDD ingest.
+
+## 2026-06-09T12:00Z — moc | Agent Evals cluster
+- Created MOC (1): `concepts/_moc-agent-evals.md` (second Map of Content in the vault, after `_moc-agent-harness`)
+- Trigger: the eval cluster crossed the 5-page MOC threshold (AGENTS.md rule) with ~21 atomic members and no single parent — `agent-evals` (the measurement framework) and `eval-driven-development` (the methodology that wraps it) are peers, not a hierarchy root.
+- Cluster indexed (grouped into 8 themes): two load-bearing nodes (`agent-evals`, `eval-driven-development`); eval targets (`trajectory-evaluation`, `rag-evaluation`, `failure-taxonomy`); grader stack (`deterministic-checks`, `llm-as-judge`, `golden-dataset`); evidence layer (`tracing-observability`, `reading-traces`); release & operations (`release-gates`, `continuous-evaluation`, `eval-governance`); failure modes & frontier (`reward-hacking`, `data-flywheel`, `eval-iterate-cycle`, `closed-loop-evaluation`); bridges into the harness cluster (`generator-evaluator-pattern`, `verification-loop`, `feedback-loops`)
+- Typed links: `relates-to` the 8 most central eval nodes; `sources` all 3 contributing eval sources
+- Updated: `index.md` (MOC added at top of Concepts section — `_` prefix sorts it alongside `_moc-agent-harness`)
+- `> [!inference]` callout: cluster is a web with no single parent (peers `agent-evals` ↔ `eval-driven-development`), and it bridges into the harness cluster (`agent-evals` is `part-of` `harness-engineering`) — justifying a MOC over a parent page.
+- Note: MOC does not count toward concept `source_count`; it is a navigation layer. Vault now: 60 atomic concepts + 2 MOCs.
+
+## 2026-06-09T12:15Z — digest | Digest 2026-06-09
+- Created: `digests/2026-06-09.md`
+- Sources covered: 2 (`sources/2026-06-09-eval-driven-development-missing-discipline.md`, `sources/2026-06-09-eval-driven-development-rag-support-assistant.md`)
+- Updated: `index.md` (Digests section)
+- Themes synthesized (5): the layered grader stack as the shared backbone (deterministic → judge → human calibration); grade the trajectory not the output (chatbot/agent dividing line); judges are powerful and dangerous (MT-Bench bias taxonomy + calibration); EDD is governance (genuinely new dimension — EU AI Act/NIST/SR 11-7); deployment is the beginning (closed loop + reward-hacking hazard)
+- Contradictions flagged (2): EDD as engineering technique vs. compliance regime; continuous-evaluation cost vs. smart-zone/code-is-free economics + audit completeness
+- 3 writing prompts emitted: "evals as the new compliance layer", "the judge is the reward function", "from hallucination to a failure taxonomy"
+- Ontology health snapshot: 60 atomic concepts + 2 MOCs, 11 entities, 8 sources, 2 digests; eval cluster is now the second dense hub bridged to the harness cluster via `agent-evals` part-of `harness-engineering` and `eval-driven-development` ↔ `feedback-loops` — one connected graph, two hubs.

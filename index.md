@@ -6,6 +6,7 @@ within each section, with a one-line summary and source count.
 
 ## Concepts
 
+- [[concepts/_moc-agent-evals|MOC: Agent Evals]] — Map of Content for the agent-evals cluster: the grader stack, eval targets, evidence/observability, release gates, governance, and failure modes (3 sources)
 - [[concepts/_moc-agent-harness|MOC: Agent Harness]] — Map of Content for the agent-harness cluster: technical substrate, context discipline, adversarial architecture, verification, and the human discipline (4 sources)
 - [[concepts/agent-evals|Agent Evals]] — Three-tier evaluation framework (code → built-in → LLM-as-judge) for agentic systems (3 sources)
 - [[concepts/agent-harness|Agent Harness]] — Scaffolding around the model that fills its gaps; co-evolves with the model (2 sources)
@@ -96,3 +97,4 @@ within each section, with a one-line summary and source count.
 ## Digests
 
 - [[digests/2026-06-07|Digest 2026-06-07]] — Full-day synthesis: the agent-harness cluster across 2 sources, 23 concepts, 8 entities (2 sources)
+- [[digests/2026-06-09|Digest 2026-06-09]] — Eval-Driven Development synthesis: the two EDD articles that grew the agent-evals cluster past the MOC threshold; the layered grader stack, trajectory grading, judge calibration, governance, and the closed loop (2 sources)

@@ -25,15 +25,51 @@ vocabulary, and the hard rules. This skill is the *how*; AGENTS.md is the *contr
 
 ### Step 1 — Find unprocessed sources
 
+Two kinds of files need ingesting. **Find both:**
+
 ```bash
+# 1. Schema-conformant sources awaiting curation (created by source-extractor)
 grep -rl "status:.*unprocessed" sources/
+
+# 2. Raw Web Clipper / hand-dropped dumps that never went through source-extractor.
+#    These do NOT have status:/type:/source_type: fields — they are spotted by the
+#    placeholder `clippings` tag. ALWAYS check for these too; a status-only grep misses them.
+grep -rl "clippings" sources/
 ```
 
 Or via Obsidian CLI if running:
 
 ```bash
 obsidian search query="status: unprocessed" format=paths
+obsidian search query="tag:#clippings" format=paths
 ```
+
+> **Why both?** `source-extractor` writes a full source schema (`type: source`,
+> `source_type:`, `status: unprocessed`, `tags: [clippings]`). But files pasted in by hand
+> or via Obsidian Web Clipper land in `sources/` carrying only `tags: [clippings]` (often
+> with `clippings` as a YAML list item, an ISO-timestamp filename, and **`author:` as a
+> `[[wikilink]]` to a person** — which violates the AGENTS.md "no people entities" rule). A
+> `status: unprocessed` grep alone will silently skip them. The `clippings` tag is the
+> reliable signal that a file is raw and uncurated, regardless of which path produced it.
+
+### Step 1.5 — Normalize non-conformant clippings to the source schema (BEFORE processing)
+
+If a `clippings`-tagged file lacks the AGENTS.md source schema, **fix its frontmatter and
+filename first** (frontmatter only — never touch the body), then process it normally:
+
+1. **Slug + filename** → rename to `sources/YYYY-MM-DD-slug.md` (use the `created`/clip date;
+   strip ISO timestamps, spaces, and special characters per the AGENTS.md slug rules).
+2. **Add the missing schema fields**: `type: source`; `source_type: article` (Web Clipper is
+   almost always an article — body usually lives under `## Content`, `## Article`, or raw
+   markdown; if it is a video transcript, use `video` + the video fields); `created:` (today
+   or the clip date); `status: unprocessed`; and the empty `concepts: []` / `entities: []`
+   placeholders.
+3. **Demote people to plain strings** — convert `author: ["[[Some Person]]", "[[PhD.]]"]` into
+   a plain `author: "Some Person"` string (drop honorific-only entries like `PhD.`). **Never**
+   leave a person as a `[[wikilink]]`; people get no entity page (AGENTS.md hard rule).
+4. Keep `tags: [clippings]` for now — Step 4 replaces it with real domain tags on processing.
+
+Once normalized, the file is a valid unprocessed source; continue with Step 2.
 
 ### Step 2 — Read and analyze each source
 

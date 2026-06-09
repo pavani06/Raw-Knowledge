@@ -3,16 +3,16 @@ title: "Agent Evals"
 type: concept
 aliases: ["agent evals", "agentic evaluation", "evaluation framework", "evals", "eval suite"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 3
+last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
-defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]"]
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]"]
+defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]"]
 contradicts: []
 supports: ["[[concepts/agent-harness]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
 ---
 
 # Agent Evals
@@ -65,6 +65,29 @@ The three tiers of evals, in order of cost and power:
 > measurement: the same "humans steer, agents execute" logic applies — humans define what
 > good looks like (rubrics, golden datasets), agents execute the measurement at scale.
 
+### From the EDD articles (Masood / Ramchandani)
+
+- **The three tiers, restated as the "greater stack taxonomy"** — both EDD articles independently
+  arrive at the same layering: [[concepts/deterministic-checks|deterministic code checks]] →
+  rubric/[[concepts/llm-as-judge|judge]] scoring → human calibration. Each layer catches a
+  different failure class; over-delegating to the judge makes the system slow and untrustworthy
+  ([[sources/2026-06-09-eval-driven-development-rag-support-assistant]]).
+- **Agent evals grade the trajectory, not just the output** — the key difference from chatbot
+  evals; see [[concepts/trajectory-evaluation]]. OpenAI and Anthropic both define agent evals as
+  prompt → captured run (trace + artifacts) → checks → comparable score
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **A taxonomy of eval dimensions** — scope (skill / workflow / system), artifact (final answer
+  vs. [[concepts/trajectory-evaluation|trace]]), grader (deterministic / rubric / calibrated),
+  data ([[concepts/golden-dataset|synthetic / production / curated]]), behavior
+  (outcome/process/style/efficiency), and benchmark (external sanity check only)
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Evals as a release discipline** — expected behavior encoded as eval data, every run leaves a
+  [[concepts/tracing-observability|trace]], failures categorized into engineering causes (see
+  [[concepts/failure-taxonomy]]), changes shipped only via [[concepts/release-gates|gates]]
+  ([[sources/2026-06-09-eval-driven-development-rag-support-assistant]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss (Arize) full workshop on the three-tier eval framework, impact hierarchy, and eval-iterate cycle
+- [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — the greater stack taxonomy; trajectory grading; the multi-dimension eval taxonomy
+- [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — layered eval stack on a concrete RAG system; evals as a release discipline

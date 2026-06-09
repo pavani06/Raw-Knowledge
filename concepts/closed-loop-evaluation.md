@@ -3,16 +3,16 @@ title: "Closed-Loop Evaluation"
 type: concept
 aliases: ["closed-loop evaluation", "closed loop eval", "autonomous self-improvement", "self-improving agents"]
 tags: [ai, agents, llm, evals, automation, frontier]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 2
+last_updated: 2026-06-09
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/eval-iterate-cycle]]", "[[concepts/eval-driven-development]]", "[[concepts/ralph-loop]]", "[[concepts/verification-loop]]", "[[concepts/harness-engineering]]"]
+relates-to: ["[[concepts/eval-iterate-cycle]]", "[[concepts/eval-driven-development]]", "[[concepts/ralph-loop]]", "[[concepts/verification-loop]]", "[[concepts/harness-engineering]]", "[[concepts/continuous-evaluation]]", "[[concepts/reward-hacking]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: ["[[concepts/eval-iterate-cycle]]"]
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]"]
 ---
 
 # Closed-Loop Evaluation
@@ -48,6 +48,25 @@ Currently (2026) described as "on the horizon" and "very difficult to get to wor
 > The bottleneck is reliability — current models can partially do this but not consistently
 > enough to remove the human from the loop.
 
+### From "The Missing Discipline" (Adnan Masood)
+
+- **Evals become training signals** — enterprises increasingly turn evals into training signals
+  (RFT/DPO-style workflows), which amplifies the stakes of getting grading right and the danger
+  of [[concepts/reward-hacking|reward hacking]]; OpenAI explicitly warns to guard against it
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Adaptive evals as the near-term closed loop** — tooling auto-generates eval cases from
+  near-miss production incidents without human intervention; a partial closed loop already
+  emerging from production telemetry
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **The provocation** — "are humans still programming the AI, or just building the labyrinth and
+  letting machines evolve to navigate it?" The closed loop (AI judges grading AI workers on
+  auto-generated rubrics) is the logical endpoint
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Requires [[concepts/continuous-evaluation]]** — you cannot close the loop on a system you
+  only measure once; CE on production traffic is the substrate the closed loop runs on
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on closed-loop evaluation as the frontier; audience question on DSPy and Karpathy's auto-research ideas
+- [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — evals as training signals (RFT/DPO); adaptive evals as a near-term closed loop; the self-evolving-systems provocation

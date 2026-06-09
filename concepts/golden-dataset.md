@@ -3,16 +3,16 @@ title: "Golden Dataset"
 type: concept
 aliases: ["golden dataset", "golden data set", "ground truth dataset", "eval dataset", "reference dataset"]
 tags: [ai, agents, llm, evals, testing, data]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 3
+last_updated: 2026-06-09
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/garbage-collection-day]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/garbage-collection-day]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]", "[[concepts/llm-as-judge]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
 ---
 
 # Golden Dataset
@@ -59,6 +59,29 @@ This compounding property makes them a core component of the [[concepts/data-fly
 > non-functional requirements: it makes the implicit quality bar explicit and machine-readable,
 > so agents can be measured against it at scale.
 
+### From the EDD articles (Masood / Ramchandani)
+
+- **Data taxonomy: where test cases come from** — synthetic, domain-specific, purchased,
+  human-curated, production, and historical; OpenAI explicitly recommends logging and mining
+  logs for eval cases ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Start small but targeted** — 10–20 prompts can surface regressions for a single skill;
+  grow the set over time. Small sets deliver value if they are sharp
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Product-specific golden cases** — for the Nimbus RAG assistant, the golden dataset encodes
+  SSO boundaries, refunds, API limits, and retention as expected behaviors, each tied to an
+  expected source document and specific facts that must appear
+  ([[sources/2026-06-09-eval-driven-development-rag-support-assistant]]).
+- **Failure backfill grows the dataset** — production failures are labeled, categorized via the
+  [[concepts/failure-taxonomy]], and fed back as new cases; this is the engine of
+  [[concepts/continuous-evaluation]] and the [[concepts/data-flywheel]]
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Avoid benchmark substitution** — don't let a public benchmark stand in for your production
+  distribution; biased datasets that don't reproduce production patterns are an anti-pattern and
+  invite [[concepts/reward-hacking|overfitting]]
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on building, splitting, and growing golden datasets; inter-rater reliability; production-failure-to-test-case pipeline
+- [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — data taxonomy (where cases come from); start-small sizing; failure backfill; benchmark-substitution anti-pattern
+- [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — product-specific golden cases (SSO/refunds/API/retention) tied to expected source docs

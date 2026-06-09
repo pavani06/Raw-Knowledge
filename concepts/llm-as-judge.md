@@ -3,16 +3,16 @@ title: "LLM-as-Judge"
 type: concept
 aliases: ["llm as judge", "llm judge", "llm evaluator", "model-as-judge", "classification evaluator"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 3
+last_updated: 2026-06-09
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/golden-dataset]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/tracing-observability]]"]
+relates-to: ["[[concepts/golden-dataset]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/tracing-observability]]", "[[concepts/deterministic-checks]]", "[[concepts/reward-hacking]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: ["[[concepts/generator-evaluator-pattern]]"]
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
 ---
 
 # LLM-as-Judge
@@ -61,6 +61,33 @@ patterns is identical — **adversarial separation beats self-review**.
   versions or model upgrades
   ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
 
+### From the EDD articles (Masood / Ramchandani)
+
+- **MT-Bench bias taxonomy (Zheng et al.)** — the cornerstone study found empirical flaws in
+  LLM judges: **verbosity bias** (longer = assumed better), **authority bias** (confident tone
+  fools the judge into missing factual errors), and **self-enhancement bias** (a judge rates its
+  own model family higher). A 2024 LLM-as-a-Judge survey catalogs mitigations
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Self-enhancement bias has financial stakes** — paying OpenAI's API to judge your custom
+  Claude/Gemini agents rigs the metrics against you; the judge penalizes outputs that don't
+  write like a GPT model ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **Judges are fragile instruments, not ground truth** — regression-test your judges, build
+  adversarial "trap traces" (an agent confidently executing a wrong action) to see if the judge
+  is fooled by tone, and periodically re-anchor scores to a human panel. "You're constantly
+  testing the tester." (compare [[concepts/reward-hacking]])
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+- **The judge belongs only where judgment is required** — don't ask a judge to do
+  [[concepts/deterministic-checks|deterministic work]] (missing citation, schema break, leaked
+  phone number, absent retrieval doc are all code-checkable). Reserve the judge for semantic
+  dimensions: faithfulness, completeness, refusal quality, tone
+  ([[sources/2026-06-09-eval-driven-development-rag-support-assistant]]).
+- **Why the industry tolerates the flaws** — at 10,000 actions/minute, human grading is an
+  impossible bottleneck; automating qualitative grading is unavoidable, which is exactly why
+  calibration and adversarial testing matter
+  ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on custom LLM-as-judge construction, bias taxonomy, meta-evaluation, and the CoreBench story
+- [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — MT-Bench bias taxonomy; self-enhancement financial stakes; judges as fragile instruments; trap traces; the scale rationale
+- [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — "the judge belongs where judgment is required"; don't over-trust LLM-as-judge for deterministic things

@@ -8,7 +8,7 @@ last_updated: 2026-06-07
 parent: []
 part-of: ["[[concepts/agentic-ai]]"]
 defines: []
-relates-to: ["[[concepts/agentic-ai]]", "[[concepts/agent-planning]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/react-pattern]]", "[[concepts/agent-harness]]", "[[concepts/model-context-protocol]]"]
+relates-to: ["[[concepts/agentic-ai]]", "[[concepts/agent-planning]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/react-pattern]]", "[[concepts/agent-harness]]", "[[entities/model-context-protocol]]"]
 contradicts: []
 supports: ["[[concepts/agentic-ai]]"]
 extends: []

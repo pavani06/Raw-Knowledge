@@ -3,16 +3,16 @@ title: "Harness Engineering"
 type: concept
 aliases: ["harness engineering", "humans steer agents execute", "agent-driven development"]
 tags: [ai, agents, llm, software-engineering, methodology, coding-agents]
-source_count: 2
-last_updated: 2026-06-07
+source_count: 3
+last_updated: 2026-06-08
 parent: []
-part-of: []
+part-of: ["[[concepts/context-window-management]]"]
 defines: ["[[concepts/non-functional-requirements]]", "[[concepts/garbage-collection-day]]", "[[concepts/reviewer-agents]]"]
-relates-to: ["[[concepts/agent-harness]]", "[[concepts/code-as-free-resource]]", "[[concepts/codebase-uniformity]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/skills-progressive-disclosure]]"]
+relates-to: ["[[concepts/agent-harness]]", "[[concepts/code-as-free-resource]]", "[[concepts/codebase-uniformity]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/research-plan-implement]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: ["[[concepts/agent-harness]]"]
-sources: ["[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]"]
+sources: ["[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]"]
 ---
 
 # Harness Engineering
@@ -56,7 +56,35 @@ The [[concepts/agent-harness|agent harness]] is the technical substrate; harness
   interface (steering), the agent implements the internals (executing)
   ([[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]).
 
+### From No Vibes Allowed (Dex Horthy, HumanLayer)
+
+- **Harness engineering is part of context engineering** — Dex offers "harness engineering"
+  as the hypey word for how you integrate with the integration points on Codex / Claude /
+  Cursor and customize your codebase; he explicitly nests it *under*
+  [[concepts/context-window-management|context engineering]], not above it
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **The real moat is workflow/SDLC adaptation, not the coding agent** — Dex predicts the
+  coding-agent layer gets commoditized; the hard, durable problem is adapting your team and
+  SDLC to a world where 99% of code is shipped by AI
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **The seniority rift** — staff engineers under-adopt AI (it doesn't speed them up much),
+  junior/mid-levels over-use it (it fills skill gaps but produces slop), and seniors burn out
+  cleaning up the slop. Cultural change must come from the top: "pick one tool and get some
+  reps" ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **Don't min-max across tools** — Dex recommends *against* spreading reps thin across Claude,
+  Codex, and Cursor; pick one and build mastery
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+
+> [!contradiction] Where harness engineering sits in the hierarchy
+> Ryan Lopopolo (source 1) presents *harness engineering* as the top-level named methodology,
+> with context management as one of its concerns. Dex Horthy (source 3) inverts this:
+> *context engineering* is the root field and harness engineering is "part of" it. Resolution:
+> they're naming the same elephant from different ends — Ryan from the team/operational angle,
+> Dex from the context/token angle. Both agree the load-bearing skill is managing context and
+> specifying work; the label hierarchy is a framing choice (see [[concepts/semantic-diffusion]]).
+
 ## Sources
 
 - [[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent|Harness Engineering: How to Build Software When Humans Steer, Agents Execute]] — Ryan Lopopolo's keynote + Q&A; the primary source defining this methodology
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — Matt's full workflow as harness engineering; software engineering fundamentals as harness principles; feedback loops and deep modules as harness infrastructure
+- [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — harness engineering as "part of context engineering"; coding-agent commoditization; the seniority rift; pick-one-tool-and-get-reps

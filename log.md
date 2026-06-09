@@ -145,3 +145,25 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - Dedup checks: no existing MOC; no atomic concept pages duplicated (MOC indexes, does not contain)
 - `> [!inference]` callout in `_moc-agent-harness.md`: cluster is a web (no single parent), justifying a MOC over a parent concept page
 - Note: MOC does not count toward concept `source_count` compounding; it is a navigation layer, not a knowledge page. Vault now: 47 atomic concepts + 1 MOC, 10 entities, 5 sources, 1 digest
+
+## 2026-06-08T00:00Z — extract | No Vibes Allowed: Solving Hard Problems in Complex Codebases – Dex Horthy, HumanLayer
+- Source: `sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases.md`
+- Video: https://youtu.be/rmvDxxNubIg?si=SBp9cGOq9rpNXHP2
+- Method: api
+- Status: unprocessed (awaiting knowledge-indexer)
+
+## 2026-06-08T01:00Z — ingest | No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer
+- Source: `sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases.md` (status: unprocessed → processed)
+- Source type: video (AI Engineer / HumanLayer)
+- Created concepts (5): `research-plan-implement`, `mental-alignment`, `brownfield-codebases`, `dont-outsource-thinking`, `semantic-diffusion`
+- Created entities (1): `humanlayer`
+- Compounded concepts (7): `compaction` (source_count: 2→3), `smart-zone-dumb-zone` (1→2), `context-window-management` (3→4), `sub-agents` (3→4), `harness-engineering` (2→3), `vertical-slices` (1→2), `reviewer-agents` (typed link + body note added; source_count unchanged — related via `mental-alignment`, not directly compounded)
+- Fixed: misattribution in `smart-zone-dumb-zone.md` — "Dex Hardy (Human Layer)" → "Dex Horthy ([[entities/humanlayer|HumanLayer]])". This source is the canonical origin of the dumb-zone framing that Matt Pocock was relaying second-hand.
+- Updated: `index.md` (rebuilt: 52 atomic concepts + 1 MOC, 11 entities, 6 sources)
+- Pages touched: 17 (1 source + 5 new concepts + 1 new entity + 7 compounded concepts + index.md + log.md)
+- Dedup checks: `context-window-management` already carries alias `"context engineering"` → did NOT create a separate `context-engineering` page; compounded the umbrella framing into it instead. `intentional compaction` / `frequent intentional compaction` folded into `compaction` as aliases (no standalone page).
+- Key themes: research-plan-implement (RPI) as the canonical HumanLayer workflow; intentional compaction = compress context to a reviewable markdown file; the dumb zone (~40% line) as canonical origin; "sub-agents are for controlling context, not anthropomorphizing roles"; code review = mental alignment (review plans not code); don't outsource the thinking (no perfect prompt); semantic diffusion (Fowler) killing "spec-driven dev" and "agent"; brownfield vs. greenfield as the success/failure axis
+- Contradictions flagged (2): harness-engineering hierarchy — Ryan (harness eng. is top methodology) vs. Dex (harness eng. is "part of context engineering"); dumb-zone threshold — ~100K absolute (Matt) vs. ~40% of window (Dex)
+- `> [!inference]` callouts added/created in `research-plan-implement.md`, `mental-alignment.md`, `brownfield-codebases.md`, `dont-outsource-thinking.md`, `semantic-diffusion.md`, `compaction.md`, `context-window-management.md`, `sub-agents.md`, `vertical-slices.md`, `reviewer-agents.md`
+- `> [!contradiction]` callouts added to `smart-zone-dumb-zone.md` and `harness-engineering.md`
+- Ontology health: agent-harness cluster is now the dominant web — `context-window-management` (4 sources) and `sub-agents` (4) are the densest nodes; the HumanLayer/RPI source ties the context-engineering angle to the existing harness-engineering and eval clusters. New concepts all source_count:1 (thin — prime for compounding). Consider updating `_moc-agent-harness.md` and a new digest on a future pass.

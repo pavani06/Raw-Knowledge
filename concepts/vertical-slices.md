@@ -3,16 +3,16 @@ title: "Vertical Slices"
 type: concept
 aliases: ["vertical slices", "traceable bullets", "vertical slice", "thin slices", "end-to-end slices"]
 tags: [ai, agents, llm, coding, workflow, architecture, testing]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 2
+last_updated: 2026-06-08
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
 defines: []
-relates-to: ["[[concepts/kanban-for-agents]]", "[[concepts/prd-as-destination]]", "[[concepts/feedback-loops]]", "[[concepts/deep-modules]]", "[[concepts/human-in-loop-vs-afk]]", "[[concepts/verification-loop]]"]
+relates-to: ["[[concepts/kanban-for-agents]]", "[[concepts/prd-as-destination]]", "[[concepts/feedback-loops]]", "[[concepts/deep-modules]]", "[[concepts/human-in-loop-vs-afk]]", "[[concepts/verification-loop]]", "[[concepts/research-plan-implement]]"]
 contradicts: []
 supports: ["[[concepts/feedback-loops]]", "[[concepts/kanban-for-agents]]"]
 extends: []
-sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]"]
+sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]"]
 ---
 
 # Vertical Slices
@@ -57,6 +57,26 @@ every phase.
 > closes the feedback loop at implementation time; vertical slices close it at planning time
 > by ensuring each issue produces something testable.
 
+### From No Vibes Allowed (Dex Horthy, HumanLayer)
+
+- **Vertical slices as a research primitive** — beyond implementation decomposition, a good
+  [[concepts/research-plan-implement|research]] prompt launches [[concepts/sub-agents|sub-agents]]
+  to "take these vertical slices through the codebase" and build a research document that is a
+  snapshot of the actually-true parts of the codebase that matter. Here the slice cuts through
+  the code to *understand* it, not just to *build* it
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **Slicing is how you compress truth** — each vertical slice is a narrow, end-to-end path
+  through the system that a sub-agent can read fully and summarize; stitching several slices
+  together yields on-demand compressed context without loading the whole repo
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+
+> [!inference] The same vertical-slice idea operates at both ends of
+> [[concepts/research-plan-implement|RPI]]: in **research** a slice is an exploration path a
+> sub-agent traces to compress truth; in **implementation** a slice is a thin end-to-end
+> feature that produces testable feedback. One geometry, two phases — both about cutting
+> through all layers rather than across one.
+
 ## Sources
 
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — traceable bullets concept; AI's horizontal coding tendency; first-slice critique; parallelization via DAG
+- [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — vertical slices as a research primitive; slicing the codebase to compress truth

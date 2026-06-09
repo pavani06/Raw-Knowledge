@@ -4,11 +4,11 @@ type: concept
 aliases: ["reviewer agents", "review agents", "automated code review", "persona review agents", "CI review agents"]
 tags: [ai, agents, llm, code-review, automation, software-engineering]
 source_count: 1
-last_updated: 2026-06-07
+last_updated: 2026-06-08
 parent: []
 part-of: ["[[concepts/harness-engineering]]", "[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/non-functional-requirements]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/verification-loop]]", "[[concepts/garbage-collection-day]]"]
+relates-to: ["[[concepts/non-functional-requirements]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/verification-loop]]", "[[concepts/garbage-collection-day]]", "[[concepts/mental-alignment]]"]
 contradicts: []
 supports: ["[[concepts/harness-engineering]]", "[[concepts/verification-loop]]"]
 extends: ["[[concepts/sub-agents]]"]
@@ -22,6 +22,13 @@ Automated [[concepts/sub-agents|sub-agents]] that trigger on every push and inje
 Reviewer agents are a key mechanism in [[concepts/harness-engineering|harness engineering]] for converting human review feedback into durable automated guardrails. They close the loop: human review comment → documentation → reviewer agent → automatic enforcement on every future PR.
 
 The implementation agent can **acknowledge, defer, or reject** reviewer feedback — it is not forced to address every comment, which prevents the failure mode of the coding agent being "bullied" into bad changes by over-prescriptive reviewers.
+
+> [!inference] Reviewer agents automate the *correctness* half of code review; they cannot
+> automate the *understanding* half — [[concepts/mental-alignment]] (keeping the team on the
+> same page about how and why the codebase is changing). Dex Horthy's point that "code review
+> is for mental alignment" is the complement to this page: machines enforce the rules, humans
+> read the [[concepts/research-plan-implement|plans]] to stay aligned
+> ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
 
 ## Key Insights
 

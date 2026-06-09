@@ -3,16 +3,16 @@ title: "Sub-Agents"
 type: concept
 aliases: ["sub-agents", "sub agents", "subagents", "custom sub-agents"]
 tags: [ai, agents, llm, architecture]
-source_count: 3
-last_updated: 2026-06-07
+source_count: 4
+last_updated: 2026-06-08
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]"]
+relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]", "[[concepts/research-plan-implement]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]"]
 ---
 
 # Sub-Agents
@@ -55,8 +55,36 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
   handed to sub-agents; tasks classified as human-in-loop stay in the main session
   ([[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]).
 
+### From No Vibes Allowed (Dex Horthy, HumanLayer)
+
+- **Sub-agents are for controlling context, not anthropomorphizing roles** — "if you have a
+  front-end sub-agent and a backend sub-agent and a QA sub-agent and a data-scientist
+  sub-agent, please stop. Sub-agents are not for anthropomorphizing roles. They are for
+  controlling context." The whole point is the separate context window, not the persona
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **Fork-out-and-return-succinct** — a sub-agent forks a new context window to do all the
+  reading, searching, and codebase understanding, then returns a *really succinct* message up
+  to the parent ("the file you want is here"); the parent reads one file and gets straight to
+  work. The expensive exploration never pollutes the parent's
+  [[concepts/smart-zone-dumb-zone|smart zone]]
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **Sub-agents power on-demand research** — a good research prompt launches sub-agents to take
+  [[concepts/vertical-slices|vertical slices]] through the codebase, building the
+  [[concepts/research-plan-implement|research]] doc that compresses truth
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **[[concepts/compaction|Frequent intentional compaction]] is the layer above sub-agents** —
+  sub-agents control context per-task; RPI wraps the whole workflow in compaction so the
+  context stays small end-to-end
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+
+> [!inference] Dex's "context not roles" rule resolves a common confusion in the
+> [[concepts/agent-teams]] vs. sub-agents distinction: persona-flavored sub-agents (like
+> [[concepts/reviewer-agents]]) are fine *because* each persona gets its own context window —
+> the persona is a side effect of the context split, never the reason for it.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — Agent SDK primitives + closing how-to-build-your-own section
 - [[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent|Harness Engineering: How to Build Software When Humans Steer, Agents Execute]] — reviewer agents as sub-agents; CI sub-agents; 50-agent-24/7 vision
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — explore sub-agent pattern; Sandcastle parallel dispatch; AFK classification as sub-agent delegation
+- [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — "context not roles"; fork-out-and-return-succinct pattern; sub-agents powering on-demand research

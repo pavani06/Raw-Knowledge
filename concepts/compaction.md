@@ -1,18 +1,18 @@
 ---
 title: "Compaction"
 type: concept
-aliases: ["compaction", "server-side compaction", "context compaction"]
+aliases: ["compaction", "server-side compaction", "context compaction", "intentional compaction", "frequent intentional compaction"]
 tags: [ai, llm, context, technique]
-source_count: 2
-last_updated: 2026-06-07
+source_count: 3
+last_updated: 2026-06-08
 parent: []
 part-of: ["[[concepts/context-window-management]]"]
 defines: []
-relates-to: ["[[concepts/context-rot]]", "[[concepts/ralph-loop]]", "[[concepts/long-running-agents]]"]
+relates-to: ["[[concepts/context-rot]]", "[[concepts/ralph-loop]]", "[[concepts/long-running-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]"]
 contradicts: []
-supports: []
+supports: ["[[concepts/research-plan-implement]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]"]
 ---
 
 # Compaction
@@ -59,7 +59,32 @@ effectively indefinitely.
 > sessions (Anthropic's use case); clear-context is better for many short parallel sessions
 > (Matt's use case). Both are valid; the choice depends on the execution model.
 
+### From No Vibes Allowed (Dex Horthy, HumanLayer)
+
+- **Intentional compaction** — whether you're on track or not, take the existing context
+  window and ask the agent to compress it into a markdown file. You review it, tag it, and
+  the next agent starts straight from work instead of re-doing all the searching and codebase
+  understanding ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **What to compact** — the things that eat the context window: finding files, understanding
+  code flow, editing files, test/build output (and JSON-dumping MCPs). A *good* compaction is
+  "the exact files and line numbers that matter to the problem we're solving"
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **Compaction = cleverly avoiding the [[concepts/smart-zone-dumb-zone|dumb zone]]** — Dex's
+  framing for why you compact at all: keep the working context small enough to stay in the
+  smart zone ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+- **Frequent intentional compaction** — the layer on top of [[concepts/sub-agents|sub-agents]]:
+  build the *entire workflow* ([[concepts/research-plan-implement|research → plan → implement]])
+  around constantly keeping the context window small; each phase boundary is a compaction
+  ([[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]).
+
+> [!inference] Dex's **intentional compaction** is the manual, human-reviewed counterpart to
+> Anthropic's automatic **server-side compaction**. Both compress accumulated context, but
+> intentional compaction makes the compressed artifact (a markdown file) reviewable and
+> taggable — directly addressing the "compaction ≠ coherence" worry above by putting a human
+> in the compaction loop.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — history tour + harness-adjustment + closing takeaways
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — clear-context preference; predictability vs. continuity trade-off; Sandcastle clean-sandbox rationale
+- [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — intentional compaction (compress context to a reviewable markdown file); what-to-compact; frequent intentional compaction as the workflow spine

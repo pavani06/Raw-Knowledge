@@ -3,16 +3,16 @@ title: "Context Window Management"
 type: concept
 aliases: ["context window management", "context management", "context window", "context engineering"]
 tags: [ai, llm, context, architecture]
-source_count: 4
-last_updated: 2026-06-08
+source_count: 5
+last_updated: 2026-06-09
 parent: []
 part-of: []
 defines: ["[[concepts/context-rot]]", "[[concepts/smart-zone-dumb-zone]]"]
-relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]"]
+relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/controlled-rag]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
 ---
 
 # Context Window Management
@@ -100,9 +100,34 @@ external memory instead of cramming everything into context.
 > [[concepts/harness-engineering]] is, in his framing, "part of context engineering" — making
 > context window management the root discipline the entire harness cluster serves.
 
+### From More Context Makes Your Agent Dumber (Nupur Sharma, Qodo)
+
+- **Accuracy drops with token count** — a meta-analysis shows ~70% accuracy at 4K tokens
+  dropping to ~50% at 90K tokens. Context window size is not the solution; it's a challenge.
+  *"We need to think about what we put in the context rather than how much we can put in the
+  context window"* ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **More context makes agents dumber** — the talk's thesis: dumping everything into a giant
+  context window degrades quality. The solution is not bigger windows but smarter curation of
+  what enters them ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Static prompts are context overhead** — every agent call carries a base prompt that consumes
+  a chunk of the window regardless of the task; Google's "Agents Hack" paper recommends shorter
+  prompts to reduce this overhead ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **[[concepts/controlled-rag|Controlled RAG]]** — system-side checkpoints (stop at 20K tokens /
+  7 documents), metadata filtering, and human-in-the-loop refinement prevent retrieval from
+  silently inflating the context window ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Specialized sub-agents save context** — a coding agent, a security agent, and a review
+  agent each carry their own smaller static prompts and focus areas, saving tokens vs. a
+  monolithic agent with a giant combined prompt ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+
+> [!inference] Nupur's accuracy-drop data provides the empirical backbone for the
+> [[concepts/smart-zone-dumb-zone|smart-zone]] intuition that multiple prior sources arrived
+> at anecdotally. The meta-analysis showing accuracy halving between 4K and 90K tokens gives
+> a concrete number to the "dumb zone" concept.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — recurring theme across the history tour and Q&A
 - [[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent|Harness Engineering: How to Build Software When Humans Steer, Agents Execute]] — just-in-time surfacing; file size limits; codebase uniformity as context management
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — smart zone / dumb zone framing; system prompt size discipline; clear-context strategy; Kanban issue sizing
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — "context engineering" as the named umbrella; four optimization axes + trajectory; compressing truth via on-demand research; sharded onboarding
+- [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on accuracy-drop data (70%→50% from 4K→90K tokens); static prompts as overhead; controlled RAG; sub-agents for context savings

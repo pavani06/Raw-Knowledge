@@ -3,8 +3,8 @@ title: "Sub-Agents"
 type: concept
 aliases: ["sub-agents", "sub agents", "subagents", "custom sub-agents"]
 tags: [ai, agents, llm, architecture]
-source_count: 4
-last_updated: 2026-06-08
+source_count: 5
+last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
 ---
 
 # Sub-Agents
@@ -82,9 +82,26 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
 > [[concepts/reviewer-agents]]) are fine *because* each persona gets its own context window —
 > the persona is a side effect of the context split, never the reason for it.
 
+### From More Context Makes Your Agent Dumber (Nupur Sharma, Qodo)
+
+- **Specialized sub-agents save context** — a coding agent, a security agent, and a review
+  agent each carry their own smaller static prompts and focus areas. Breaking a monolithic
+  agent into specialized sub-agents saves tokens because each sub-agent's base prompt is
+  scoped to its domain rather than covering everything ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Monolithic agents suffer from instruction clash** — when multiple concerns (security,
+  review, coding) share one agent with one context window, instructions clash and the agent
+  fails to prioritize correctly. Separate context windows for separate concerns eliminate
+  this conflict ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+
+> [!inference] This source adds a **token-economics** argument for sub-agents that
+> complements Dex's "context control" argument: specialized sub-agents don't just isolate
+> context — they *reduce total token consumption* because each sub-agent's static prompt is
+> smaller than a monolithic agent's combined prompt would be.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — Agent SDK primitives + closing how-to-build-your-own section
 - [[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent|Harness Engineering: How to Build Software When Humans Steer, Agents Execute]] — reviewer agents as sub-agents; CI sub-agents; 50-agent-24/7 vision
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — explore sub-agent pattern; Sandcastle parallel dispatch; AFK classification as sub-agent delegation
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — "context not roles"; fork-out-and-return-succinct pattern; sub-agents powering on-demand research
+- [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on specialized sub-agents saving context via smaller static prompts; instruction clash in monolithic agents

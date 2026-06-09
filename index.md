@@ -8,9 +8,9 @@ within each section, with a one-line summary and source count.
 
 - [[concepts/_moc-agent-evals|MOC: Agent Evals]] — Map of Content for the agent-evals cluster: the grader stack, eval targets, evidence/observability, release gates, governance, and failure modes (3 sources)
 - [[concepts/_moc-agent-harness|MOC: Agent Harness]] — Map of Content for the agent-harness cluster: technical substrate, context discipline, adversarial architecture, verification, and the human discipline (4 sources)
-- [[concepts/agent-evals|Agent Evals]] — Three-tier evaluation framework (code → built-in → LLM-as-judge) for agentic systems (3 sources)
+- [[concepts/agent-evals|Agent Evals]] — Three-tier evaluation framework (code → built-in → LLM-as-judge) for agentic systems (4 sources)
 - [[concepts/agent-harness|Agent Harness]] — Scaffolding around the model that fills its gaps; co-evolves with the model (2 sources)
-- [[concepts/agent-memory|Agent Memory]] — Context retention across steps enabling multi-step task completion (1 source)
+- [[concepts/agent-memory|Agent Memory]] — Context retention across steps enabling multi-step task completion; working vs persistent memory (2 sources)
 - [[concepts/agent-planning|Agent Planning]] — Decomposing a goal into ordered steps before execution; the Planner role in agentic workflows (1 source)
 - [[concepts/agent-teams|Agent Teams]] — Inter-communicating sub-agents that coordinate and report back (1 source)
 - [[concepts/agentic-ai|Agentic AI]] — AI that plans, uses tools, remembers context, and executes multi-step tasks autonomously (1 source)
@@ -21,7 +21,8 @@ within each section, with a one-line summary and source count.
 - [[concepts/codebase-uniformity|Codebase Uniformity]] — Making code maximally consistent to reduce agent attention cost and improve token predictability (1 source)
 - [[concepts/compaction|Compaction]] — Server-side + intentional context condensing enabling indefinite single-session runs and small working context (3 sources)
 - [[concepts/context-rot|Context Rot]] — Coherence loss / context anxiety as a long-run failure mode (1 source)
-- [[concepts/context-window-management|Context Window Management]] — Techniques for staying effective within a finite context window; the core of "context engineering" (4 sources)
+- [[concepts/context-window-management|Context Window Management]] — Techniques for staying effective within a finite context window; the core of "context engineering" (5 sources)
+- [[concepts/controlled-rag|Controlled RAG]] — System-side checkpoints, metadata filtering, and human-in-the-loop refinement to prevent RAG from inflating the context window (1 source)
 - [[concepts/data-flywheel|Data Flywheel]] — Compounding eval data as a competitive moat; each iteration deepens the dataset (2 sources)
 - [[concepts/deep-modules|Deep Modules]] — Ousterhout's principle: large simple-interface modules that are easy to test and AI-navigable (1 source)
 - [[concepts/design-taste-rubric|Design Taste Rubric]] — Written rubric for grading subjective design quality (1 source)
@@ -49,7 +50,7 @@ within each section, with a one-line summary and source count.
 - [[concepts/planner-generator-evaluator-architecture|Planner-Generator-Evaluator Architecture]] — Full three-role PM/IC/QA harness with contract negotiation (1 source)
 - [[concepts/prd-as-destination|PRD as Destination]] — Product requirements document as the AI's destination artifact, not a spec to be read line-by-line (1 source)
 - [[concepts/programmatic-tool-calling|Programmatic Tool Calling]] — Code-driven tool calls that keep intermediate output out of context (1 source)
-- [[concepts/prompt-injection-patterns|Prompt Injection Patterns]] — Taxonomy of mechanisms for surfacing context to agents at the right time (1 source)
+- [[concepts/prompt-injection-patterns|Prompt Injection Patterns]] — Taxonomy of mechanisms for surfacing context to agents at the right time (2 sources)
 - [[concepts/rag-evaluation|RAG Evaluation]] — Evaluating retrieval separately from generation: recall@k/precision@k/MRR, groundedness, citation validation (1 source)
 - [[concepts/ralph-loop|Ralph Loop]] — Loop a prompt through Claude Code until tasks complete; "deterministically bad" (2 sources)
 - [[concepts/react-pattern|ReAct Pattern]] — Reasoning and action interleaved: think → act → observe → repeat (1 source)
@@ -59,11 +60,12 @@ within each section, with a one-line summary and source count.
 - [[concepts/reviewer-agents|Reviewer Agents]] — Automated persona-based sub-agents that inject feedback into PRs on every push (1 source)
 - [[concepts/reward-hacking|Reward Hacking]] — Goodhart's Law for evals: the agent games the metric without fulfilling the objective (2 sources)
 - [[concepts/semantic-diffusion|Semantic Diffusion]] — Fowler's term: good terms dilute into uselessness; why "spec-driven dev" and "agent" broke (1 source)
+- [[concepts/sequential-tool-calling|Sequential Tool Calling]] — Ordered tool execution with stop conditions vs. dumping all tools at once; prevents tool loops (1 source)
 - [[concepts/shared-design-concept|Shared Design Concept]] — The mutual understanding between human and AI that precedes effective implementation (1 source)
 - [[concepts/skills-progressive-disclosure|Skills (Progressive Disclosure)]] — Lazy-loaded capability packaging that saves context; go deep not wide (3 sources)
 - [[concepts/smart-zone-dumb-zone|Smart Zone / Dumb Zone]] — Model quality degrades past the smart zone (~40% of window / ~100K tokens); size tasks to stay in it (2 sources)
-- [[concepts/sub-agents|Sub-Agents]] — Delegated agents, each with its own context window; for controlling context, not roles (4 sources)
-- [[concepts/tool-use|Tool Use]] — Agents calling search, files, APIs, and other external capabilities to act on the world (1 source)
+- [[concepts/sub-agents|Sub-Agents]] — Delegated agents, each with its own context window; for controlling context, not roles (5 sources)
+- [[concepts/tool-use|Tool Use]] — Agents calling search, files, APIs, and other external capabilities to act on the world; includes tool definition and sequential calling patterns (2 sources)
 - [[concepts/tracing-observability|Tracing & Observability]] — Capturing raw execution data (spans, traces) as the prerequisite for any eval (3 sources)
 - [[concepts/trajectory-evaluation|Trajectory Evaluation]] — Grading the process/trace an agent took, not just the final output; grade the scratchpad (2 sources)
 - [[concepts/verification-loop|Verification Loop]] — The agent actually testing its running output (3 sources)
@@ -81,6 +83,7 @@ within each section, with a one-line summary and source count.
 - [[entities/model-context-protocol|Model Context Protocol]] — Open protocol for agent tool use via standardized servers (1 source)
 - [[entities/openai|OpenAI]] — AI company behind GPT models and Codex; context for harness engineering at scale (1 source)
 - [[entities/playwright|Playwright]] — Browser automation powering the evaluator's verification (1 source)
+- [[entities/qodo|Qodo]] — AI company building agentic code review tools; Nupur Sharma's talk on context and agent failure modes (1 source)
 - [[entities/sandcastle|Sandcastle]] — Matt Pocock's TypeScript library for parallelized AFK agent loops in Docker sandboxes (1 source)
 
 ## Sources
@@ -93,6 +96,7 @@ within each section, with a one-line summary and source count.
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases]] — Dex Horthy (AI Engineer, HumanLayer) on context engineering for brownfield codebases: research-plan-implement, intentional compaction, the dumb zone (video, 2026-06-08)
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — Adnan Masood (Medium) on EDD as the quality operating system for agentic AI: greater stack taxonomy, judge biases, reward hacking, and eval governance (article, 2026-06-09)
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — Toni Ramchandani (Medium) on building a RAG assistant with a layered eval stack: failure taxonomy, RAG metrics, deterministic checks, traces, and release gates (article, 2026-06-09)
+- [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber and What to Do About It]] — Nupur Sharma (AI Engineer, Qodo) on the four agent failure modes (instructions, tools, memory, evals) and why more context degrades quality (video, 2026-06-09)
 
 ## Digests
 

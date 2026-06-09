@@ -3,16 +3,16 @@ title: "Agent Evals"
 type: concept
 aliases: ["agent evals", "agentic evaluation", "evaluation framework", "evals", "eval suite"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 3
+source_count: 4
 last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
 defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]"]
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]"]
 contradicts: []
 supports: ["[[concepts/agent-harness]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
 ---
 
 # Agent Evals
@@ -86,8 +86,33 @@ The three tiers of evals, in order of cost and power:
   [[concepts/failure-taxonomy]]), changes shipped only via [[concepts/release-gates|gates]]
   ([[sources/2026-06-09-eval-driven-development-rag-support-assistant]]).
 
+### From More Context Makes Your Agent Dumber (Nupur Sharma, Qodo)
+
+- **Vanity metrics** — metrics that look great on dashboards but mean nothing in the real
+  world. Agent metrics must tie to user satisfaction and business outcomes, not just accuracy
+  and precision — which can be deceiving ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Multi-layered evaluation** — unit tests for the agent → integration tests for the full
+  workflow → an evaluator agent on top that grades both the result (against metrics) and
+  the *process* (did the agent follow instructions? hallucinate? use the right tools?)
+  ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Multi-agent evaluation > single evaluator** — a security agent evaluated by another
+  agent expert in security yields better results than a generic evaluator; this is the
+  [[concepts/generator-evaluator-pattern|adversarial separation]] principle applied to
+  evaluation ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Feedback loop** — implement → evaluate → if below threshold, go back and change. The
+  same [[concepts/eval-iterate-cycle|eval-iterate cycle]] described in prior sources,
+  restated from a practitioner's debugging perspective ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+
+> [!inference] Nupur's "vanity metrics" warning sharpens a gap in the existing eval
+> framework: the current ontology covers *how* to measure (three-tier stack, trajectory
+> grading, LLM-as-judge) but not *what* to measure. The distinction between metrics that
+> look good and metrics that matter is a specification problem — it connects back to
+> [[concepts/non-functional-requirements|non-functional requirements]] and the human's role
+> in defining what "good" means.
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss (Arize) full workshop on the three-tier eval framework, impact hierarchy, and eval-iterate cycle
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — the greater stack taxonomy; trajectory grading; the multi-dimension eval taxonomy
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — layered eval stack on a concrete RAG system; evals as a release discipline
+- [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on vanity metrics, multi-layered evaluation, evaluator agent, and the feedback loop

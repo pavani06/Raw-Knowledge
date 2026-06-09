@@ -3,8 +3,8 @@ title: "Prompt Injection Patterns"
 type: concept
 aliases: ["prompt injection patterns", "context injection", "prompt injection", "agent prompting techniques", "just-in-time prompting"]
 tags: [ai, agents, llm, prompting, context, architecture]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 2
+last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/harness-engineering]]", "[[concepts/agent-harness]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/non-functional-requirements]]", "[[concepts/reviewer-ag
 contradicts: []
 supports: ["[[concepts/agent-harness]]", "[[concepts/harness-engineering]]", "[[concepts/context-window-management]]"]
 extends: []
-sources: ["[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]"]
+sources: ["[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
 ---
 
 # Prompt Injection Patterns
@@ -39,6 +39,15 @@ The key principle is **just-in-time surfacing**: don't frontload all instruction
 - **Context refresh during long runs** — with auto-compaction, context gets paged out; reviewer agents and lint/test failures serve as continuous context refreshers that remind the agent of requirements throughout a long task ([[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]).
 - **None of this requires touching model weights** — all of these techniques are pure prompt engineering; capability improvements come from better context delivery, not fine-tuning ([[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]).
 
+### From More Context Makes Your Agent Dumber (Nupur Sharma, Qodo)
+
+- **Static vs. dynamic prompt distinction** — the *static component* is the base prompt present in every agent call (safety agent, coding agent, review agent — each has its own base prompt that always takes a chunk of the context window). The *dynamic component* is what the user provides at runtime. The bigger the static prompt, the more the agent tends to skip facts, lose instructions, and hallucinate ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Functional vs. non-functional prompts** — a functional prompt says what the agent should do ("give me advice like a senior engineer"); a non-functional prompt says how ("be concise, ask clarifying questions, don't be verbose"). Both types compete for context window space ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Google "Agents Hack" corroboration** — Google's recent paper on building better agents lists six prompt engineering guidelines; one of them is "use shorter prompts." This is an external, independent validation of the just-in-time surfacing principle ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+
+> [!inference] The static/dynamic distinction adds a new dimension to the prompt injection taxonomy: not just *when* context is surfaced (just-in-time), but *what fraction* of the total window is consumed by mandatory base prompts before any work begins.
+
 ## Sources
 
 - [[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent|Harness Engineering: How to Build Software When Humans Steer, Agents Execute]] — Ryan's enumeration of prompt injection mechanisms and the "everything is a prompt" observation
+- [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on static vs dynamic prompts, functional vs non-functional prompts, Google "Agents Hack" shorter-prompts recommendation

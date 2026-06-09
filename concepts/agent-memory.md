@@ -3,16 +3,16 @@ title: "Agent Memory"
 type: concept
 aliases: ["agent memory", "memory", "context retention", "agent context", "working memory"]
 tags: [ai, agents, llm, memory, context]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 2
+last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/agentic-ai]]"]
 defines: []
-relates-to: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]", "[[concepts/file-system-state]]", "[[concepts/compaction]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/agent-planning]]"]
+relates-to: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]", "[[concepts/file-system-state]]", "[[concepts/compaction]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/agent-planning]]", "[[concepts/controlled-rag]]"]
 contradicts: []
 supports: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]"]
 extends: []
-sources: ["[[sources/2026-06-07-beginners-guide-to-learning-agentic-ai]]"]
+sources: ["[[sources/2026-06-07-beginners-guide-to-learning-agentic-ai]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
 ---
 
 # Agent Memory
@@ -54,6 +54,32 @@ Memory exists at multiple levels:
 > [[concepts/file-system-state]] (durable external memory), and [[concepts/compaction]]
 > (server-side compression). Beginners need the concept; practitioners need all three.
 
+### From More Context Makes Your Agent Dumber (Nupur Sharma, Qodo)
+
+- **Working vs. persistent memory** — divide memory into two components: *working memory*
+  is everything needed for the current task (current codebase, branch, file); *persistent
+  memory* is what you've learned from past conversations, user preferences, and accumulated
+  knowledge — accessed only on demand ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **The ADHD analogy** — a neuroscientist pointed out that agents with low working memory
+  exhibit ADHD-like symptoms: they focus on *solving the problem* rather than *finding the
+  solution*. Increasing working memory shifts the agent from patching to routing — it looks
+  for the right approach instead of fixating on the first one ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Chunking for memory** — break concepts into smaller pieces; the agent might need piece
+  one to solve the current task but not piece two, so keep unused chunks out of context
+  ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Checkpoint-based memory** — at CI/CD pipeline checkpoints, stop the agent, review memory,
+  decide what to persist and what to discard, then move forward. This enables both better
+  context and better evaluation of what the agent is doing ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+- **Humans forget; agents don't** — in a 10-minute conversation, what you said in minute 4
+  and minute 8 both get equal weight from the agent, while human memory naturally decays.
+  This makes explicit memory management essential for agents ([[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]).
+
+> [!inference] The working/persistent memory distinction adds a **temporal dimension** to the
+> existing memory levels (in-context / external / compressed). The prior model was structural
+> (where the memory lives); the new model is temporal (when the memory matters). Together
+> they form a 3x2 matrix of memory strategies.
+
 ## Sources
 
 - [[sources/2026-06-07-beginners-guide-to-learning-agentic-ai|The Beginner's Guide to Learning Agentic AI]] — memory as a core agent building block; context retention enabling multi-step task completion
+- [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on working vs persistent memory, ADHD analogy, chunking, and checkpoint-based memory

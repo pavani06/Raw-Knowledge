@@ -213,3 +213,26 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Contradictions flagged (2): EDD as engineering technique vs. compliance regime; continuous-evaluation cost vs. smart-zone/code-is-free economics + audit completeness
 - 3 writing prompts emitted: "evals as the new compliance layer", "the judge is the reward function", "from hallucination to a failure taxonomy"
 - Ontology health snapshot: 60 atomic concepts + 2 MOCs, 11 entities, 8 sources, 2 digests; eval cluster is now the second dense hub bridged to the harness cluster via `agent-evals` part-of `harness-engineering` and `eval-driven-development` ↔ `feedback-loops` — one connected graph, two hubs.
+
+## 2026-06-09T12:30Z — extract | Why More Context Makes Your Agent Dumber and What to Do About It — Nupur Sharma, Qodo
+
+- Source: `sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou.md`
+- Video: https://www.youtube.com/watch?v=EcqMYoIV57A
+- Method: yt-dlp (auto-generated captions)
+- Status: unprocessed (awaiting knowledge-indexer)
+
+## 2026-06-09T13:00Z — ingest | Why More Context Makes Your Agent Dumber and What to Do About It — Nupur Sharma, Qodo
+
+- Source: `sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou.md` (status: unprocessed → processed)
+- Source type: video (AI Engineer / Qodo)
+- Created concepts (2): `controlled-rag`, `sequential-tool-calling`
+- Created entities (1): `qodo`
+- Compounded concepts (6): `context-window-management` (source_count: 4→5), `sub-agents` (4→5), `agent-evals` (3→4), `agent-memory` (1→2), `tool-use` (1→2), `prompt-injection-patterns` (1→2)
+- Updated: `index.md` (rebuilt: 62 atomic concepts + 2 MOCs, 12 entities, 9 sources)
+- Pages touched: 12 (1 source + 2 new concepts + 1 new entity + 6 compounded concepts + index.md + log.md)
+- Dedup checks: `context-window-management` already aliases `"context engineering"` — compounded rather than creating a new page. No near-matches for `controlled-rag` or `sequential-tool-calling`. `agent-memory` already had `"working memory"` as an alias — compounded the working-vs-persistent distinction into it.
+- Key themes: more context makes agents dumber (meta-analysis: ~70% accuracy at 4K → ~50% at 90K tokens); the four agent failure modes (instructions, tools, memory, evals); static vs dynamic prompts; controlled RAG with checkpoints and metadata filtering; sequential tool calling vs dumping all tools; working vs persistent memory with ADHD analogy; vanity metrics and multi-layered evaluation; specialized sub-agents saving context via smaller static prompts
+- Contradictions flagged (1): the "more context → dumber" thesis directly challenges the compaction assumption that more in-context is better; Nupur's accuracy-drop data supports smart-zone sizing over maxing out the window
+- Cross-source connections: Google "Agents Hack" paper (shorter prompts) independently validates the [[concepts/prompt-injection-patterns|prompt injection]] just-in-time principle; ADHD analogy for agent memory is novel to the ontology; static/dynamic prompt distinction adds a new dimension to the prompt injection taxonomy; the "tools looping without stop conditions" is a concrete failure mode for `tool-use` not previously documented
+- `> [!inference]` callouts in all 8 concept/entity pages (2 new + 6 compounded)
+- Ontology health: 62 atomic concepts + 2 MOCs, 12 entities, 9 sources, 2 digests; 6 previously single-source concepts graduated to source_count:2; `context-window-management` and `sub-agents` now at source_count:5 (densest nodes in the ontology); two new concepts at source_count:1 (thin — prime for compounding). The eval cluster and harness cluster both enriched from a new angle (practitioner debugging lens, not just architecture/methodology)

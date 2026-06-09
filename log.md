@@ -8,7 +8,7 @@ and compounding-awareness source.
 
 ## 2026-06-07 — init | Repository scaffolded
 
-Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor` and
+Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 `knowledge-indexer` agents, `youtube-transcript` and `knowledge-indexer` skills,
 `scripts/youtube-transcript.sh` fallback chain, and the empty vault structure
 (`sources/`, `concepts/`, `entities/`, `digests/`).
@@ -147,12 +147,14 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - Note: MOC does not count toward concept `source_count` compounding; it is a navigation layer, not a knowledge page. Vault now: 47 atomic concepts + 1 MOC, 10 entities, 5 sources, 1 digest
 
 ## 2026-06-08T00:00Z — extract | No Vibes Allowed: Solving Hard Problems in Complex Codebases – Dex Horthy, HumanLayer
+
 - Source: `sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases.md`
 - Video: https://youtu.be/rmvDxxNubIg?si=SBp9cGOq9rpNXHP2
 - Method: api
 - Status: unprocessed (awaiting knowledge-indexer)
 
 ## 2026-06-08T01:00Z — ingest | No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer
+
 - Source: `sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases.md` (status: unprocessed → processed)
 - Source type: video (AI Engineer / HumanLayer)
 - Created concepts (5): `research-plan-implement`, `mental-alignment`, `brownfield-codebases`, `dont-outsource-thinking`, `semantic-diffusion`
@@ -169,11 +171,13 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - Ontology health: agent-harness cluster is now the dominant web — `context-window-management` (4 sources) and `sub-agents` (4) are the densest nodes; the HumanLayer/RPI source ties the context-engineering angle to the existing harness-engineering and eval clusters. New concepts all source_count:1 (thin — prime for compounding). Consider updating `_moc-agent-harness.md` and a new digest on a future pass.
 
 ## 2026-06-09T10:00Z — skill | knowledge-indexer: catch `clippings`-tagged dumps + normalize step
+
 - Updated: `.opencode/skills/knowledge-indexer/SKILL.md` (Step 1 + new Step 1.5)
 - Reason: two Web Clipper dumps (eval-driven-development articles) landed in `sources/` with only `tags: [clippings]` and people-wikilink authors, lacking `type:`/`source_type:`/`status:`. A `status: unprocessed`-only grep silently skipped them.
 - Change: Step 1 now greps for BOTH `status:.*unprocessed` AND `clippings`; new Step 1.5 normalizes non-conformant clippings to the source schema (rename to `YYYY-MM-DD-slug.md`, add `type`/`source_type`/`status`/placeholders, demote `author: [[Person]]` → plain string) before processing.
 
 ## 2026-06-09T11:00Z — ingest | Eval-Driven Development — The Missing Discipline (Adnan Masood) + RAG Support Assistant (Toni Ramchandani)
+
 - Sources (2, both status: unprocessed → processed):
   - `sources/2026-06-09-eval-driven-development-missing-discipline.md` (article, Medium / Adnan Masood) — renamed from ISO-timestamp Web Clipper dump
   - `sources/2026-06-09-eval-driven-development-rag-support-assistant.md` (article, Medium / Toni Ramchandani) — renamed from ISO-timestamp Web Clipper dump
@@ -191,6 +195,7 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - Ontology health: the **eval cluster** is now a dense web rivaling the agent-harness cluster — `eval-driven-development`, `agent-evals`, `llm-as-judge`, `golden-dataset`, `tracing-observability` all at source_count:3; 8 new concepts at source_count:1-2 (prime for compounding). The eval cluster now exceeds the 5-page MOC threshold (≈21 pages) and has no single parent — **candidate for a `_moc-agent-evals.md` MOC on a future pass**, plus a digest covering the 2026-06-09 EDD ingest.
 
 ## 2026-06-09T12:00Z — moc | Agent Evals cluster
+
 - Created MOC (1): `concepts/_moc-agent-evals.md` (second Map of Content in the vault, after `_moc-agent-harness`)
 - Trigger: the eval cluster crossed the 5-page MOC threshold (AGENTS.md rule) with ~21 atomic members and no single parent — `agent-evals` (the measurement framework) and `eval-driven-development` (the methodology that wraps it) are peers, not a hierarchy root.
 - Cluster indexed (grouped into 8 themes): two load-bearing nodes (`agent-evals`, `eval-driven-development`); eval targets (`trajectory-evaluation`, `rag-evaluation`, `failure-taxonomy`); grader stack (`deterministic-checks`, `llm-as-judge`, `golden-dataset`); evidence layer (`tracing-observability`, `reading-traces`); release & operations (`release-gates`, `continuous-evaluation`, `eval-governance`); failure modes & frontier (`reward-hacking`, `data-flywheel`, `eval-iterate-cycle`, `closed-loop-evaluation`); bridges into the harness cluster (`generator-evaluator-pattern`, `verification-loop`, `feedback-loops`)
@@ -200,6 +205,7 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `transcript-extractor`
 - Note: MOC does not count toward concept `source_count`; it is a navigation layer. Vault now: 60 atomic concepts + 2 MOCs.
 
 ## 2026-06-09T12:15Z — digest | Digest 2026-06-09
+
 - Created: `digests/2026-06-09.md`
 - Sources covered: 2 (`sources/2026-06-09-eval-driven-development-missing-discipline.md`, `sources/2026-06-09-eval-driven-development-rag-support-assistant.md`)
 - Updated: `index.md` (Digests section)

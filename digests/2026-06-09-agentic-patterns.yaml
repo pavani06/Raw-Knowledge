@@ -1,0 +1,236 @@
+# Reusable Patterns for Agentic Systems — YAML
+# Extracted from sources/2026-06-09-12-factor-agents.md (Dex Horthy, AI Engineer, 2025)
+# Filter: only patterns with clear mechanics applicable to agentic systems.
+
+meta:
+  derived_from: "[[sources/2026-06-09-12-factor-agents]]"
+  created: 2026-06-09
+  pattern_count: 7
+
+patterns:
+  - name: "Tool as JSON Dispatch"
+    factor: 4
+    problem_solved: >
+      Tool-calling abstractions in agent frameworks introduce opaque machinery:
+      the framework intercepts LLM output, routes through internal call stacks,
+      and the builder loses visibility. Debugging requires reverse-engineering
+      framework internals.
+    inputs:
+      - "LLM output containing a tool invocation (JSON with function name and arguments)"
+      - "A registry of available deterministic functions (tool implementations)"
+    outputs:
+      - "A dispatched function call with arguments validated before execution"
+      - "A structured result appended to the context window for the next LLM turn"
+    benefits:
+      - "Tool dispatch becomes a deterministic code path — testable without an LLM"
+      - "Every dispatch is auditable: log, version, trace like any software operation"
+      - "Circuit breaking, rate limiting, and input validation at the switch statement"
+      - "Error/recovery loop is explicit code, not framework magic"
+    limitations:
+      - "Shifts complexity from 'import the framework' to 'write the dispatch handler'"
+      - "Builder must define JSON schema for each tool output"
+      - "Does not eliminate need for valid JSON from LLM; constrained decoding still required upstream"
+
+  - name: "Agent Loop Ownership (Four-Component Decomposition)"
+    factor: "3, 5"
+    problem_solved: >
+      Agent frameworks treat the runtime loop as a black box. Prompt construction,
+      tool dispatch, context accumulation, and loop termination are interleaved in
+      framework code. The builder cannot inject interventions at the right points.
+    inputs:
+      - "A system prompt instructing the LLM on next-step selection"
+      - "The current context window (history + state)"
+      - "The LLM's raw output (token stream or structured JSON)"
+    outputs:
+      - "A decision: call a tool, message human, request input, or terminate"
+      - "An updated context window for the next iteration"
+    components:
+      - name: prompt
+        role: "Instructions for next-step selection"
+        interventions: ["A/B test prompt variants", "Inject domain rules"]
+      - name: switch_statement
+        role: "Routes LLM output to deterministic code"
+        interventions: ["Validate", "Rate-limit", "Log", "Circuit-break before dispatch"]
+      - name: context_builder
+        role: "Assembles the window for the next LLM call"
+        interventions: ["Summarize", "Trim", "Clear stale errors", "Reorder for density"]
+      - name: loop
+        role: "Controls iteration: continue, break, escalate"
+        interventions: ["Inject human approval gate", "Insert validation LLM call", "Force early termination"]
+    benefits:
+      - "Can inject summarize, LM-as-judge, or human approval at loop boundaries"
+      - "Context builder can be optimized independently for token density"
+      - "Loop termination logic is explicit code — no framework heuristic surprises"
+    limitations:
+      - "Builder must write and maintain all four components"
+      - "Interoperability between components is now builder responsibility"
+      - "Bug in context builder corrupts every subsequent LLM call"
+
+  - name: "Context Window Hygiene"
+    factor: 3
+    problem_solved: >
+      Naive agent loops append every tool result (including errors) to the context
+      window. The LLM fixates on past failures, retries solved problems, or spirals
+      into hallucinated error-recovery loops.
+    inputs:
+      - "Current context window (accumulated tool calls and results)"
+      - "Most recent tool call result (success or failure)"
+      - "Metadata about prior errors still in context"
+    outputs:
+      - "A cleaned context window ready for the next LLM invocation"
+    rules:
+      - "When a tool call succeeds: clear all previously pending error information"
+      - "When a tool call fails: append summarized error — never raw stack trace or full HTTP response"
+      - "Never blindly append: every addition goes through curation"
+      - "Keep only what the model needs for the next decision, not a forensic record"
+    benefits:
+      - "Prevents the primary failure mode of long-running agents: context pollution spirals"
+      - "Token density improves because error noise is replaced with curated signal"
+      - "Model stays focused on current state rather than past failures"
+    limitations:
+      - "Summarization can lose genuinely useful recovery information"
+      - "Requires per-tool-category error-summarization logic"
+      - "If summarization uses an LLM, it adds a second failure point and latency"
+
+  - name: "Context Serialization for Pause/Resume"
+    factor: 7
+    problem_solved: >
+      Agents calling long-running tools (human approval, async APIs, scheduled jobs)
+      must survive restarts, deployments, and arbitrary wait times. In-memory runtime
+      loses all state on restart.
+    inputs:
+      - "A context window (complete working state at interruption point)"
+      - "A unique state_id identifying the workflow instance"
+      - "An async callback mechanism (webhook, message queue, polling)"
+    outputs:
+      - "The same context window, reconstructed, with the tool result appended"
+    flow:
+      - step: 1
+        action: "LLM decides to invoke a long-running tool"
+      - step: 2
+        action: "Serialize entire context window to DB, keyed by state_id"
+      - step: 3
+        action: "Dispatch tool call with state_id as correlation ID"
+      - step: 4
+        action: "Release agent process (it can terminate, restart)"
+      - step: 5
+        action: "Callback arrives with state_id + result"
+      - step: 6
+        action: "Load context window from DB by state_id"
+      - step: 7
+        action: "Append tool result to context"
+      - step: 8
+        action: "Feed reconstructed context back to LLM"
+    precondition: "Context window must be owned by builder (see Pattern 2)"
+    benefits:
+      - "Agents survive restarts, deployments, and crashes transparently"
+      - "Enables human-in-the-loop: pause for approval, resume hours later with full context"
+      - "State inspection at rest enables debugging: examine serialized context"
+    limitations:
+      - "Serialization must be deterministic (token-identical reconstruction)"
+      - "Database latency adds overhead to every tool call"
+      - "Non-serializable references require explicit cleanup or replacement"
+
+  - name: "Micro-Agent DAG"
+    factor: 10
+    problem_solved: >
+      Monolithic autonomous agents with unbounded context windows degrade as workflow
+      grows. A single agent handling 20+ steps accumulates context pollution, loses focus,
+      and produces unreliable results across different domains.
+    inputs:
+      - "A mostly deterministic DAG defining overall workflow structure"
+      - "A set of micro-agent nodes, each responsible for a specific decision point (3-10 LLM steps)"
+      - "Deterministic transition logic between nodes"
+    outputs:
+      - "A completed workflow where deterministic code handles predictable parts and LLMs handle only ambiguous decision points"
+    structure: "[DAG determinístico] → [micro-agent: 3-10 steps] → [DAG determinístico] → ..."
+    architecture_rules:
+      - "Each micro-agent has exactly one responsibility"
+      - "Micro-agents do not call each other; deterministic code decides next invocation"
+      - "Context windows are scoped per micro-agent; discarded on completion"
+      - "LLM recommends next step within its node only; never designs the overall DAG"
+    concrete_example:
+      pipeline: "Deploy Pipeline"
+      flow:
+        - "[CI/CD: build, test]"
+        - "[Deploy Agent: decides deploy order (3-10 steps)]"
+        - "[Human approval]"
+        - "[Deterministic deploy]"
+        - "[E2E tests: deterministic]"
+        - "[Rollback Agent: invoked only on failure]"
+    benefits:
+      - "Context windows stay small (3-10 turns), avoiding long-context degradation"
+      - "Each micro-agent developed, tested, and prompted independently for its domain"
+      - "Failure isolation: rollback agent handles deploy agent failures without cascade"
+      - "100+ tools across 20 steps manageable because each agent sees only relevant tools"
+    limitations:
+      - "Builder must design and maintain the deterministic DAG"
+      - "Wrong micro-agent boundary split causes context gaps between agents"
+      - "Orchestration complexity: state handoff requires serialization or side-effect reconstruction"
+
+  - name: "First-Token Intent Routing"
+    factor: 8
+    problem_solved: >
+      Agent output schemas separate "tool call" from "message to human" as a top-level
+      field. The model commits to this binary choice before generating content. This forces
+      the most important decision into a structural token with lower confidence, and prevents
+      nuanced intents like "need manager approval" vs "need user clarification."
+    inputs:
+      - "LLM output stream (token by token)"
+      - "Mapping from natural language intent patterns to dispatch actions"
+    outputs:
+      - "A routing decision (tool call, message to human, escalate, terminate)"
+      - "The full LLM response (tool invocation or natural language message)"
+    intent_mapping:
+      - first_tokens: "I'll send... / Let me call..."
+        intent: "Tool invocation incoming"
+        dispatch: "Parse subsequent tokens for tool + args"
+      - first_tokens: "I need clarification... / Can you confirm..."
+        intent: "Message to human requesting input"
+        dispatch: "Route full text to human channel"
+      - first_tokens: "The task is complete. / Done."
+        intent: "Workflow complete"
+        dispatch: "Terminate loop"
+      - first_tokens: "I need to escalate..."
+        intent: "Human escalation (e.g., to manager)"
+        dispatch: "Route to escalation channel"
+    benefits:
+      - "Model operates in its strongest domain (NL) for the highest-stakes decision"
+      - "Intent vocabulary is open-ended: no schema change for new intent types"
+      - "First token has highest probability mass and sampling impact"
+    limitations:
+      - "Intent parsing is fuzzy: NL patterns can be ambiguous"
+      - "Cannot enforce structural guarantees the way a schema field does"
+      - "Conflicts with structured output APIs requiring JSON from first token"
+
+  - name: "Dual State Model (Execution State + Business State)"
+    factor: 6
+    problem_solved: >
+      Frameworks conflate execution metadata (retry counts, step numbers) with business
+      domain state (messages, approvals, data). This makes persistence and recovery hard:
+      execution state is framework-specific, business state is application-specific.
+      Serializing one without the other leads to incomplete recovery.
+    inputs:
+      - "Execution state: current step, next step, retry count, llm call count"
+      - "Business state: messages, pending approvals, displayed data, domain entities"
+    outputs:
+      - "Clean separation allowing each state category to be serialized independently"
+      - "Full workflow recovery by loading both and reconstructing the context window"
+    state_structure:
+      execution:
+        current_step: "int"
+        next_step: "string (step name)"
+        retry_count: "int"
+        llm_call_count: "int"
+      business:
+        messages: "list of conversation turns"
+        pending_approval: "{ type, target, ... }"
+        display_data: "{ status, started_at, ... }"
+    benefits:
+      - "Execution state can be managed by infra tooling independently of business logic"
+      - "Business state can be validated, versioned, and evolved without touching agent runtime"
+      - "Cross-cutting concerns (logging, auditing, monitoring) hook into execution state"
+    limitations:
+      - "Two sources of truth can get out of sync; context builder must reconcile"
+      - "Debugging requires inspecting both state layers"
+      - "Framework lock-in risk if execution state format is not standardized"

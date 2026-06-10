@@ -3,16 +3,16 @@ title: "Sub-Agents"
 type: concept
 aliases: ["sub-agents", "sub agents", "subagents", "custom sub-agents"]
 tags: [ai, agents, llm, architecture]
-source_count: 6
+source_count: 7
 last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/micro-agents]]"]
+relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/micro-agents]]", "[[concepts/smart-truncation]]", "[[concepts/agent-memory]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]"]
 ---
 
 # Sub-Agents
@@ -116,6 +116,14 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
 > architecture** (small loops in deterministic DAGs). Together, they form a complete
 > picture: sub-agents are *how* you implement micro-agents.
 
+### From Context Management in Agents (Sally-Ann Delucia, Arize)
+
+- **Heavy data belongs outside the main conversation** — [[entities/alex|Alex]] moved trace search and data-intensive operations into sub-agents so the main agent kept only chat history plus light context ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Delegation as context routing** — the main agent delegates to a sub-agent, the sub-agent holds the heavy data and intermediate reasoning, then returns the result to the main conversation ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Sub-agents became the fallback pattern** — when huge context still breaks provider limits, Arize keeps returning to sub-agents: break work apart and let different parts of the system own different context ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+
+> [!inference] Arize's production story reinforces the existing ontology's thesis that sub-agents are primarily a context-management primitive. The novelty is the data-plane split: sub-agents are not only for codebase exploration or role separation, but for isolating trace/search data so the user-facing conversation remains coherent.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — Agent SDK primitives + closing how-to-build-your-own section
@@ -124,3 +132,4 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — "context not roles"; fork-out-and-return-succinct pattern; sub-agents powering on-demand research
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on specialized sub-agents saving context via smaller static prompts; instruction clash in monolithic agents
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on micro-agents as the architectural pattern built on sub-agents; HumanLayer deploy bot as case study; 3-10 step agent loops in deterministic DAGs
+- [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on delegating trace/search-heavy work to sub-agents while the main conversation keeps light context

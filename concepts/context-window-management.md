@@ -3,16 +3,16 @@ title: "Context Window Management"
 type: concept
 aliases: ["context window management", "context management", "context window", "context engineering"]
 tags: [ai, llm, context, architecture]
-source_count: 6
+source_count: 7
 last_updated: 2026-06-09
 parent: []
 part-of: []
 defines: ["[[concepts/context-rot]]", "[[concepts/smart-zone-dumb-zone]]"]
-relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/controlled-rag]]", "[[concepts/12-factor-agents]]", "[[concepts/agent-state-management]]"]
+relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/controlled-rag]]", "[[concepts/12-factor-agents]]", "[[concepts/agent-state-management]]", "[[concepts/smart-truncation]]", "[[concepts/long-session-evals]]", "[[concepts/agent-memory]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]"]
 ---
 
 # Context Window Management
@@ -143,6 +143,16 @@ external memory instead of cramming everything into context.
   continue seamlessly. See [[concepts/agent-state-management]]
   ([[sources/2026-06-09-12-factor-agents]]).
 
+### From Context Management in Agents (Sally-Ann Delucia, Arize)
+
+- **Context engineering > prompt engineering** — Sally-Ann Delucia echoes Karpathy's "+1 context engineering over prompt engineering" framing: the stack shifted from prompt-focused work to choosing strategically what the model sees ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Context management is product/UX, not just engineering** — if the agent sees the wrong data, users experience bad answers; the context strategy directly shapes the product experience ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Trace-analysis vicious loop** — [[entities/alex|Alex]] analyzing agent traces created more span data, hit context limits, retried with even more data, and failed again: "the system analyzing the data was constrained by the data" ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **[[concepts/smart-truncation|Smart truncation]] as a working strategy** — keep the head and tail, move the middle into a retrievable memory store, and let the agent decide when omitted context matters ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Context budgets remain heuristic** — Alex still uses basic first-100/last-100 selection and lacks a principled context budget or clear context-quality metrics; evals currently stand in as the measurement signal ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+
+> [!inference] This source adds a product-operational layer to context engineering: context quality is not only a model-performance concern but a UX contract. If the product cannot decide what the agent should remember and forget, the user experiences that as an unreliable product rather than as a token-budget issue.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — recurring theme across the history tour and Q&A
@@ -151,3 +161,4 @@ external memory instead of cramming everything into context.
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — "context engineering" as the named umbrella; four optimization axes + trajectory; compressing truth via on-demand research; sharded onboarding
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on accuracy-drop data (70%→50% from 4K→90K tokens); static prompts as overhead; controlled RAG; sub-agents for context savings
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on owning context construction; error clearing/summarization over blind appending; token density optimization; context window as pause/resume enabler
+- [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on context engineering as product/UX, trace-analysis context loops, smart truncation, long-session evals, and sub-agents for heavy data

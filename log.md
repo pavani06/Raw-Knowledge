@@ -238,6 +238,13 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - `> [!inference]` callouts in all 5 new concept pages + 6 compounded pages.
 - Ontology health: 67 atomic concepts + 2 MOCs, 13 entities, 10 sources, 2 digests. Two concepts now at source_count:6 (`context-window-management`, `sub-agents` — densest nodes); `tool-use` at source_count:3; `harness-engineering` at source_count:4; `human-in-loop-vs-afk` at source_count:2. Five new concepts at source_count:1 (thin — prime for compounding). The 12-factor cluster bridges the harness-engineering and context-engineering hubs, with `12-factor-agents` as a new top-level framework concept.
 
+## 2026-06-09T15:30Z — extract | How we solved Context Management in Agents — Sally-Ann Delucia, Arize
+
+- Source: `sources/2026-06-09-how-we-solved-context-management-in-agents.md`
+- Video: https://www.youtube.com/watch?v=esY99nYXxR4
+- Method: api
+- Status: unprocessed (awaiting knowledge-indexer)
+
 ## 2026-06-09T13:10Z — extract | 12-Factor Agents: Patterns of reliable LLM applications — Dex Horthy, HumanLayer
 
 - Source: `sources/2026-06-09-12-factor-agents.md`
@@ -260,3 +267,19 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Cross-source connections: Google "Agents Hack" paper (shorter prompts) independently validates the [[concepts/prompt-injection-patterns|prompt injection]] just-in-time principle; ADHD analogy for agent memory is novel to the ontology; static/dynamic prompt distinction adds a new dimension to the prompt injection taxonomy; the "tools looping without stop conditions" is a concrete failure mode for `tool-use` not previously documented
 - `> [!inference]` callouts in all 8 concept/entity pages (2 new + 6 compounded)
 - Ontology health: 62 atomic concepts + 2 MOCs, 12 entities, 9 sources, 2 digests; 6 previously single-source concepts graduated to source_count:2; `context-window-management` and `sub-agents` now at source_count:5 (densest nodes in the ontology); two new concepts at source_count:1 (thin — prime for compounding). The eval cluster and harness cluster both enriched from a new angle (practitioner debugging lens, not just architecture/methodology)
+
+## 2026-06-09T17:45Z — ingest | How we solved Context Management in Agents — Sally-Ann Delucia, Arize
+
+- Source: `sources/2026-06-09-how-we-solved-context-management-in-agents.md` (status: unprocessed → processed)
+- Source type: video (AI Engineer / Arize)
+- Created concepts (2): `smart-truncation`, `long-session-evals`
+- Created entities (1): `alex`
+- Compounded concepts (7): `context-window-management` (source_count: 6→7), `sub-agents` (6→7), `agent-memory` (2→3), `agent-evals` (4→5), `context-rot` (1→2), `agent-harness` (2→3), `compaction` (3→4)
+- Updated: `index.md`
+- Pages touched: 13 (1 source + 2 new concepts + 1 new entity + 7 compounded concepts + index.md + log.md)
+- Dedup checks: listed `concepts/` and `entities/`; searched `index.md`, concepts, entities, and `aliases:` for `smart truncation`, `long session`, `vicious loop`, `context engineering`, `context degradation`, `Alex`, and `Arize`. `context-window-management` already aliases `context engineering` and `context management` → compounded; `smart-zone-dumb-zone` already aliases `context quality degradation` → did not create a generic degradation page; no near-match for `smart-truncation`, `long-session-evals`, or `alex`.
+- Key themes: context engineering over prompt engineering; context management as product/UX; Alex's trace-analysis vicious loop; naive truncation and summarization failures; smart truncation memory; long-session evals; sub-agents for heavy data; long-term memory and context-quality metrics still open.
+- Cross-source connections: Sally-Ann Delucia's Alex case deepens the same context hub as Dex Horthy and Nupur Sharma: `context-window-management` becomes the densest node (7 sources), `sub-agents` also reaches 7 sources, `agent-evals` gains a concrete long-session/context-degradation eval pattern, and `compaction` gains a contradiction/tension around summary-based compression versus controlled truncation.
+- `> [!inference]` callouts in `context-window-management`, `sub-agents`, `agent-memory`, `agent-evals`, `agent-harness`, `smart-truncation`, and `long-session-evals`.
+- `> [!contradiction]` callout in `compaction` (summary-based compaction vs. controlled smart truncation memory).
+- Ontology health: 69 atomic concepts + 2 MOCs, 14 entities, 11 sources, 2 digests. No people entities created; speaker/channel remains in source frontmatter. New concepts are linked from the processed source and multiple existing concept pages, avoiding orphan status.

@@ -3,16 +3,16 @@ title: "Agent Memory"
 type: concept
 aliases: ["agent memory", "memory", "context retention", "agent context", "working memory"]
 tags: [ai, agents, llm, memory, context]
-source_count: 2
+source_count: 3
 last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/agentic-ai]]"]
 defines: []
-relates-to: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]", "[[concepts/file-system-state]]", "[[concepts/compaction]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/agent-planning]]", "[[concepts/controlled-rag]]"]
+relates-to: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]", "[[concepts/file-system-state]]", "[[concepts/compaction]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/agent-planning]]", "[[concepts/controlled-rag]]", "[[concepts/smart-truncation]]", "[[concepts/long-session-evals]]"]
 contradicts: []
 supports: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]"]
 extends: []
-sources: ["[[sources/2026-06-07-beginners-guide-to-learning-agentic-ai]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
+sources: ["[[sources/2026-06-07-beginners-guide-to-learning-agentic-ai]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]"]
 ---
 
 # Agent Memory
@@ -79,7 +79,16 @@ Memory exists at multiple levels:
 > (where the memory lives); the new model is temporal (when the memory matters). Together
 > they form a 3x2 matrix of memory strategies.
 
+### From Context Management in Agents (Sally-Ann Delucia, Arize)
+
+- **Context decides what the model sees; memory decides what survives** — Arize separates the active context from a retrievable memory store, then lets [[entities/alex|Alex]] pull omitted tool calls or prior messages when needed ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **[[concepts/smart-truncation|Smart truncation memory]] is working memory, not long-term memory** — Alex's current memory store preserves truncated conversation/tool-call content inside the current session, but Arize is still building true cross-session long-term memory ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Users expect cross-session reference** — long-term memory matters because users want to discuss issues from prior Alex sessions without manually reintroducing the context ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+
+> [!inference] This source sharpens the boundary between *session salvage* and *persistent memory*. A memory store attached to [[concepts/smart-truncation]] prevents context loss inside a long chat, but it does not yet satisfy the product requirement users call "memory": continuity across chats.
+
 ## Sources
 
 - [[sources/2026-06-07-beginners-guide-to-learning-agentic-ai|The Beginner's Guide to Learning Agentic AI]] — memory as a core agent building block; context retention enabling multi-step task completion
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on working vs persistent memory, ADHD analogy, chunking, and checkpoint-based memory
+- [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on smart-truncation memory, retrievable omitted context, and the gap between session memory and long-term memory

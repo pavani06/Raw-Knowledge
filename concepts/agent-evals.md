@@ -3,16 +3,16 @@ title: "Agent Evals"
 type: concept
 aliases: ["agent evals", "agentic evaluation", "evaluation framework", "evals", "eval suite"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 4
+source_count: 5
 last_updated: 2026-06-09
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
-defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]"]
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]"]
+defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/long-session-evals]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]"]
 contradicts: []
 supports: ["[[concepts/agent-harness]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]"]
 ---
 
 # Agent Evals
@@ -110,9 +110,18 @@ The three tiers of evals, in order of cost and power:
 > [[concepts/non-functional-requirements|non-functional requirements]] and the human's role
 > in defining what "good" means.
 
+### From Context Management in Agents (Sally-Ann Delucia, Arize)
+
+- **[[concepts/long-session-evals|Long-session evals]] expose late failures** — Arize loads ten turns and tests the eleventh to make context degradation measurable before users report it ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Evals stand in for context-quality metrics** — Arize does not yet have a principled context budget or clear context-quality metric, so eval performance is the practical signal for whether context selection is working ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+- **Memory and evaluation co-evolve** — as [[entities/alex|Alex]] adds long-term memory, its eval suite must catch whether longer sessions and cross-session references preserve useful context rather than accumulating noise ([[sources/2026-06-09-how-we-solved-context-management-in-agents]]).
+
+> [!inference] This source turns context management into an eval target. Prior eval sources focused on output quality, traces, and release gates; Arize's long-session setup makes *context degradation over conversation length* a first-class behavior to measure.
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss (Arize) full workshop on the three-tier eval framework, impact hierarchy, and eval-iterate cycle
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — the greater stack taxonomy; trajectory grading; the multi-dimension eval taxonomy
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — layered eval stack on a concrete RAG system; evals as a release discipline
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on vanity metrics, multi-layered evaluation, evaluator agent, and the feedback loop
+- [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on long-session evals and evals as the practical signal for context quality

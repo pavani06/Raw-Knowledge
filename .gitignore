@@ -19,6 +19,9 @@
 *.mp3
 transcript*.txt
 
+# Dependencies
+node_modules/
+
 # OS noise
 .DS_Store
 Thumbs.db

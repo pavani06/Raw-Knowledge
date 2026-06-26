@@ -6,6 +6,28 @@ and compounding-awareness source.
 <!-- Format: ## YYYY-MM-DDTHH:MMZ — operation | Title -->
 <!-- Operations: extract, ingest, query, lint, digest -->
 
+## 2026-06-25T19:30Z — ingest | O FUTURO DA IA, DOS JUROS E DO BRASIL NA VISÃO DE DANIEL GOLDBERG | Market Makers #378
+
+- Source: `sources/2026-06-25-futuro-ia-juros-brasil-visao-daniel-goldberg.md` (status: unprocessed → processed)
+- Source type: video (Market Makers, yt-dlp auto-generated Portuguese captions, ~353K chars with 3x duplication artifacts)
+- Created concepts (7): `ai-transformacao-energetica`, `paradoxo-de-jevons`, `mercado-inelastico`, `consolidacao-substancial`, `convexidade-negativa`, `soma-zero-predacao`, `emendas-impositivas`
+- Created entities (3): `lumina-capital-management`, `nvidia`, `aegea`
+- Compounded concepts (0): no existing pages matched — all 7 concepts are genuinely new domain territory (Brazilian political economy, macro-finance, AI economics, investment frameworks). No overlap with the existing agent/harness/eval ontology.
+- Updated: `index.md` (rebuilt: 79 atomic concepts + 2 MOCs, 17 entities, 11 sources)
+- Pages touched: 13 (1 source + 7 new concepts + 3 new entities + index.md + log.md)
+- Dedup checks: listed `concepts/` (72 entries) and `entities/` (15 entries); searched `index.md` and aliases for all candidate names. No near-matches found. The raw-knowledge ontology was exclusively AI/software/harness-engineering domain — this is the first source covering Brazilian political economy, macro-finance, AI infrastructure economics, and investment strategy.
+- Key themes: AI como transformação econômica (MWh → bits → tokens → inferência) com spread capturado pela NVIDIA (50-170%); paradoxo de Jevons aplicado à AI (eficiência de 10,000× em 6 anos não reduziu demanda — explodiu-a); hipótese do mercado inelástico (Gabaix, elasticidade ~0.2) com implicações para fluxos cross-border; deterioração institucional brasileira (Congresso descolado do povo via emendas impositivas + fundo partidário; Supremo como protagonista político; consolidação substancial aumentando spread de crédito); soma zero/predação como lógica operacional do ecossistema brasileiro vs criação (EUA) e abundância (Europa); convexidade negativa como framework unificador de特殊 situations; estudo de caso Aegea (bonds a 14% yield → 10% após correção)
+- Cross-source connections: none direct — this source opens entirely new domain clusters in the ontology (Brazilian political economy, AI infrastructure investing, macro-finance theory). Future compounding expected from additional Brazilian/economic sources.
+- `> [!inference]` callouts in all 7 concept pages + 2 entity pages (nvidia, aegea) — claims not directly attributable to the source are flagged. Goldberg's opinions (e.g., "paper mais relevante em macrofinanças em 50 anos") presented as attributed opinion, not fact.
+- Ontology health: the vault now spans two disconnected knowledge clusters — the original agent/harness/eval cluster (69 concepts, 2 MOCs, 14 entities) and the new Brazilian political economy / AI infrastructure cluster (7 concepts, 3 entities). The two clusters are linked only through the source page. Future compounding within each cluster will progressively bridge them as cross-domain connections emerge. All 7 new concepts at source_count:1 (thin — prime for compounding with future Brazilian/economic sources).
+
+## 2026-06-25T19:00Z — extract
+- Source: `sources/2026-06-25-futuro-ia-juros-brasil-visao-daniel-goldberg.md`
+- Video: https://www.youtube.com/watch?v=Bs1mtJn7d5I
+- Title: O FUTURO DA IA, DOS JUROS E DO BRASIL NA VISÃO DE DANIEL GOLDBERG | Market Makers #378
+- Method: yt-dlp (auto-generated Portuguese captions, 353K chars)
+- Status: unprocessed (awaiting knowledge-indexer)
+
 ## 2026-06-07 — init | Repository scaffolded
 
 Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and

@@ -25,7 +25,7 @@ URL  (YouTube video  OR  web article)
     │
     ▼
 [source-extractor]  →  detects URL type, extracts via the right fallback chain:
-    │                    • video   → youtube-transcript-api → yt-dlp subs → whisper
+    │                    • video   → serpapi → youtube-transcript-api → yt-dlp subs → whisper
     │                    • article → markitdown → obscura (stealth headless)
     ▼
 sources/YYYY-MM-DD-slug.md  (status: unprocessed, immutable raw content)
@@ -70,7 +70,8 @@ Raw-Knowledge/
     └── skills/
         ├── youtube-transcript/SKILL.md
         ├── article-extractor/SKILL.md
-        └── knowledge-indexer/SKILL.md
+        ├── knowledge-indexer/SKILL.md
+        └── ingest-and-improve/SKILL.md
 ```
 
 ---

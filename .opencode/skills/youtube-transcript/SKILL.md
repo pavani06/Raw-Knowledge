@@ -1,6 +1,6 @@
 ---
 name: youtube-transcript
-description: "Extract a transcript from a YouTube URL and save it as an immutable raw source page. Uses a resilient fallback chain (youtube-transcript-api -> yt-dlp subtitles -> whisper audio). Use when a user provides a YouTube link to ingest into the knowledge base."
+description: "Extract a transcript from a YouTube URL and save it as an immutable raw source page. Uses a resilient fallback chain (SerpApi -> youtube-transcript-api -> yt-dlp subtitles -> whisper audio). Use when a user provides a YouTube link to ingest into the knowledge base."
 license: MIT
 compatibility: opencode
 allowed-tools: Bash
@@ -41,8 +41,9 @@ Handles `watch?v=`, `youtu.be/`, and `/shorts/` forms.
 ## The Fallback Chain (run in order, stop at first success)
 
 ```
-PRIMARY:     youtube-transcript-api  — fastest, zero download, clean text
-FALLBACK:    yt-dlp --write-auto-subs — resilient when API is IP-blocked
+PRIMARY:     SerpApi youtube_video_transcript — paid, immune to bot detection
+FALLBACK 1:  youtube-transcript-api  — free, fastest, zero download, clean text
+FALLBACK 2:  yt-dlp --write-auto-subs — resilient when APIs are IP-blocked
 LAST RESORT: yt-dlp audio + whisper  — only when the video has NO captions
 ```
 
@@ -56,7 +57,39 @@ If you need to run steps manually, use the sections below.
 
 ---
 
-## PRIMARY — youtube-transcript-api
+## PRIMARY — SerpApi youtube_video_transcript
+
+Paid per-request; requires `SERPAPI_API_KEY` in the environment. **If the key is
+unset or empty, skip this tier silently** and go to FALLBACK 1.
+
+```bash
+curl -sf --get https://serpapi.com/search \
+  -d engine="youtube_video_transcript" \
+  -d v="$VIDEO_ID" \
+  -d language_code="en" \
+  -d api_key="$SERPAPI_API_KEY" \
+  -o /tmp/serpapi_${VIDEO_ID}.json
+
+# Join the snippets into clean plain text
+python3 -c '
+import json, sys
+d = json.load(open(sys.argv[1]))
+snippets = [t.get("snippet", "").strip() for t in (d.get("transcript") or [])]
+print(" ".join(s for s in snippets if s))
+' /tmp/serpapi_${VIDEO_ID}.json > /tmp/transcript_${VIDEO_ID}.txt
+```
+
+Notes:
+
+- The response carries `transcript` as an array of `{start_ms, end_ms, snippet, start_time_text}`; only `snippet` goes into the source page.
+- Optional params: `language_code` (default `en`; extended codes like `pt-BR` work), `type=asr` to force auto-generated captions. The response also lists `available_transcripts` when the default is not what you want.
+- If this prints a transcript, you are done → set `extraction_method: serpapi`.
+
+**Errors → fall through to FALLBACK 1:** unset/empty key, HTTP 401/429, empty `transcript` array.
+
+---
+
+## FALLBACK 1 — youtube-transcript-api
 
 `youtube-transcript-api` v1.x **removed** the old static `get_transcript()` — you must
 instantiate the class. The CLI takes a **video ID**, not a URL.
@@ -91,7 +124,7 @@ If this prints a transcript, you are done → set `extraction_method: api`.
 
 ---
 
-## FALLBACK — yt-dlp subtitles
+## FALLBACK 2 — yt-dlp subtitles
 
 More resilient to bot detection (mimics a browser client). Downloads a subtitle file,
 which we convert to clean text.
@@ -202,7 +235,7 @@ channel: "<Channel Name>"
 published: <YYYY-MM-DD or omit>
 created: <today YYYY-MM-DD>
 duration: "<MM:SS or omit>"
-extraction_method: <api | yt-dlp | whisper>
+extraction_method: <serpapi | api | yt-dlp | whisper>
 tags: [clippings]
 concepts: []
 entities: []
@@ -244,6 +277,9 @@ curate it into the ontology.
 
 | Error | Cause | Action |
 |---|---|---|
+| `SERPAPI_API_KEY` unset | Tier not configured | Skip SerpApi tier silently → youtube-transcript-api |
+| SerpApi HTTP 401/429 | Invalid key / quota exhausted | → youtube-transcript-api |
+| SerpApi `transcript: []` | No caption track served | → youtube-transcript-api |
 | `TranscriptsDisabled` / `NoTranscriptFound` | No captions in language | → whisper |
 | `RequestBlocked` / `IpBlocked` / `PoTokenRequired` | Datacenter IP flagged | → yt-dlp; if also blocked, note and ask user |
 | `Sign in to confirm your age` | Age-restricted | `yt-dlp --cookies-from-browser firefox` |

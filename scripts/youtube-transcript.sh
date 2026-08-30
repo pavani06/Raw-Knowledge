@@ -6,12 +6,14 @@
 #   bash scripts/youtube-transcript.sh "<YOUTUBE_URL>" [OUTPUT_FILE]
 #
 # Fallback chain (stops at first success):
-#   1. youtube-transcript-api  — fastest, zero download, clean text
-#   2. yt-dlp subtitles        — resilient when the API is IP-blocked
-#   3. yt-dlp audio + whisper  — last resort, for videos with NO captions
+#   1. SerpApi youtube_video_transcript — paid, no bot-detection issues
+#      (skipped silently when SERPAPI_API_KEY is unset)
+#   2. youtube-transcript-api  — free, fastest, zero download, clean text
+#   3. yt-dlp subtitles        — resilient when the API is IP-blocked
+#   4. yt-dlp audio + whisper  — last resort, for videos with NO captions
 #
 # On NixOS, tools are invoked via `nix run` / `uvx` so nothing needs global install.
-# Prints the extraction method used on the LAST line of stderr as: METHOD=<api|yt-dlp|whisper>
+# Prints the extraction method used on the LAST line of stderr as: METHOD=<serpapi|api|yt-dlp|whisper>
 #
 set -uo pipefail
 
@@ -31,8 +33,34 @@ if [ -z "$VIDEO_ID" ]; then
 fi
 echo "Extracting transcript for video ID: $VIDEO_ID" >&2
 
-# ── PRIMARY: youtube-transcript-api ──────────────────────────────────────────
-echo "[1/3] Trying youtube-transcript-api ..." >&2
+# ── PRIMARY: SerpApi youtube_video_transcript ────────────────────────────────
+echo "[1/4] Trying SerpApi youtube_video_transcript ..." >&2
+if [ -n "${SERPAPI_API_KEY:-}" ]; then
+  if curl -sf --get https://serpapi.com/search \
+      -d engine="youtube_video_transcript" \
+      -d v="$VIDEO_ID" \
+      -d language_code="${TRANSCRIPT_LANG:-en}" \
+      -d api_key="$SERPAPI_API_KEY" \
+      -o "/tmp/serpapi_${VIDEO_ID}.json" 2>/tmp/serpapi_err.$$; then
+    python3 -c '
+import json, sys
+d = json.load(open(sys.argv[1]))
+snippets = [t.get("snippet", "").strip() for t in (d.get("transcript") or [])]
+print(" ".join(s for s in snippets if s))
+' "/tmp/serpapi_${VIDEO_ID}.json" > "$OUTPUT_FILE"
+    if [ -s "$OUTPUT_FILE" ]; then
+      echo "OK: transcript via SerpApi" >&2
+      echo "METHOD=serpapi" >&2
+      exit 0
+    fi
+  fi
+  echo "  SerpApi failed: $(tail -1 /tmp/serpapi_err.$$ 2>/dev/null)" >&2
+else
+  echo "  SERPAPI_API_KEY unset — skipping SerpApi tier" >&2
+fi
+
+# ── FALLBACK 1: youtube-transcript-api ───────────────────────────────────────
+echo "[2/4] Trying youtube-transcript-api ..." >&2
 if run_yta "$VIDEO_ID" --languages en --format text > "$OUTPUT_FILE" 2>/tmp/yta_err.$$; then
   if [ -s "$OUTPUT_FILE" ]; then
     echo "OK: transcript via youtube-transcript-api" >&2
@@ -42,8 +70,8 @@ if run_yta "$VIDEO_ID" --languages en --format text > "$OUTPUT_FILE" 2>/tmp/yta_
 fi
 echo "  youtube-transcript-api failed: $(tail -1 /tmp/yta_err.$$ 2>/dev/null)" >&2
 
-# ── FALLBACK: yt-dlp subtitles ───────────────────────────────────────────────
-echo "[2/3] Trying yt-dlp subtitles ..." >&2
+# ── FALLBACK 2: yt-dlp subtitles ─────────────────────────────────────────────
+echo "[3/4] Trying yt-dlp subtitles ..." >&2
 run_ytdlp \
   --skip-download \
   --write-subs --write-auto-subs \
@@ -71,7 +99,7 @@ fi
 echo "  yt-dlp subtitles failed (no caption track)." >&2
 
 # ── LAST RESORT: yt-dlp audio + whisper ──────────────────────────────────────
-echo "[3/3] No captions found. Downloading audio for whisper transcription ..." >&2
+echo "[4/4] No captions found. Downloading audio for whisper transcription ..." >&2
 run_ytdlp -x --audio-format wav \
   --postprocessor-args "-ar 16000 -ac 1" \
   -o "/tmp/yt_audio_${VIDEO_ID}.%(ext)s" \
@@ -93,5 +121,5 @@ if [ -f "$AUDIO" ]; then
 fi
 
 echo "ERROR: all extraction methods failed for $URL" >&2
-echo "  Check: /tmp/yta_err.$$  /tmp/ytdlp_err.$$  /tmp/ytaudio_err.$$  /tmp/whisper_err.$$" >&2
+echo "  Check: /tmp/serpapi_err.$$  /tmp/yta_err.$$  /tmp/ytdlp_err.$$  /tmp/ytaudio_err.$$  /tmp/whisper_err.$$" >&2
 exit 1

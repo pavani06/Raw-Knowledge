@@ -4,6 +4,9 @@
 .opencode/package-lock.json
 .opencode/.gitignore
 
+# Local secrets (API keys)
+.env
+
 # OhMyOpenCode run-continuation session files
 .omo/run-continuation/
 

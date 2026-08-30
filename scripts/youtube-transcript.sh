@@ -16,6 +16,7 @@
 # Prints the extraction method used on the LAST line of stderr as: METHOD=<serpapi|api|yt-dlp|whisper>
 #
 set -uo pipefail
+trap 'rm -rf "${QI_TMP:-}"' EXIT
 
 URL="${1:?Usage: youtube-transcript.sh <YOUTUBE_URL> [OUTPUT_FILE]}"
 OUTPUT_FILE="${2:-transcript.txt}"
@@ -35,29 +36,36 @@ echo "Extracting transcript for video ID: $VIDEO_ID" >&2
 
 # ── PRIMARY: SerpApi youtube_video_transcript ────────────────────────────────
 echo "[1/4] Trying SerpApi youtube_video_transcript ..." >&2
+QI_TMP="$(mktemp -d)"
+ENV_FILE="$(dirname "${BASH_SOURCE[0]}")/../.env"
+if [ -z "${SERPAPI_API_KEY:-}" ] && [ -f "$ENV_FILE" ]; then
+  SERPAPI_API_KEY="$(grep -m1 '^SERPAPI_API_KEY=' "$ENV_FILE" | cut -d= -f2- | tr -d '[:space:]')"
+fi
 if [ -n "${SERPAPI_API_KEY:-}" ]; then
-  if curl -sf --get https://serpapi.com/search \
+  # Key goes via stdin (--data-urlencode "api_key@-"), never via argv.
+  if printf '%s' "$SERPAPI_API_KEY" | curl -sf --get https://serpapi.com/search \
       -d engine="youtube_video_transcript" \
       -d v="$VIDEO_ID" \
       -d language_code="${TRANSCRIPT_LANG:-en}" \
-      -d api_key="$SERPAPI_API_KEY" \
-      -o "/tmp/serpapi_${VIDEO_ID}.json" 2>/tmp/serpapi_err.$$; then
+      --data-urlencode "api_key@-" \
+      -o "$QI_TMP/serpapi.json" 2>"$QI_TMP/serpapi_err"; then
     python3 -c '
 import json, sys
 d = json.load(open(sys.argv[1]))
 snippets = [t.get("snippet", "").strip() for t in (d.get("transcript") or [])]
 print(" ".join(s for s in snippets if s))
-' "/tmp/serpapi_${VIDEO_ID}.json" > "$OUTPUT_FILE"
+' "$QI_TMP/serpapi.json" > "$OUTPUT_FILE"
     if [ -s "$OUTPUT_FILE" ]; then
       echo "OK: transcript via SerpApi" >&2
       echo "METHOD=serpapi" >&2
       exit 0
     fi
   fi
-  echo "  SerpApi failed: $(tail -1 /tmp/serpapi_err.$$ 2>/dev/null)" >&2
+  echo "  SerpApi failed: $(tail -1 "$QI_TMP/serpapi_err" 2>/dev/null)" >&2
 else
   echo "  SERPAPI_API_KEY unset — skipping SerpApi tier" >&2
 fi
+unset SERPAPI_API_KEY
 
 # ── FALLBACK 1: youtube-transcript-api ───────────────────────────────────────
 echo "[2/4] Trying youtube-transcript-api ..." >&2
@@ -121,5 +129,5 @@ if [ -f "$AUDIO" ]; then
 fi
 
 echo "ERROR: all extraction methods failed for $URL" >&2
-echo "  Check: /tmp/serpapi_err.$$  /tmp/yta_err.$$  /tmp/ytdlp_err.$$  /tmp/ytaudio_err.$$  /tmp/whisper_err.$$" >&2
+echo "  Check: /tmp/yta_err.$$  /tmp/ytdlp_err.$$  /tmp/ytaudio_err.$$  /tmp/whisper_err.$$" >&2
 exit 1

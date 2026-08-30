@@ -59,16 +59,25 @@ If you need to run steps manually, use the sections below.
 
 ## PRIMARY — SerpApi youtube_video_transcript
 
-Paid per-request; requires `SERPAPI_API_KEY` in the environment. **If the key is
-unset or empty, skip this tier silently** and go to FALLBACK 1.
+Paid per-request; requires `SERPAPI_API_KEY`. The script reads it from `.env`
+at the repo root with a **data-only parser** (`grep`/`cut` — the file is never
+sourced or exported; it is git-ignored; get a key at
+https://serpapi.com/manage-api-key). For manual runs, `export SERPAPI_API_KEY`
+in your shell — never pass it as a command-line argument. The key is sent to
+curl **via stdin** (`--data-urlencode "api_key@-"`), so it never appears in
+argv/`/proc/*/cmdline`; temp files live in a private `mktemp -d` dir removed on
+exit, and the variable is `unset` once the tier ends so fallback tiers never
+inherit it. **If the key is unset or empty, skip this tier silently** and go to
+FALLBACK 1.
 
 ```bash
-curl -sf --get https://serpapi.com/search \
+QI_TMP="$(mktemp -d)"; trap 'rm -rf "$QI_TMP"' EXIT
+printf '%s' "$SERPAPI_API_KEY" | curl -sf --get https://serpapi.com/search \
   -d engine="youtube_video_transcript" \
   -d v="$VIDEO_ID" \
   -d language_code="en" \
-  -d api_key="$SERPAPI_API_KEY" \
-  -o /tmp/serpapi_${VIDEO_ID}.json
+  --data-urlencode "api_key@-" \
+  -o "$QI_TMP/serpapi.json"
 
 # Join the snippets into clean plain text
 python3 -c '
@@ -76,7 +85,7 @@ import json, sys
 d = json.load(open(sys.argv[1]))
 snippets = [t.get("snippet", "").strip() for t in (d.get("transcript") or [])]
 print(" ".join(s for s in snippets if s))
-' /tmp/serpapi_${VIDEO_ID}.json > /tmp/transcript_${VIDEO_ID}.txt
+' "$QI_TMP/serpapi.json" > /tmp/transcript_${VIDEO_ID}.txt
 ```
 
 Notes:

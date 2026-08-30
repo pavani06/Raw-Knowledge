@@ -6,6 +6,23 @@ and compounding-awareness source.
 <!-- Format: ## YYYY-MM-DDTHH:MMZ — operation | Title -->
 <!-- Operations: extract, ingest, query, lint, digest -->
 
+## 2026-06-25T22:00Z — ingest | The best AI agents are simpler than you think — Zack Reno Wedeen, Sierra
+
+- Source: `sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think.md` (status: unprocessed → processed)
+- Source type: video (LangChain, Max Agency podcast, api transcript)
+- Created concepts (12): `agentic-commerce`, `outcome-based-pricing`, `constellation-of-models`, `speculative-execution`, `model-ensembling`, `voice-agents`, `voice-to-voice-models`, `isolated-infrastructure`, `simulations`, `no-code-agent-building`, `continual-learning`, `forward-deployed-engineering`
+- Created entities (2): `sierra`, `taobench`
+- Compounded concepts (7): `context-window-management` (7→8), `sub-agents` (7→8), `agent-memory` (3→4), `agent-evals` (5→8), `tool-use` (3→4), `frameworks-vs-libraries` (1→2), `harness-engineering` (4→5)
+- Updated: `index.md` (12 new concepts + 2 new entities + 1 new source + 7 source count updates)
+- Pages touched: 24 (1 source + 12 new concepts + 2 new entities + 7 compounded concepts + index.md + log.md)
+- Dedup checks: listed `concepts/` and `entities/`; searched `index.md`, aliases, and grep patterns for voice, commerce, ensembling, speculative, no-code, continual-learning, forward-deployed, sierra, taobench, langchain. No near-matches found for any new concept or entity. `closed-loop-evaluation` checked for overlap with `continual-learning` — distinct: closed-loop is fully autonomous; continual learning is human-in-the-loop with confidence-gated automation.
+- Key themes: agentic commerce thesis ("bigger than e-commerce"); monolith loyalism vs. multi-agent orthodoxy; voice as the latency-constraint that reshapes architecture (speculative execution, model ensembling); constellation-of-models (10-15 models per turn) over one-model-to-rule-them-all; deterministic no-code-to-code compilation as the scaffolding approach (non-deterministic LLM-as-compiler rejected); outcome-based pricing as incentive alignment; memory requires trust infrastructure (authentication-gated retrieval); evals as model-switching mechanism; "faster car needs more pit stops" — product judgment as the new bottleneck when coding agents accelerate execution
+- Cross-source connections: Zack's multi-agent skepticism converges with Dex Horthy's "sub-agents are for context, not roles"; Sierra's deterministic compilation is the production scaffolding-over-wrapper instantiation; simulations + monitors map onto the three-tier eval stack; the "constellation of models" pattern is the model-level analog of generator-evaluator adversarial separation; isolated infrastructure and authentication-gated memory are the same security-boundary pattern applied to different data types
+- Contradictions flagged: `continual-learning` ↔ `closed-loop-evaluation` (human-in-loop vs. human-removed — market constraint, not technical); voice harness ≠ coding harness (architectural divergence from latency, not convergence)
+- `> [!inference]` callouts in all 12 new concept pages + 7 compounded pages.
+- `> [!contradiction]` callout in `continual-learning.md` (vs. `closed-loop-evaluation`).
+- Ontology health: 12 new concepts at source_count:1 (thin — prime for compounding); 7 concepts graduated to higher source counts; `context-window-management` and `sub-agents` now joint-densest at source_count:8; Sierra entity anchors a new voice/commerce/enterprise-agent cluster that bridges the existing agent-harness and agent-evals clusters via evals, harness engineering, and memory.
+
 ## 2026-06-25T19:30Z — ingest | O FUTURO DA IA, DOS JUROS E DO BRASIL NA VISÃO DE DANIEL GOLDBERG | Market Makers #378
 
 - Source: `sources/2026-06-25-futuro-ia-juros-brasil-visao-daniel-goldberg.md` (status: unprocessed → processed)
@@ -18,6 +35,13 @@ and compounding-awareness source.
 - Dedup checks: listed `concepts/` (72 entries) and `entities/` (15 entries); searched `index.md` and aliases for all candidate names. No near-matches found. The raw-knowledge ontology was exclusively AI/software/harness-engineering domain — this is the first source covering Brazilian political economy, macro-finance, AI infrastructure economics, and investment strategy.
 - Key themes: AI como transformação econômica (MWh → bits → tokens → inferência) com spread capturado pela NVIDIA (50-170%); paradoxo de Jevons aplicado à AI (eficiência de 10,000× em 6 anos não reduziu demanda — explodiu-a); hipótese do mercado inelástico (Gabaix, elasticidade ~0.2) com implicações para fluxos cross-border; deterioração institucional brasileira (Congresso descolado do povo via emendas impositivas + fundo partidário; Supremo como protagonista político; consolidação substancial aumentando spread de crédito); soma zero/predação como lógica operacional do ecossistema brasileiro vs criação (EUA) e abundância (Europa); convexidade negativa como framework unificador de特殊 situations; estudo de caso Aegea (bonds a 14% yield → 10% após correção)
 - Cross-source connections: none direct — this source opens entirely new domain clusters in the ontology (Brazilian political economy, AI infrastructure investing, macro-finance theory). Future compounding expected from additional Brazilian/economic sources.
+
+## 2026-06-25T20:45Z — extract | Systems Thinking for Leaders: Designing Solutions That Work
+- Source: `sources/2026-06-25-systems-thinking-for-leaders-designing-solutions-that-work.md`
+- Video: https://www.youtube.com/watch?v=wSuQQYv-E64
+- Channel: MIT Sloan Executive Education
+- Method: yt-dlp
+- Status: unprocessed (awaiting knowledge-indexer)
 - `> [!inference]` callouts in all 7 concept pages + 2 entity pages (nvidia, aegea) — claims not directly attributable to the source are flagged. Goldberg's opinions (e.g., "paper mais relevante em macrofinanças em 50 anos") presented as attributed opinion, not fact.
 - Ontology health: the vault now spans two disconnected knowledge clusters — the original agent/harness/eval cluster (69 concepts, 2 MOCs, 14 entities) and the new Brazilian political economy / AI infrastructure cluster (7 concepts, 3 entities). The two clusters are linked only through the source page. Future compounding within each cluster will progressively bridge them as cross-domain connections emerge. All 7 new concepts at source_count:1 (thin — prime for compounding with future Brazilian/economic sources).
 
@@ -305,3 +329,63 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - `> [!inference]` callouts in `context-window-management`, `sub-agents`, `agent-memory`, `agent-evals`, `agent-harness`, `smart-truncation`, and `long-session-evals`.
 - `> [!contradiction]` callout in `compaction` (summary-based compaction vs. controlled smart truncation memory).
 - Ontology health: 69 atomic concepts + 2 MOCs, 14 entities, 11 sources, 2 digests. No people entities created; speaker/channel remains in source frontmatter. New concepts are linked from the processed source and multiple existing concept pages, avoiding orphan status.
+
+## 2026-06-26T01:54Z — extract
+- Source: `sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc.md`
+- Video: https://www.youtube.com/watch?v=ObTPqBGsEbA
+- Method: api
+- Status: unprocessed (awaiting knowledge-indexer)
+
+## 2026-06-25T00:00Z — extract
+- Source: `sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think.md`
+- Video: https://youtu.be/uCKhOmth2ms
+- Method: api
+- Status: unprocessed (awaiting knowledge-indexer)
+
+## 2026-06-25T22:00Z — ingest | Systems Thinking for Leaders: Designing Solutions That Work — John Sterman, MIT Sloan
+
+- Source: `sources/2026-06-25-systems-thinking-for-leaders-designing-solutions-that-work.md` (status: unprocessed → processed)
+- Source type: video (MIT Sloan Executive Education, yt-dlp, ~51KB transcript)
+- Created concepts (10): `systems-thinking`, `system-dynamics`, `policy-resistance`, `causal-loop-diagrams`, `balancing-feedback`, `reinforcing-feedback`, `iceberg-model`, `management-flight-simulators`, `group-modeling-process`, `open-loop-mental-model`
+- Created entities (2): `climate-interactive`, `en-roads`
+- Compounded concepts (0): no existing pages matched — all 10 concepts are genuinely new domain territory (systems thinking, system dynamics, decision science). Zero overlap with the existing agent/harness/eval or Brazilian political economy clusters.
+- Updated: `index.md` (rebuilt: 86 atomic concepts + 2 MOCs, 19 entities, 12 sources)
+- Pages touched: 15 (1 source + 10 new concepts + 2 new entities + index.md + log.md)
+- Dedup checks: listed `concepts/` (78 entries) and `entities/` (17 entries); searched `index.md` and `aliases:` for all candidate names. One potential collision: existing `feedback-loops` (AI coding quality ceiling) is semantically distinct from `balancing-feedback` / `reinforcing-feedback` (system dynamics feedback types). No slugs or aliases conflicted. The raw-knowledge ontology previously spanned two disconnected clusters (agent/harness/eval + Brazilian political economy) — this source opens a third cluster.
+- Key themes: policy resistance as the defining problem systems thinking addresses (described from Sir Thomas More 1516 through modern healthcare/traffic/project management); causal loop diagrams as the primary qualitative diagnostic tool mapping balancing (self-stabilizing) and reinforcing (vicious cycle) feedback; the iceberg model framing visible intended effects vs. hidden unintended consequences; healthcare case study mapping five distinct reinforcing feedback vicious cycles from prior approval policies ($35B/year US admin costs); management flight simulators as experiential learning tools (project management demo showing $50M loss from common management behaviors); En-ROADS climate policy simulator; the group modeling process with "system in the room" principle; "sage on the stage" vs. "guide on the side" facilitation philosophy; George Box's "all models are wrong, some are useful"
+- Cross-source connections: this source opens a third disconnected knowledge cluster in the ontology. A structural parallel exists between the systems thinking concept of feedback (balancing/reinforcing loops driving policy resistance) and the agent-harness cluster's `feedback-loops` concept (tests/types/linters as quality ceiling) — both embody the same structural insight that loops, not linear sequences, determine outcomes. The healthcare case study (short-term metric optimization masking vicious cycles) is structurally isomorphic to `garbage-collection-day` (converting visible fixes into permanent system improvements). No direct compounding occurred, but the framework is primed for connection if future sources bridge systems thinking with agent architecture.
+- Ontology health: the vault now spans three disconnected knowledge clusters — agent/harness/eval (69 concepts, 2 MOCs), Brazilian political economy (7 concepts), and systems thinking (10 concepts). All 10 new concepts at source_count:1 (thin — prime for compounding with future systems-thinking sources). No orphans detected; every new concept appears as inline `[[wikilink]]` in ≥2 other pages (cross-linked within the cluster + source Knowledge section).
+
+## 2026-06-26T02:15Z — ingest | The Production AI Playbook: Deploying Agents at Enterprise Scale
+- Source: `sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc.md`
+- Video: https://www.youtube.com/watch?v=ObTPqBGsEbA
+- Extraction: api (youtube-transcript-api, 36,290 chars, 1,062 segments)
+- Channel: AI Engineer · Speaker: Sandipan Bhaumik (Databricks) · Duration: 37:05
+- Created concepts (13): `agent-tracing`, `ai-governance`, `behavioral-evaluation`, `data-foundation`, `data-quality-for-agents`, `deflection-rate`, `evaluation-pipeline`, `fault-tolerance-patterns`, `model-change-management`, `multi-agent-orchestration`, `production-incident-playbook`, `prompt-as-code`, `test-case-library`
+- Created entities (10): `databricks`, `mlflow`, `delta-lake`, `apache-spark`, `unity-catalog`, `agent-bricks`, `mosaic-ai`, `crewai`, `langchain`, `genie`
+- Compounded concepts (15): `agent-evals` (5→8), `agent-state-management` (2→3), `continuous-evaluation` (2→3), `data-flywheel` (2→3), `deterministic-checks` (2→3), `eval-driven-development` (3→4), `eval-governance` (1→2), `eval-iterate-cycle` (1→2), `feedback-loops` (1→2), `golden-dataset` (3→4), `human-in-loop-vs-afk` (2→3), `llm-as-judge` (3→4), `release-gates` (2→3), `sub-agents` (7→9), `tracing-observability` (3→4)
+- Updated: `index.md` (rebuilt: 107 atomic concepts + 2 MOCs, 31 entities, 15 sources, 2 digests)
+- Pages touched: 41 (1 source + 13 new concepts + 10 new entities + 15 updated concepts + index.md + log.md)
+- Key themes: 5-pillar production framework (evaluation → observability → data foundation → orchestration → governance); three eval layers (deterministic → semantic/LLM-as-judge → behavioral); model selection deferred to week 7 after eval infrastructure built; test case library as living system (start with 200 cases, grows forever); production incident playbook (Detect → Diagnose → Contain → Fix); centralized cross-framework trace collection; fault tolerance patterns (saga, compensation, circuit breaker); prompt-as-code and model change management as governance practices; the 3 gaps framework (observability gap, evaluation gap, governance gap); retail banking chatbot case study (85% accuracy target, CSAT drop → trace → fix → test case loop)
+- Cross-source connections: Bhaumik's enterprise production lens adds operational depth to the existing eval/harness cluster. The behavioral evaluation layer extends the eval taxonomy beyond LLM-as-judge. Multi-agent orchestration patterns (orchestrator-worker, choreography) add a production coordination dimension to sub-agents that complements Dex Horthy's context-management framing and Zack Reno Wedeen's multi-agent skepticism. The production incident playbook is the eval-iterate cycle applied to production operations — a concrete instantiation missing from the earlier eval-theory sources. Data foundation (question data vs tracking data) bridges observability and data strategy in a way the original tracing-observability concept didn't address.
+- Ontology health: 107 atomic concepts + 2 MOCs, 31 entities, 15 sources. The agent/harness/eval cluster now dominates with the 5-pillar framework adding substantial depth to eval concepts. No people entities; speaker/channel in source frontmatter. All new concepts linked from ≥2 pages via inline [[wikilinks]]. 13 new concepts at source_count:1 (thin — prime for compounding as more enterprise AI sources are ingested).
+
+## 2026-06-25T23:00Z — ingest | The best AI agents are simpler than you think — Zack Reno Wedeen, Sierra / LangChain
+
+- Source: `sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think.md` (status: unprocessed → processed)
+- Source type: video (LangChain, api, ~90KB transcript, 1:27:26)
+- Created concepts (12): `agentic-commerce`, `outcome-based-pricing`, `constellation-of-models`, `speculative-execution`, `model-ensembling`, `voice-agents`, `voice-to-voice-models`, `isolated-infrastructure`, `simulations`, `no-code-agent-building`, `continual-learning`, `forward-deployed-engineering`
+- Created entities (2): `sierra`, `taobench`
+- Compounded concepts (16): `agent-evals` (5→8), `sub-agents` (7→9), `context-window-management` (7→7), `harness-engineering` (4→4), `tool-use` (3→3), `agent-memory` (3→3), `frameworks-vs-libraries` (1→1), `tracing-observability` (3→4), `golden-dataset` (3→4), `llm-as-judge` (3→4), `eval-driven-development` (3→4), `deterministic-checks` (2→3), `continuous-evaluation` (2→3), `human-in-loop-vs-afk` (2→3), `agent-state-management` (2→3), `eval-governance` (1→2)
+- Updated: `index.md` (rebuilt with 15 new concepts + 6 new entities)
+- Pages touched: 25+ (1 source + 12 new concepts + 2 new entities + 16 compound updates + index.md + log.md)
+- Dedup checks: listed concepts/ (78 entries) and entities/ (17 entries); searched index.md and aliases: for all candidate names. Key decision: `simulations` as a concept (not `agent-simulations`) because Sierra's usage is domain-specific to eval testing; `agentic-commerce` is genuinely new territory distinct from existing `agentic-ai`. Compounded concepts all recognized overlaps — e.g., `frameworks-vs-libraries` enriched with deterministic compilation pattern, `context-window-management` with progressive disclosure timing strategy.
+- Key themes: monolith loyalism over multi-agent orthodoxy; constellation of models (10-15 per turn) vs one-model supremacy; voice as architectural forcing function (speculative execution, model ensembling, latency constraints); outcome-based pricing as incentive alignment; deterministic no-code-to-code compilation (rejected LLM-as-compiler); memory requiring authentication trust infrastructure; evals exposed by model switching; forward-deployed engineering as organizational pattern; agentic commerce as the next wave after e-commerce
+- Cross-source connections: Zack's multi-agent skepticism ("deprives the task agent of triage context") converges with Dex Horthy's "sub-agents are for context control, not anthropomorphizing roles" from [[sources/2026-06-09-12-factor-agents]]. Sierra's deterministic no-code compilation is the production instantiation of the scaffolding-over-wrappers thesis in [[concepts/frameworks-vs-libraries]]. The insight that "switching models exposes eval gaps" connects [[concepts/agent-evals]] to [[concepts/harness-engineering]] — evals as the infrastructure that makes harnesses model-agnostic. Voice harness ≠ coding harness challenges convergence assumptions. Memory ⇄ Trust pattern parallels isolated-infrastructure architectural choices. "A faster car needs more pit stops" connects to the broader harness-engineering theme that human product judgment becomes the bottleneck as agent execution accelerates.
+- Ontology health: 15 new concepts at source_count:1 (thin — prime for compounding). No orphan risk detected; all new concepts cross-linked within the agent-evals, agent-harness, and agent-architecture clusters. The vault now spans 4 knowledge clusters: agent/harness/eval (84 concepts, 2 MOCs), Brazilian political economy (7 concepts), systems thinking (10 concepts), and Sierra/voice-commerce (12 concepts). The Sierra cluster bridges structurally between the agent-harness and agent-evals clusters through eval-driven model switching and voice-specific architectural patterns.
+
+## 2026-08-30T19:54Z — extract
+- Source: `sources/2026-08-30-kavak-s-playbook-for-rebuilding-a-company-around-ai.md`
+- Video: https://www.youtube.com/watch?v=n34CIw3gk1k
+- Method: serpapi
+- Status: unprocessed (awaiting knowledge-indexer)

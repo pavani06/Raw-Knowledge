@@ -3,8 +3,8 @@ title: "Prompt-as-Code"
 type: concept
 aliases: ["prompt as code", "prompt versioning", "prompt change management", "prompt governance", "prompt commit discipline"]
 tags: [ai, agents, llm, governance, prompts, versioning, production]
-source_count: 1
-last_updated: 2026-06-25
+source_count: 2
+last_updated: 2026-08-30
 parent: ["[[concepts/ai-governance]]"]
 part-of: ["[[concepts/ai-governance]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/model-change-management]]", "[[concepts/eval-governance
 contradicts: []
 supports: ["[[concepts/ai-governance]]"]
 extends: []
-sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]"]
 ---
 
 # Prompt-as-Code
@@ -48,6 +48,11 @@ the change addresses, and what correction is expected in the next version.
 > treating prompts as versioned, auditable, and failure-traceable artifacts — the same
 > way infrastructure-as-code treats infrastructure configs.
 
+### From GTM AI Agents at Snowflake (Sait Izmit)
+
+- **Prompt-as-code by necessity** — the GTM agent launched to 6,000 people with a nine-page instruction doc whose versions were managed in a Google Doc; within months the team concluded "it's not going to work out. Let's figure out CI/CD." Agent instructions are prompts at product scale, and unmanaged instruction versioning is exactly the failure mode prompt-as-code exists to prevent ([[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]).
+
 ## Sources
 
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on prompt versioning as change management, commit message discipline, and failure-to-fix traceability
+- [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (Snowflake) on agent instructions versioned in a Google Doc as the cautionary tale; CI/CD adopted by necessity

@@ -3,16 +3,16 @@ title: "Data Flywheel"
 type: concept
 aliases: ["data flywheel", "eval flywheel", "compounding eval data", "eval moat"]
 tags: [ai, agents, llm, evals, data, strategy]
-source_count: 3
-last_updated: 2026-06-25
+source_count: 4
+last_updated: 2026-08-30
 parent: []
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/golden-dataset]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/garbage-collection-day]]", "[[concepts/agent-evals]]", "[[concepts/continuous-evaluation]]", "[[concepts/failure-taxonomy]]"]
+relates-to: ["[[concepts/golden-dataset]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/garbage-collection-day]]", "[[concepts/agent-evals]]", "[[concepts/continuous-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/log-taxonomy]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]"]
 ---
 
 # Data Flywheel
@@ -62,8 +62,13 @@ evals built from it.
 
 - **Test case library as a living system** — Bhaumik's case study: starting with 200 cases collected from real human agent responses, the eval dataset grows with every production incident. There is "no correct number" — start with what you have, and as each failure is diagnosed and fixed, the test case is added to the library with categorization (security, login, etc.). The bigger it grows, the better the system becomes. This is the data flywheel running on production traffic: each incident enriches the dataset that prevents the next one ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
 
+### From GTM AI Agents at Snowflake (Sait Izmit)
+
+- **The demand-side flywheel** — once the GTM platform tapped its question logs (1.2M questions LLM-classified into a topic taxonomy), "the first features are difficult to get out. The next ones are easy... this hockey stick exponential thing actually starts happening." Log-derived demand data compounds into roadmap and content — the demand-side mirror of the failure-harvest flywheel; see [[concepts/log-taxonomy]] ([[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on the data flywheel as competitive moat and model adoption advantage
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — the closed-loop failure-harvest; adaptive eval generation; continuous evaluation as the flywheel's engine
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook]] — Sandipan Bhaumik on test case library as living system; start with 200 cases, grow forever
+- [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (Snowflake) on the demand-side flywheel: classified question logs driving the hockey-stick compounding

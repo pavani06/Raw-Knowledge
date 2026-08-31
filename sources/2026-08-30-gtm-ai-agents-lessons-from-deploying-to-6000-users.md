@@ -9,10 +9,26 @@ published: 2026-08-26
 created: 2026-08-30
 duration: "20:39"
 extraction_method: api
-tags: [clippings]
-concepts: []
-entities: []
-status: unprocessed
+tags: [ai, agents, gtm, enterprise-ai, adoption, data-platform]
+concepts:
+  - "[[concepts/quality-over-coverage]]"
+  - "[[concepts/retention-gated-rollout]]"
+  - "[[concepts/change-management]]"
+  - "[[concepts/value-maturity-ladder]]"
+  - "[[concepts/collapsing-wow-factor]]"
+  - "[[concepts/rbac-inheritance]]"
+  - "[[concepts/log-taxonomy]]"
+  - "[[concepts/skills-progressive-disclosure]]"
+  - "[[concepts/release-gates]]"
+  - "[[concepts/prompt-as-code]]"
+  - "[[concepts/agent-evals]]"
+  - "[[concepts/data-flywheel]]"
+  - "[[concepts/feedback-loops]]"
+entities:
+  - "[[entities/snowflake]]"
+  - "[[entities/snowflake-co-work]]"
+  - "[[entities/model-context-protocol]]"
+status: processed
 ---
 
 # GTM AI Agents: Lessons from Deploying to 6,000 Users — Sait Izmit, Snowflake
@@ -683,3 +699,45 @@ do a lot of curation. We are able to do
 a lot of security guardrails in there as
 well.
 Thank you.
+
+---
+
+## Key Takeaways
+
+- **Quality over coverage** — answer 50 questions at 95% accuracy instead of 100 at 70%; the team's saying is "quality is P-1" (a priority before every priority). User trust is earned extremely hard and lost overnight: the first five questions decide whether users come back, and winning them back costs 10x, if it's possible at all ([[concepts/quality-over-coverage]]).
+- **Scope from the workflow, not the data** — the 150-question test set was written from the sales process in a spreadsheet *before* the agent had the data ("These are the questions your sellers are going to ask"); the first run scored 50% accuracy, and 60% of the data was added only after launch.
+- **Roll out in phases gated on retention** — pilot (prove accuracy with AI-native early adopters) → 10% beta / 600 users (prove the MVP, watch where data-request concentrations cluster, exit above 70% weekly-active retention) → GA ([[concepts/retention-gated-rollout]]).
+- **AI initiatives fail on activation, not technology** — two weeks post-launch only 20% of the org had even tried the product; the PM spent 60–70% of his time for months on demos, adoption dashboards, and sales-leader sponsorship. "If they don't try it, that's not the product's fault; if they try it and don't come back, that's my problem" ([[concepts/change-management]]).
+- **The wow factor collapses** — within months, delight becomes habit and then baseline; value must climb a maturity ladder (talk-to-data → workflow automation → team empowerment → hyper-personalization) or users switch overnight ([[concepts/collapsing-wow-factor]], [[concepts/value-maturity-ladder]]).
+- **Build-launch-learn beats perfect architecture** — launched to 6,000 people with a nine-page instruction doc versioned in Google Docs; CI/CD, eval infrastructure, the skill library, and progressive disclosure were all added post-launch. Today 60–70% of sprint work is features/quality and 30–40% is perpetual re-architecting; 80% of the original PRD still matches.
+- **Logs are the feedback loop** — LLM-classified question logs (1.2M questions, 40k/week) form a real-time topic taxonomy: feature-gap radar, quality signals (users swearing at the agent, repeating questions), and automated battle-card generation fed back into the agent ([[concepts/log-taxonomy]]).
+
+## Concepts
+
+- [[concepts/quality-over-coverage|Quality over Coverage]] — trust-scoping principle: deliberately narrow the answerable surface to what the agent can get ~95% right
+- [[concepts/retention-gated-rollout|Retention-Gated Rollout]] — pilot → 10% beta → GA, each phase exited on quality first, then weekly retention
+- [[concepts/change-management|Change Management]] — post-launch activation work as the make-or-break discipline for internal AI tools
+- [[concepts/value-maturity-ladder|Value Maturity Ladder]] — the four-stage value climb that keeps the agent ahead of collapsing expectations
+- [[concepts/collapsing-wow-factor|Collapsing Wow Factor]] — delight decays into baseline; "every time people are happy, you should be paranoid"
+- [[concepts/rbac-inheritance|RBAC Inheritance]] — centralize all data in one governed plane so agents inherit role-based access controls for free
+- [[concepts/log-taxonomy|Log Taxonomy]] — LLM classification of user questions into a topic/subcategory tree used as demand-side radar
+- Compounded: [[concepts/skills-progressive-disclosure]] (skill library as instruction-overflow relief), [[concepts/release-gates]] (retention as a gate metric), [[concepts/prompt-as-code]] (Google Doc → CI/CD), [[concepts/agent-evals]] (unit + routing tests post-launch), [[concepts/data-flywheel]] (logs → hockey-stick compounding), [[concepts/feedback-loops]] (question logs as the production feedback signal)
+
+## Entities
+
+- [[entities/snowflake|Snowflake]] — the deploying company: ~10,000 employees, roughly half in sales; customer zero for its own products
+- [[entities/snowflake-co-work|Snowflake Co-work]] — the no-code agent platform (renamed from Snowflake Intelligence) the GTM assistant is built on
+- [[entities/model-context-protocol|Model Context Protocol]] — 5–6 MCP connections turn talk-to-data into workflow automation (inbox/Slack monitoring, drafted responses, outreach)
+
+## Connections
+
+- The 150-question spreadsheet is a [[concepts/golden-dataset]] authored from the business process before any data was connected — and the >70% beta-exit retention gate extends [[concepts/release-gates]] from accuracy thresholds to adoption thresholds.
+- Instruction overflow → skill library → progressive disclosure is the enterprise-scale confirmation of [[concepts/skills-progressive-disclosure]]: nine pages of agent instructions stopped scaling, so business processes moved into ~20 skills; MCP orchestration then hit the instruction limits again and forced progressive disclosure.
+- Launching with agent instructions in a Google Doc and hardening into CI/CD later is [[concepts/prompt-as-code]] arriving by necessity rather than doctrine.
+- [[entities/databricks|Databricks]]' Genie/Agent Bricks and Co-work are the same platform-vendor play: run the internal agent as customer zero, then productize the pattern (see [[entities/snowflake]]).
+- Security-model contrast: Snowflake centralizes first-party + third-party data in one governed plane so agents inherit RBAC ([[concepts/rbac-inheritance]]), where Sierra chose per-customer [[concepts/isolated-infrastructure|isolated infrastructure]] for trust.
+
+> [!contradiction] Contradicts [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]
+> The Databricks playbook sequences eval infrastructure before launch (eval pipeline in weeks 1–2 of the POC, model selection deferred to week 7); Snowflake launched to 6,000 users with instructions versioned in a Google Doc and built the eval/CI-CD stack only post-launch — while still exiting beta at >70% weekly retention. Reconcilable (the pre-launch 150-question test acted as the initial quality gate), but the sequencing doctrine genuinely differs. Unresolved as of 2026-08-30.
+
+> [!inference] The maturity ladder and the [[concepts/collapsing-wow-factor]] form a ratchet: each rung raises the baseline, and near-zero switching costs mean the only defense is climbing faster than expectations decay. The [[concepts/log-taxonomy]] is the radar that says which rung to build next — which is why the compounding (hockey stick) shows up only after the logs are tapped.

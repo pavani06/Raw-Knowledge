@@ -3,16 +3,16 @@ title: "Feedback Loops"
 type: concept
 aliases: ["feedback loops", "feedback loop", "quality ceiling", "tests types linters", "automated feedback"]
 tags: [ai, agents, llm, coding, workflow, testing, quality]
-source_count: 2
-last_updated: 2026-06-25
+source_count: 3
+last_updated: 2026-08-30
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
 defines: []
-relates-to: ["[[concepts/verification-loop]]", "[[concepts/eval-driven-development]]", "[[concepts/agent-evals]]", "[[concepts/vertical-slices]]", "[[concepts/human-in-loop-vs-afk]]", "[[concepts/deep-modules]]"]
+relates-to: ["[[concepts/verification-loop]]", "[[concepts/eval-driven-development]]", "[[concepts/agent-evals]]", "[[concepts/vertical-slices]]", "[[concepts/human-in-loop-vs-afk]]", "[[concepts/deep-modules]]", "[[concepts/log-taxonomy]]"]
 contradicts: []
 supports: ["[[concepts/verification-loop]]", "[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]"]
 ---
 
 # Feedback Loops
@@ -62,7 +62,12 @@ Feedback loops operate at multiple timescales:
 
 - **Production feedback loop in action** — a retail banking chatbot case study: CSAT dropped after a bank policy change. Because the eval dashboard detected the negative feedback and tracing showed the agent reading an outdated policy document in the vector DB (embeddings hadn't updated), the team could diagnose, fix, and add the test case. Without the feedback loop infrastructure, the problem would have gone undetected ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
 
+### From GTM AI Agents at Snowflake (Sait Izmit)
+
+- **Question logs as the production feedback signal** — instead of interviewing 100 sellers a week, LLM-classified question logs show in minutes where knowledge gaps, battle-card holes, and quality breakdowns are (users swearing at the agent, repeating questions) — the production feedback loop running on demand telemetry rather than CSAT alone. See [[concepts/log-taxonomy]] ([[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]).
+
 ## Sources
 
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — TDD as primary feedback loop; types and linters; quality ceiling framing; AFK implementation dependency
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook]] — Sandipan Bhaumik on CSAT→trace→fix→test-case feedback loop in production AI
+- [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (Snowflake) on question logs as the production feedback signal replacing ~100 seller interviews a week

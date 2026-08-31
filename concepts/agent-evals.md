@@ -4,15 +4,15 @@ type: concept
 aliases: ["agent evals", "agentic evaluation", "evaluation framework", "evals", "eval suite"]
 tags: [ai, agents, llm, evals, testing, quality]
 source_count: 8
-last_updated: 2026-06-25
+last_updated: 2026-08-30
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
 defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/long-session-evals]]", "[[concepts/behavioral-evaluation]]"]
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/deflection-rate]]", "[[concepts/evaluation-pipeline]]", "[[concepts/simulations]]", "[[concepts/continual-learning]]", "[[entities/taobench]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/deflection-rate]]", "[[concepts/evaluation-pipeline]]", "[[concepts/simulations]]", "[[concepts/continual-learning]]", "[[concepts/quality-over-coverage]]", "[[entities/taobench]]"]
 contradicts: []
 supports: ["[[concepts/agent-harness]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]"]
 ---
 
 # Agent Evals
@@ -147,6 +147,15 @@ The three tiers of evals, in order of cost and power:
   dataset → rate → if below threshold, human review → fix → add test case to dataset. See
   [[concepts/evaluation-pipeline]] ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
 
+### From GTM AI Agents at Snowflake (Sait Izmit)
+
+- **Scope is an eval decision** — the 150-question test written from the sales process *before* the agent had the data (first run: 50% accuracy) forced the [[concepts/quality-over-coverage]] cut: answer 50 questions at 95%, not 100 at 70% ([[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]).
+- **Eval infrastructure arrived post-launch** — CI/CD and the eval stack (unit tests, routing tests) were built only after shipping to 6,000 users, when nine pages of agent instructions versioned in a Google Doc stopped scaling ([[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]).
+- **Question logs as demand-side evaluation** — LLM classification of 1.2M user questions into a topic taxonomy gives real-time feature-gap and quality signals; see [[concepts/log-taxonomy]] ([[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]).
+
+> [!contradiction] Contradicts [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]] and [[sources/2026-06-09-eval-driven-development-missing-discipline]]
+> Both sequence eval infrastructure *before* launch (Databricks: eval pipeline in weeks 1–2, model selection in week 7; EDD: write the eval before the feature). Snowflake launched to 6,000 users with instructions in a Google Doc and built the eval/CI-CD stack only when scale forced it — while still exiting beta at >70% weekly retention. Reconcilable — the pre-launch 150-question test served as the initial [[concepts/golden-dataset|golden dataset]] — but the sequencing doctrine genuinely differs. Unresolved as of 2026-08-30.
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss (Arize) full workshop on the three-tier eval framework, impact hierarchy, and eval-iterate cycle
@@ -156,3 +165,4 @@ The three tiers of evals, in order of cost and power:
 - [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on long-session evals and evals as the practical signal for context quality
 - [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on Sierra's [[concepts/simulations|simulations]] product (multi-persona, multi-language, adversarial evals) and monitors (always-on evaluators flagging conversations for review)
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on the 3-layer eval architecture, defining success in business numbers, building eval infrastructure before model selection, and the automated eval pipeline
+- [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (Snowflake) on quality-over-coverage scoping, post-launch eval infrastructure, and log-classification demand radar

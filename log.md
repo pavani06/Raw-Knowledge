@@ -426,3 +426,8 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Video: https://www.youtube.com/watch?v=s-aixZYJG4c
 - Method: serpapi
 - Status: unprocessed (awaiting knowledge-indexer)
+
+## 2026-08-31T19:20Z — deference | knowledge-indexer não executado
+- Source: `sources/2026-08-31-the-last-human-code-review-building-trust-in-ai-generated-co.md` (permanece `status: unprocessed`, `concepts: []`, `entities: []`)
+- Motivo: a curadoria ontológica (concepts/entities) ficou fora do escopo do run do pipeline `analyze-and-improve` em long-running-agents (commits 69cae32/382da27); a wrapper ingest-and-improve encerra na análise e não encadeia o indexer.
+- Dono: operador. Encaminhamento: re-executar `@knowledge-indexer` sobre esta source quando conveniente (regra nova no SKILL.md, Step 4 — source orphan check).

@@ -42,6 +42,16 @@ Load ingest-and-improve with url=https://www.youtube.com/watch?v=VIDEO_ID
    operador** — trabalhe no canônico, ou clone e sincronize com o operador
    ciente. Nunca trate um clone como canônico por conveniência.
 
+   **Exceção codificada (dual-path protocol, decisão do operador em
+   2026-08-31):** quando o registry nomear o path canônico em `/mnt/c`
+   (DrvFs, I/O lento sob WSL) e existir cópia de trabalho em `/home`
+   (ext4, I/O nativo) no MESMO HEAD, limpa, com o mesmo remote, execute o
+   pipeline na cópia `/home` e aplique fast-forward ao path canônico nos
+   pontos de commit — sem re-perguntar ao operador. Divergência de HEAD ou
+   de conteúdo entre as cópias: aí sim STOP e pergunte. O registry nunca
+   deve apontar para path WSL-only (o Obsidian do Windows não lê
+   `\\wsl\...` de forma confiável para vaults grandes).
+
 ## Step 0 — Dedup guard (antes de gastar crédito SerpApi)
 
 1. Extraia o `VIDEO_ID` da URL (11 chars).
@@ -131,6 +141,7 @@ Ao encerrar, informe ao usuário em uma linha cada item:
 - Diretório `docs/analysis/<date>-<source-slug>/` e se houve cache HIT
 - Artefatos gerados (canonical docs, skills, exercises) pelo artifacts manifest
 - Status do Commit Gate (commits feitos, push pendente de confirmação)
+- Source orphan check: if the source page remains `status: unprocessed`, either chain the knowledge-indexer now OR append an explicit deference entry to `log.md` (owner + date + reason). A source must never end the session without one of the two.
 
 ## Step 5 — Cleanup and state reconciliation
 

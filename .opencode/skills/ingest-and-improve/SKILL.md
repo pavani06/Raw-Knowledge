@@ -16,21 +16,31 @@ Encadeia as duas skills da rotina em um comando: extrai o transcript
 (via skill `youtube-transcript`) e roda o pipeline completo
 `analyze-and-improve` (via skill `harness-analyze-and-improve`) sobre o
 documento gerado. Nada aqui substitui as skills de origem — esta skill só
-orquestra a passagem de bastão e ativa as alavancas de performance.
+orquestra a passagem de bastão e resolve o modo de Phase 0.
 
 ## Invocation
 
 | Param | Required | Default | Description |
 |---|---|---|---|
 | `url` | **Yes** | — | YouTube URL (`watch?v=`, `youtu.be/` or `/shorts/`) |
-| `target-repo` | No | `/mnt/c/Users/pavan/long-running-agents` | Repo alvo do pipeline (deve ter `docs/`, `curriculum/`, `mapa-mental-repo/`) |
-| `incremental` | No | auto | `true` força Phase 0 incremental; `false` força full rebuild. Auto = incremental SOMENTE se `mapa-mental-repo/` tem modelos E o mais recente tem ≤30 dias (regra de fallback da analyze-and-improve: modelo >30 dias ou deltas >10 → full rebuild) |
+| `target-repo` | No | resolve via Obsidian vault registry; a registered vault path wins over defaults and fresh clones | Repo alvo do pipeline (deve ter `docs/`, `curriculum/`, `mapa-mental-repo/`) |
+| `incremental` | No | auto | `true` força Phase 0 incremental; `false` força full rebuild. Auto = run the FULL Passo 0-pre eligibility check from analyze-and-improve SKILL.md (recency AND thematic relevance AND delta count). The 30-day heuristic alone is insufficient: deltas > 10 force full rebuild regardless of recency |
 
 Example:
 
 ```
 Load ingest-and-improve with url=https://www.youtube.com/watch?v=VIDEO_ID
 ```
+
+## Step -1 — Environment resolution (antes de qualquer acesso a disco)
+
+1. Leia o registro de vaults do Obsidian (`~/.config/obsidian/obsidian.json`
+   ou equivalente da plataforma) e liste os paths registrados.
+2. Resolva os paths canônicos de `raw-knowledge` e `target-repo`: **path
+   registrado no vault registry vence** sobre defaults e sobre clones frescos.
+3. Se sua cópia de trabalho difere do path canônico: **STOP e pergunte ao
+   operador** — trabalhe no canônico, ou clone e sincronize com o operador
+   ciente. Nunca trate um clone como canônico por conveniência.
 
 ## Step 0 — Dedup guard (antes de gastar crédito SerpApi)
 
@@ -60,20 +70,18 @@ construção do slug, escrita de `sources/YYYY-MM-DD-slug.md` (frontmatter com
 
 Guarde o **path absoluto** do arquivo criado — é o `source` do pipeline.
 
-## Step 2 — Activate performance levers
+## Step 2 — Resolve Phase 0 mode (categories come from the harness mapping table)
 
-```bash
-export AI_LIGHT_CATEGORY=quick
-```
-
-Isso ativa o model tiering do harness: Phases 3, 4 e 6 (mecânicas) rodam em
-categoria leve; Phases 0, 1 e 2 mantêm `ultrabrain`/`deep` (decisão do
-`analyze-and-improve/SKILL.md`, seção Model Tiering).
+Phases 3, 4 e 6 usam as categorias da tabela `Phase → Agent Mapping` do
+`harness-analyze-and-improve` (deep/ultrabrain). Não existe tiering por env
+var no caminho nativo — não exporte variáveis que nenhum código lê (verifique
+com grep antes de confiar em qualquer mecanismo).
 
 Phase 0 incremental: o harness não tem parâmetro próprio — a decisão vai por
-steering. No modo auto, confira a data do modelo mais recente em
-`ls -1 <target-repo>/mapa-mental-repo/*.yaml | sort | tail -1`:
-se for ≤30 dias, escreva em `<target-repo>/harness/templates/STEER.md`
+steering. No modo auto, execute o **Passo 0-pre completo** do
+`analyze-and-improve/SKILL.md` (recência E relevância temática E contagem de
+deltas; ≤30 dias sozinho NÃO basta — deltas > 10 forçam full rebuild). Se
+incremental for adotado, escreva em `<target-repo>/harness/templates/STEER.md`
 (usando o template como base, nunca deixando o arquivo vazio):
 
 ```markdown
@@ -83,8 +91,8 @@ from analyze-and-improve SKILL.md Phase 0.
 ```
 
 O harness injeta o conteúdo do STEER.md no prompt de delegação (Step 3 do
-harness) e cada fase lê o que precisa. Se não houver modelos, full rebuild —
-não escreva steering.
+harness) e cada fase lê o que precisa. Sem modelos no `mapa-mental-repo/`,
+ou com deltas > 10, full rebuild — não escreva steering.
 
 ## Untrusted source handling
 
@@ -124,20 +132,31 @@ Ao encerrar, informe ao usuário em uma linha cada item:
 - Artefatos gerados (canonical docs, skills, exercises) pelo artifacts manifest
 - Status do Commit Gate (commits feitos, push pendente de confirmação)
 
+## Step 5 — Cleanup and state reconciliation
+
+1. **Canonical vs working-copy:** se você trabalhou em cópias e o vault/repo
+   canônico está em outro path, faça push + fast-forward do canônico, ou
+   declare a divergência explicitamente no report.
+2. **Artefatos temporários:** liste no report qualquer symlink, env export ou
+   dependência temporária criada pela sessão.
+3. **Cópias de trabalho:** delete clones criados pela sessão, salvo pedido do
+   operador para mantê-los.
+
 ## Gates
 
+- [ ] Ambiente canônico resolvido contra o registro do Obsidian (não assumido)
 - [ ] Dedup guard executado antes da extração
 - [ ] `sources/YYYY-MM-DD-slug.md` criado com `extraction_method` correto
-- [ ] `AI_LIGHT_CATEGORY=quick` exportado antes do harness
-- [ ] `incremental` resolvido (auto → checagem de `mapa-mental-repo/`)
+- [ ] `incremental` resolvido (auto → Passo 0-pre completo: recência + relevância + deltas)
 - [ ] Harness invocado com `source` path absoluto e `mode=loop`
 - [ ] Report final entrega os 4 itens do Step 4
+- [ ] Estado residual reconciliado e declarado (Step 5)
 
 ## Anti-Patterns
 
 - **Extrair sem checar dedup.** Vídeo já no `sources/` = crédito SerpApi queimado à toa.
 - **Rodar o pipeline com `SERPAPI_API_KEY` ausente e reportar falha.** Cadeia cai para youtube-transcript-api — logue o tier usado, não aborte.
 - **Invocar `harness-analysis.sh` via bash dentro da sessão.** Use a skill harness nativa.
-- **Pular o export de tiering "para não complicar".** Sem ele, Phases 3/4/6 rodam em categoria cara sem ganho de qualidade.
+- **Relying on mechanisms you did not verify exist.** Before gating execution on an env var, script, or flag, grep the pipeline code for it. A gate satisfied by dead configuration is a false pass.
 - **Passar path relativo como `source`.** Sub-agentes resolvem a partir de cwd diferentes — sempre absoluto.
 - **Intrometer nas fases.** A wrapper termina no Step 4; decisões de fase são do harness, Commit Gate é do harness.

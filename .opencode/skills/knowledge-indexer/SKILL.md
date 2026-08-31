@@ -23,6 +23,18 @@ vocabulary, and the hard rules. This skill is the *how*; AGENTS.md is the *contr
 
 ## Operation: Ingest
 
+### Step 0 — Vault hygiene check (BEFORE Step 1)
+
+```bash
+git status --short
+```
+
+If there are pre-existing uncommitted changes NOT created by you: **STOP and
+ask the operator.** They belong to a previous session with its own approval
+scope. Never `git add -A` them into your own commit, never stash them to
+proceed, never push them as a side effect of your ingest. Your approval names
+YOUR object — pre-existing dirty state is not part of it.
+
 ### Step 1 — Find unprocessed sources
 
 Two kinds of files need ingesting. **Find both:**
@@ -174,6 +186,36 @@ source count:
 - Updated: `concepts/<existing>.md` (source_count: 2→3)
 - Pages touched: N
 ```
+
+---
+
+## Operation: Gap-Repair
+
+Close references-without-pages gaps: wikilinks pointing at concept/entity
+pages that don't exist (usually a previous batch whose files were never
+landed). The vault lint reports them:
+
+```bash
+grep -rhoE '\[\[(concepts|entities|sources|digests)/[a-z0-9-]+' \
+  --include='*.md' sources/ concepts/ entities/ digests/ \
+  | sed 's/\[\[//' | sort -u \
+  | while read t; do [ -f "${t}.md" ] || echo "BROKEN: $t"; done
+```
+
+1. **For each broken target:** read the source that references it — the page's
+   content ground truth lives there. Create the page with the FULL schema from
+   AGENTS.md (aliases from the speaker's own vocabulary, all relationship
+   fields, `source_count: 1`, provenance links to that source).
+2. **Typed relationships back at the referencing pages** so the graph closes
+   both ways; cross-link sibling gap-repair pages where the source connects
+   them.
+3. **Dedup check per Step 3 first** — a near-match concept may already exist;
+   compound into it instead and report the substitution.
+4. Update `index.md` (alphabetical) + `log.md` with a `gap-repair` entry
+   naming the original batch/inconsistency being closed.
+5. **Re-run the lint until zero.** Orphan check: every new page needs >= 2
+   inbound `[[wikilink]]`s (referencing pages + source appendix + intra-cluster
+   cross-links).
 
 ---
 

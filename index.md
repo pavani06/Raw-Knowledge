@@ -167,6 +167,7 @@ within each section, with a one-line summary and source count.
 - [[sources/2026-06-25-systems-thinking-for-leaders-designing-solutions-that-work|Systems Thinking for Leaders: Designing Solutions That Work]] — John Sterman (MIT Sloan Executive Education) on systems thinking, policy resistance, causal loop diagrams, management flight simulators, and system dynamics applications across healthcare, project management, and climate policy (video, 2026-06-25)
 - [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen (Sierra, LangChain Max Agency) on Sierra's platform architecture: voice agents, constellation of models, no-code journeys, outcome-based pricing, agentic commerce, and why monolith agents beat multi-agent systems (video, 2026-06-25)
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks, AI Engineer) on the 5-pillar production framework: evaluation, observability, data foundation, orchestration, governance; includes a retail banking chatbot case study (video, 2026-06-25)
+- [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (AI Engineer, Snowflake) on deploying internal GTM AI agents to 6,000 sales users: adoption, guardrails, and operational lessons (video, 2026-08-30)
 
 ## Digests
 

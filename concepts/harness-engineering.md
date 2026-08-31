@@ -4,11 +4,11 @@ type: concept
 aliases: ["harness engineering", "humans steer agents execute", "agent-driven development"]
 tags: [ai, agents, llm, software-engineering, methodology, coding-agents]
 source_count: 4
-last_updated: 2026-06-09
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/context-window-management]]"]
 defines: ["[[concepts/non-functional-requirements]]", "[[concepts/garbage-collection-day]]", "[[concepts/reviewer-agents]]"]
-relates-to: ["[[concepts/agent-harness]]", "[[concepts/code-as-free-resource]]", "[[concepts/codebase-uniformity]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/research-plan-implement]]", "[[concepts/12-factor-agents]]"]
+relates-to: ["[[concepts/agent-harness]]", "[[concepts/code-as-free-resource]]", "[[concepts/codebase-uniformity]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/research-plan-implement]]", "[[concepts/12-factor-agents]]", "[[concepts/voice-agents]]", "[[concepts/forward-deployed-engineering]]", "[[concepts/no-code-agent-building]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: ["[[concepts/agent-harness]]"]
@@ -101,9 +101,26 @@ The [[concepts/agent-harness|agent harness]] is the technical substrate; harness
   token in, token out. Everything else is the harness around that pure function
   ([[sources/2026-06-09-12-factor-agents]]).
 
+### From The Best AI Agents Are Simpler Than You Think (Zack Reno Wedeen, Sierra)
+
+- **The harness co-evolves with model capability** — Sierra rebuilt the Agent SDK 2-3 times as models improved. "It used to be you had to have more deterministic guardrails in order to get the behavior that you want. Now there's more room for reasoning at each individual step and you can push out the frontier of that reliability versus reasoning trade-off" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Model-agnostic harness** — building the harness to work across OpenAI, Anthropic, and Google models is "pretty simple for a given intelligence level." Evals are the switching mechanism: "if you have really good evals and a really good harness, you should be able to hill climb toward eval performance without too much effort" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Latency constraint creates harness divergence** — the coding-agent harness and the voice-agent harness are structurally different because latency changes everything. Voice requires sub-second responses; coding agents can tolerate longer loops. Multi-architecture is not a failure of convergence — it's a response to fundamentally different constraints ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **"A faster car needs more pit stops"** — as coding agents accelerate development, certain human skills (product judgment, customer intuition) are needed *more* often, not less. The bottleneck shifts from engineering throughput to product decision-making ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Agent builder as product + engineering hybrid** — the ideal persona for agent building combines customer intuition, agency, product judgment, technical depth, communication, and intensity. People who have done both roles are most successful; the multi-disciplinary approach "is more important than ever" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+
+> [!inference] Sierra's "faster car needs more pit stops" is the product-management
+> counterpart of the "bitter lesson" in harness engineering: the harness handles the
+> mechanical work (code generation), which accelerates, but the human judgment needed for
+> steering (what to build, what matters to customers) becomes the scarcer resource. This
+> is a refinement, not a contradiction: Ryan's thesis was "humans steer, agents execute";
+> Sierra's adds that when execution gets faster, steering discipline becomes *more*
+> critical, not less.
+
 ## Sources
 
 - [[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent|Harness Engineering: How to Build Software When Humans Steer, Agents Execute]] — Ryan Lopopolo's keynote + Q&A; the primary source defining this methodology
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — Matt's full workflow as harness engineering; software engineering fundamentals as harness principles; feedback loops and deep modules as harness infrastructure
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — harness engineering as "part of context engineering"; coding-agent commoditization; the seniority rift; pick-one-tool-and-get-reps
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on agents as software; the 12 factors as harness patterns; frameworks should handle non-AI hard parts; LLMs as stateless pure functions
+- [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on Sierra rebuilding the Agent SDK 2-3 times as models improve; model-agnostic harness; coding-agent vs. voice-agent harness divergence; the "faster car needs more pit stops" analogy

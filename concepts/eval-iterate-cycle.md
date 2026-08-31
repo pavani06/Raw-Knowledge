@@ -3,8 +3,8 @@ title: "Eval-Iterate Cycle"
 type: concept
 aliases: ["eval-iterate cycle", "eval iterate cycle", "eval loop", "measure-improve loop", "evaluation loop"]
 tags: [ai, agents, llm, evals, methodology, iteration]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 2
+last_updated: 2026-06-25
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[conc
 contradicts: []
 supports: ["[[concepts/agent-evals]]", "[[concepts/data-flywheel]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Eval-Iterate Cycle
@@ -51,6 +51,9 @@ attributable to that change.
   know what caused a score change
   ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
 
+- **Production incident playbook as operational instantiation** — Bhaumik's Detect → Diagnose → Contain → Fix cycle is the eval-iterate loop applied to production operations: detect issues via eval dashboards, diagnose root cause via tracing, contain via prompt versioning or human handoff, fix and add the test case to the library. The test case library becomes a living system that grows with each incident ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on the full eval-iterate loop, experiments, rubric iteration, and pass@K
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook]] — Sandipan Bhaumik on the production incident playbook as operational eval-iterate cycle

@@ -3,16 +3,16 @@ title: "Eval Governance"
 type: concept
 aliases: ["eval governance", "evals as audit evidence", "ai compliance evals", "regulatory evals", "model risk management"]
 tags: [ai, agents, llm, evals, governance, compliance, regulation]
-source_count: 1
-last_updated: 2026-06-09
+source_count: 2
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/eval-driven-development]]"]
 defines: []
-relates-to: ["[[concepts/release-gates]]", "[[concepts/continuous-evaluation]]", "[[concepts/golden-dataset]]", "[[concepts/tracing-observability]]"]
+relates-to: ["[[concepts/release-gates]]", "[[concepts/continuous-evaluation]]", "[[concepts/golden-dataset]]", "[[concepts/tracing-observability]]", "[[concepts/ai-governance]]", "[[concepts/deterministic-checks]]"]
 contradicts: []
 supports: ["[[concepts/eval-driven-development]]"]
 extends: []
-sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]"]
+sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Eval Governance
@@ -59,6 +59,18 @@ eval iterations, version-controlled and traceable, demonstrating a stated error 
 > that thresholds were enforced. The regulatory pressure is a one-way ratchet pushing
 > [[concepts/continuous-evaluation]] from optional to mandatory.
 
+### From the Databricks Production Playbook (Bhaumik)
+
+- **PII breach detection via evals** — in one customer project, 47 PII breaches were detected
+  during the testing phase by applying [[concepts/deterministic-checks|deterministic NER and
+  PII checks]] as a governance layer before production launch. This is eval governance in
+  practice: catching compliance violations before users are affected
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Regulatory audit trails from traces** — tracing is mandated by regulators (EU); the trace
+  data serves as the audit trail for every AI decision. See [[concepts/ai-governance]] for
+  the broader governance framework ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — EU AI Act (Article 9 / Annex IV); NIST AI RMF; SR 11-7 / OCC; ISO/IEC 42001 & 23894; evals as audit evidence; OWASP/MITRE/NIST adversarial references
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on PII breach detection (47 caught in testing), regulatory audit trails from traces, and governance as pillar five

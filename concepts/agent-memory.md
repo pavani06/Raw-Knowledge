@@ -4,11 +4,11 @@ type: concept
 aliases: ["agent memory", "memory", "context retention", "agent context", "working memory"]
 tags: [ai, agents, llm, memory, context]
 source_count: 3
-last_updated: 2026-06-09
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/agentic-ai]]"]
 defines: []
-relates-to: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]", "[[concepts/file-system-state]]", "[[concepts/compaction]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/agent-planning]]", "[[concepts/controlled-rag]]", "[[concepts/smart-truncation]]", "[[concepts/long-session-evals]]"]
+relates-to: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]", "[[concepts/file-system-state]]", "[[concepts/compaction]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/agent-planning]]", "[[concepts/controlled-rag]]", "[[concepts/smart-truncation]]", "[[concepts/long-session-evals]]", "[[concepts/isolated-infrastructure]]"]
 contradicts: []
 supports: ["[[concepts/agentic-ai]]", "[[concepts/context-window-management]]"]
 extends: []
@@ -87,8 +87,20 @@ Memory exists at multiple levels:
 
 > [!inference] This source sharpens the boundary between *session salvage* and *persistent memory*. A memory store attached to [[concepts/smart-truncation]] prevents context loss inside a long chat, but it does not yet satisfy the product requirement users call "memory": continuity across chats.
 
+### From The Best AI Agents Are Simpler Than You Think (Zack Reno Wedeen, Sierra)
+
+- **Memory as a first-class platform primitive** — every Sierra conversation can identify the customer, save memories (implicitly/automatically or explicitly), and extract those memories in future interactions. Memory is not a bolt-on; it's built into the conversation loop ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Three layers of memory storage**: (1) explicit save on a conversation turn — "I want to save this to memory"; (2) journey-level rules — "remember birthdays"; (3) customer-initiated — "remember this for next time." The agent builder, the system, and the customer each have a memory-writing mechanism ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Authentication gates memory retrieval** — memories are gated by identity verification. Phone numbers aren't always reliable (shared office lines, family plans), so every business must define policy for which memories are safe to extract and which are sensitive ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Business impact of memory** — remembering names, past calls, preferences, and frustrations "increases all of the metrics that are most important to businesses, from resolution rate to conversion rate" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **The memory structure problem is overrated** — when the knowledge base is three orders of magnitude larger than per-customer memories, "the retrieval and ranking problem is pretty simple, and I don't think it matters what structure you use" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Why memory startups haven't broken out** — to sell memory, you must also sell authentication/verification/identification. B2B players can't just offer memory without the trust framework around it. Consumer products (ChatGPT, Claude) have an advantage: users already trust them ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+
+> [!inference] Sierra's memory architecture confirms the ontology's [[concepts/agent-memory]] model but adds a crucial dimension: *trust infrastructure*. The reason memory isn't just a retrieval problem is that, in enterprise contexts, every memory access is gated by authentication policy. This connects memory to [[concepts/isolated-infrastructure]] — both are about drawing security boundaries around what data the agent can touch.
+
 ## Sources
 
 - [[sources/2026-06-07-beginners-guide-to-learning-agentic-ai|The Beginner's Guide to Learning Agentic AI]] — memory as a core agent building block; context retention enabling multi-step task completion
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on working vs persistent memory, ADHD analogy, chunking, and checkpoint-based memory
 - [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on smart-truncation memory, retrievable omitted context, and the gap between session memory and long-term memory
+- [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on Sierra's first-class memory primitive: implicit/explicit storage, authentication-gated retrieval, CRM integration, and the business impact of remembering customers across interactions

@@ -3,16 +3,16 @@ title: "Agent Evals"
 type: concept
 aliases: ["agent evals", "agentic evaluation", "evaluation framework", "evals", "eval suite"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 5
-last_updated: 2026-06-09
+source_count: 8
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
-defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/long-session-evals]]"]
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]"]
+defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/long-session-evals]]", "[[concepts/behavioral-evaluation]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/deflection-rate]]", "[[concepts/evaluation-pipeline]]", "[[concepts/simulations]]", "[[concepts/continual-learning]]", "[[entities/taobench]]"]
 contradicts: []
 supports: ["[[concepts/agent-harness]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]"]
 ---
 
 # Agent Evals
@@ -118,6 +118,35 @@ The three tiers of evals, in order of cost and power:
 
 > [!inference] This source turns context management into an eval target. Prior eval sources focused on output quality, traces, and release gates; Arize's long-session setup makes *context degradation over conversation length* a first-class behavior to measure.
 
+### From The Best AI Agents Are Simpler Than You Think (Zack Reno Wedeen, Sierra)
+
+- **Evals get more robust with model switching** — when you switch an agent from OpenAI to Anthropic, "you'll learn the first time that your eval wasn't quite as good as you thought." Model switching acts as a stress test that exposes eval gaps ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Customer-facing evals are more complex than internal evals** — internal Agent OS eval is standard applied-AI work; customer-facing eval must handle voice noise, adversarial users, 20+ personas, and high-dimensional conversation paths. This led to the [[concepts/simulations|simulations]] product ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Monitors as always-on evaluators** — monitors run on every conversation, flagging issues for review. They "narrow the set of 'I don't have to wake up every morning and try to read 10,000 conversations. I can read five.'" The solution to AI problems is more AI: 90% accurate detection + 90% accurate verification → three-to-four nines of reliability ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Simulations prevent regression** — workspace → Ghostwriter proposes changes → simulations test against all assumptions (voice, chat, languages, personas) → human reviews → ship. This prevents changes from breaking existing agent behavior ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Benchmarks evaluate providers, not agents** — [[entities/taobench|TaoBench]] and MuBench are used internally to evaluate model providers; simulations evaluate specific customer agents. Benchmarks are too general for customer-specific quality measurement ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+
+> [!inference] Sierra's monitors + simulations architecture maps onto the three-tier eval stack: monitors = [[concepts/deterministic-checks|deterministic checks]] (always-on, per-conversation); simulations = [[concepts/llm-as-judge|LLM-as-judge]] at scale (multi-persona, multi-language); and the human review step = [[concepts/golden-dataset|golden dataset]] calibration. The difference is the domain: coding-agent evals vs. conversation-agent evals.
+
+### From the Databricks Production Playbook (Bhaumik)
+
+- **3-layer evaluation architecture** — deterministic checks (regex, classic ML for NER/intent
+  classification, PII detection) → semantic/LLM-as-judge (groundedness, safety, relevance) →
+  [[concepts/behavioral-evaluation|behavioral]] (tool call correctness, duplicate API calls,
+  loop detection). The behavioral layer is "very, very important" and most organizations miss
+  it ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Define success in business numbers, not technical metrics** — accuracy, latency, and
+  groundedness are inputs; the business goal (e.g., 60% deflection of simple queries from
+  human agents, 85% accuracy target) is the output. See [[concepts/deflection-rate]]
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Eval infrastructure before model selection** — the retail banking case study built the
+  evaluation pipeline in weeks 1-2 (200 real cases, success metrics, automated pipeline) and
+  selected the model in week 7 of an 8-week POC. The eval dataset enabled rapid, data-driven
+  model comparison ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **The automated eval pipeline** — capture user question + AI response → compare against eval
+  dataset → rate → if below threshold, human review → fix → add test case to dataset. See
+  [[concepts/evaluation-pipeline]] ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss (Arize) full workshop on the three-tier eval framework, impact hierarchy, and eval-iterate cycle
@@ -125,3 +154,5 @@ The three tiers of evals, in order of cost and power:
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — layered eval stack on a concrete RAG system; evals as a release discipline
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on vanity metrics, multi-layered evaluation, evaluator agent, and the feedback loop
 - [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on long-session evals and evals as the practical signal for context quality
+- [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on Sierra's [[concepts/simulations|simulations]] product (multi-persona, multi-language, adversarial evals) and monitors (always-on evaluators flagging conversations for review)
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on the 3-layer eval architecture, defining success in business numbers, building eval infrastructure before model selection, and the automated eval pipeline

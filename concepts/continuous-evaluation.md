@@ -3,16 +3,16 @@ title: "Continuous Evaluation"
 type: concept
 aliases: ["continuous evaluation", "CE", "production monitoring", "online evals", "trace-aware monitoring"]
 tags: [ai, agents, llm, evals, monitoring, production]
-source_count: 2
-last_updated: 2026-06-09
+source_count: 3
+last_updated: 2026-06-25
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/tracing-observability]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/release-gates]]", "[[concepts/failure-taxonomy]]"]
+relates-to: ["[[concepts/tracing-observability]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/release-gates]]", "[[concepts/failure-taxonomy]]", "[[concepts/evaluation-pipeline]]", "[[concepts/production-incident-playbook]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: ["[[concepts/eval-iterate-cycle]]"]
-sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Continuous Evaluation
@@ -57,7 +57,19 @@ different trajectory next run.
 > also what makes [[concepts/closed-loop-evaluation]] conceivable — you cannot close the loop
 > on a system you only measure once.
 
+### From the Databricks Production Playbook (Bhaumik)
+
+- **CSAT drop detection → trace diagnosis → fix** — in the retail banking case study, a CSAT
+  drop was detected via continuous monitoring. Tracing revealed the agent was referencing an
+  outdated policy document. The fix was updating the vector database with new policy embeddings.
+  This entire cycle was only possible because of the measurement system already in place
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **The automated eval pipeline as CE infrastructure** — capture → compare → rate → fix →
+  add-to-dataset runs continuously against live production traces. See
+  [[concepts/evaluation-pipeline]] ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — Plan→Design→Build→Evaluate→Analyze→Release→Operate loop; CE on every change; the closed-loop failure-harvest story
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — production monitoring as a distinct eval layer; drift detection; offline-only evals going stale
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on CSAT drop detection via continuous monitoring, trace-based diagnosis, and the automated eval pipeline running on live traces

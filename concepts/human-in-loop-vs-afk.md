@@ -3,16 +3,16 @@ title: "Human-in-Loop vs. AFK"
 type: concept
 aliases: ["human in loop", "AFK", "human-in-loop vs afk", "human presence", "task classification", "synchronous vs asynchronous"]
 tags: [ai, agents, llm, coding, workflow, methodology]
-source_count: 2
-last_updated: 2026-06-09
+source_count: 3
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
 defines: []
-relates-to: ["[[concepts/grill-me-skill]]", "[[concepts/shared-design-concept]]", "[[concepts/kanban-for-agents]]", "[[concepts/ralph-loop]]", "[[concepts/feedback-loops]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/sub-agents]]", "[[entities/a2-protocol]]", "[[concepts/12-factor-agents]]"]
+relates-to: ["[[concepts/grill-me-skill]]", "[[concepts/shared-design-concept]]", "[[concepts/kanban-for-agents]]", "[[concepts/ralph-loop]]", "[[concepts/feedback-loops]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/sub-agents]]", "[[entities/a2-protocol]]", "[[concepts/12-factor-agents]]", "[[concepts/multi-agent-orchestration]]", "[[concepts/fault-tolerance-patterns]]"]
 contradicts: []
 supports: ["[[concepts/kanban-for-agents]]", "[[concepts/ralph-loop]]"]
 extends: []
-sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-09-12-factor-agents]]"]
+sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Human-in-Loop vs. AFK
@@ -79,3 +79,4 @@ The classification is not about trust or capability — it is about the nature o
 
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — planning vs. implementation classification; feedback loops as AFK prerequisite; ralph-once.sh and Sandcastle as AFK tools; misclassification as failure mode
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on contacting humans with tools; multi-channel triggers (email, Slack, Discord, SMS); the A2 protocol as human-contact consolidation layer
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on confidence threshold triggers for human escalation in multi-agent orchestration workflows

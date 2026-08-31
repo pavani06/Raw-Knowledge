@@ -3,16 +3,16 @@ title: "LLM-as-Judge"
 type: concept
 aliases: ["llm as judge", "llm judge", "llm evaluator", "model-as-judge", "classification evaluator"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 3
-last_updated: 2026-06-09
+source_count: 4
+last_updated: 2026-06-25
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/golden-dataset]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/tracing-observability]]", "[[concepts/deterministic-checks]]", "[[concepts/reward-hacking]]"]
+relates-to: ["[[concepts/golden-dataset]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/tracing-observability]]", "[[concepts/deterministic-checks]]", "[[concepts/reward-hacking]]", "[[concepts/evaluation-pipeline]]", "[[entities/mlflow]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: ["[[concepts/generator-evaluator-pattern]]"]
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # LLM-as-Judge
@@ -61,6 +61,17 @@ patterns is identical — **adversarial separation beats self-review**.
   versions or model upgrades
   ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
 
+### From the Databricks Production Playbook (Bhaumik)
+
+- **Prompt-as-code for judges** — LLM judges run "automatically on traces" in production via
+  [[entities/mlflow|MLflow]], creating custom judges for groundedness, safety, and relevance.
+  The judge is a separate LLM instructed on how to evaluate the primary model's output against
+  the evaluation dataset ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Sample prompt structure** — the judge prompt instructs a secondary LLM to evaluate the
+  primary model's response on dimensions like safety, groundedness, and relevance, using the
+  [[concepts/golden-dataset|golden dataset]] as reference expected answers. This runs as part
+  of the automated [[concepts/evaluation-pipeline]] ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ### From the EDD articles (Masood / Ramchandani)
 
 - **MT-Bench bias taxonomy (Zheng et al.)** — the cornerstone study found empirical flaws in
@@ -91,3 +102,4 @@ patterns is identical — **adversarial separation beats self-review**.
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on custom LLM-as-judge construction, bias taxonomy, meta-evaluation, and the CoreBench story
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — MT-Bench bias taxonomy; self-enhancement financial stakes; judges as fragile instruments; trap traces; the scale rationale
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — "the judge belongs where judgment is required"; don't over-trust LLM-as-judge for deterministic things
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on automatic LLM-as-judge on traces via MLflow, sample judge prompt structure, and judges as the semantic layer of the 3-layer eval stack

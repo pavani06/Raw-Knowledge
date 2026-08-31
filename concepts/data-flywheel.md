@@ -3,8 +3,8 @@ title: "Data Flywheel"
 type: concept
 aliases: ["data flywheel", "eval flywheel", "compounding eval data", "eval moat"]
 tags: [ai, agents, llm, evals, data, strategy]
-source_count: 2
-last_updated: 2026-06-09
+source_count: 3
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/golden-dataset]]", "[[concepts/eval-iterate-cycle]]", "
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Data Flywheel
@@ -60,7 +60,10 @@ evals built from it.
   production failures are not converted back into eval cases, the benchmark goes stale and the
   flywheel stalls ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
 
+- **Test case library as a living system** — Bhaumik's case study: starting with 200 cases collected from real human agent responses, the eval dataset grows with every production incident. There is "no correct number" — start with what you have, and as each failure is diagnosed and fixed, the test case is added to the library with categorization (security, login, etc.). The bigger it grows, the better the system becomes. This is the data flywheel running on production traffic: each incident enriches the dataset that prevents the next one ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on the data flywheel as competitive moat and model adoption advantage
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — the closed-loop failure-harvest; adaptive eval generation; continuous evaluation as the flywheel's engine
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook]] — Sandipan Bhaumik on test case library as living system; start with 200 cases, grow forever

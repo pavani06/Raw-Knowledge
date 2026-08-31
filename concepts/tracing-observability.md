@@ -3,16 +3,16 @@ title: "Tracing & Observability"
 type: concept
 aliases: ["tracing", "observability", "agent tracing", "span tracing", "execution traces", "instrumentation"]
 tags: [ai, agents, llm, observability, debugging, evals]
-source_count: 3
-last_updated: 2026-06-09
+source_count: 4
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/reading-traces]]", "[[concepts/agent-evals]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/llm-as-judge]]", "[[concepts/long-running-agents]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]"]
+relates-to: ["[[concepts/reading-traces]]", "[[concepts/agent-evals]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/llm-as-judge]]", "[[concepts/long-running-agents]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/agent-tracing]]", "[[concepts/behavioral-evaluation]]", "[[concepts/data-foundation]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]", "[[concepts/reading-traces]]", "[[concepts/trajectory-evaluation]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Tracing & Observability
@@ -52,6 +52,24 @@ collect these and make them queryable, filterable, and annotatable.
 > scalable: hand-reading traces is the human skill; instrumentation + observability platforms
 > are the infrastructure that makes that skill applicable at production scale.
 
+### From the Databricks Production Playbook (Bhaumik)
+
+- **Observability as a regulatory mandate** — "in Europe or in a lot of companies, especially
+  in regulated industry, you cannot even onboard AI into production without having tracing and
+  observability in place." This is not optional infrastructure; it's a compliance prerequisite
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Duplicate API call detection** — traces reveal behavioral issues invisible at the output
+  level: an agent making three database calls for one answer passes quality checks but fails
+  efficiency checks. Online monitoring can detect this and apply fallback strategies in real
+  time ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Tracing as incident diagnosis** — in the retail banking case study, a CSAT drop was
+  diagnosed by looking at traces, revealing the agent was referencing an outdated policy
+  document. Without traces, this failure would have been invisible
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Centralized cross-framework collection** — enterprises run agents across multiple
+  frameworks; traces must converge in one location. See [[concepts/agent-tracing]]
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ### From the EDD articles (Masood / Ramchandani)
 
 - **The trace is the most important operational artifact** — "a final answer tells us what the
@@ -78,3 +96,4 @@ collect these and make them queryable, filterable, and annotatable.
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on setting up tracing with Arize Phoenix, span/trace concepts, production monitoring, and session-aware tracing
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — trace-native QA as the future; traces as prerequisite for failure taxonomy; observability cost as governance constraint
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — the trace as the most important operational artifact; the full trace record schema
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on observability as regulatory mandate, duplicate API call detection, tracing for incident diagnosis, and centralized cross-framework trace collection

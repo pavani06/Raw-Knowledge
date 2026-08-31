@@ -3,8 +3,8 @@ title: "Eval-Driven Development"
 type: concept
 aliases: ["eval-driven development", "EDD", "evaluation-first development", "capability-eval-first"]
 tags: [ai, agents, llm, evals, testing, methodology]
-source_count: 3
-last_updated: 2026-06-09
+source_count: 4
+last_updated: 2026-06-25
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/harness-engineering]]"]
 defines: ["[[concepts/continuous-evaluation]]", "[[concepts/release-gates]]", "[[concepts/eval-governance]]"]
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/agent-evals]]", "[[concepts/eval-iterate-cycle]]", "[[c
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Eval-Driven Development
@@ -47,6 +47,19 @@ which hadn't — without manual inspection.
 > are to AI coding: the quality of the feedback mechanism is the ceiling on the quality of
 > the output. Both Matt Pocock (TDD for AI coding) and Laurie Voss (EDD for agent evals)
 > converge on the same principle: define the success criterion first, then let the agent climb.
+
+### From the Databricks Production Playbook (Bhaumik)
+
+- **Model selection in week 7 of 8** — in the retail banking case study, the model was
+  selected in week 7, after the eval infrastructure (200 real cases, automated pipeline,
+  3 eval layers) was built in weeks 1-6. This replaced weeks of subjective debate with
+  rapid, data-driven model comparison: run candidate models against the eval dataset and
+  compare accuracy scores ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Eval infrastructure before any code** — "before touching any code, before discussing
+  about any models, any features, you have to think about when we build this system, how
+  do we measure?" This is EDD in its purest form: define success criteria first, encode
+  them in a dataset, build the measurement pipeline, and only then write features
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
 
 ### From "The Missing Discipline" (Adnan Masood)
 
@@ -100,3 +113,4 @@ which hadn't — without manual inspection.
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on EDD, the Claude Code example, and the capability→regression graduation pattern
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — EDD as quality operating system; upstream/downstream evals; enterprise value; vibe-checks-to-evidence
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — EDD vs. TDD; the sharp quality contract; the layered eval stack
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on model selection deferred to week 7, eval infrastructure before code, and data-driven model comparison

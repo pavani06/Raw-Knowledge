@@ -3,8 +3,8 @@ title: "Agent State Management"
 type: concept
 aliases: ["agent state management", "agent state", "execution state", "business state", "non-volatile state", "pause and resume"]
 tags: [ai, agents, llm, state, infrastructure]
-source_count: 1
-last_updated: 2026-06-09
+source_count: 3
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/12-factor-agents]]", "[[concepts/agent-harness]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/context-window-management]]", "[[concepts/agent-memory]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-09-12-factor-agents]]"]
+sources: ["[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Agent State Management
@@ -56,7 +56,10 @@ rehydrate and continue — the agent doesn't even know things happened in the ba
 > and sessions. The pause/resume pattern makes the agent durable without requiring the
 > model itself to manage state.
 
+- **Fault tolerance in multi-agent orchestration** — state management becomes critical at scale: when agents fail in multi-agent systems, patterns like saga (compensating transactions), compensation (undo on failure), and circuit breaker (stop cascading failures) protect state consistency across agent boundaries. Sandipan Bhaumik covers these in depth in his multi-agent orchestration deep-dive ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on execution vs. business state, pause/resume via database serialization, and agents as stateless reducers
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook]] — Sandipan Bhaumik on fault tolerance patterns (saga, compensation, circuit breaker) in multi-agent orchestration
 

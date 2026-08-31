@@ -4,11 +4,11 @@ type: concept
 aliases: ["tool use", "tool calling", "agent tools", "external tools", "tool integration"]
 tags: [ai, agents, llm, tools, architecture]
 source_count: 3
-last_updated: 2026-06-09
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/agentic-ai]]"]
 defines: []
-relates-to: ["[[concepts/agentic-ai]]", "[[concepts/agent-planning]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/react-pattern]]", "[[concepts/agent-harness]]", "[[entities/model-context-protocol]]", "[[concepts/sequential-tool-calling]]", "[[concepts/structured-output]]", "[[concepts/12-factor-agents]]"]
+relates-to: ["[[concepts/agentic-ai]]", "[[concepts/agent-planning]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/react-pattern]]", "[[concepts/agent-harness]]", "[[entities/model-context-protocol]]", "[[concepts/sequential-tool-calling]]", "[[concepts/structured-output]]", "[[concepts/12-factor-agents]]", "[[concepts/voice-to-voice-models]]"]
 contradicts: []
 supports: ["[[concepts/agentic-ai]]"]
 extends: []
@@ -92,8 +92,16 @@ Common tool categories:
 > [!contradiction] Tool use: magical capability or mundane plumbing?
 > The beginner framing in this page (from [[sources/2026-06-07-beginners-guide-to-learning-agentic-ai]]) treats tool use as the defining capability that "separates agents from LLMs" — a magical "body" for the agent. Dex Horthy ([[sources/2026-06-09-12-factor-agents]]) explicitly pushes back: framing tools as magical is the root cause of debugging pain; they are "just JSON and code." These aren't contradictory facts — they're contradictory *abstractions*. The beginner framing is useful for newcomers grasping *why* agents are powerful; the "harmful" framing is useful for practitioners debugging production reliability. See also [[concepts/semantic-diffusion]] (terms diluting into uselessness).
 
+### From The Best AI Agents Are Simpler Than You Think (Zack Reno Wedeen, Sierra)
+
+- **Voice-to-voice models are weak at tool calling** — current voice-to-voice models are "not quite as reliable with tool calling and instruction following" as text-based LLMs. They work best for simpler journeys where naturalism matters more than complex procedure ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Agent reasoning reduces tool prerequisites** — instead of hard-coding "collect email before sending confirmation," you give the agent the context that a tool needs a prerequisite and "it will know how to ask for it." Models getting better means less procedural tool orchestration ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Complex tools still need code** — when a tool interacts with a streaming API, "it's just easier to model in code than in no code." The no-code/code boundary is drawn by tool complexity, not by preference ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **MCP and A2A supported, direct API preferred** — Sierra agents support [[entities/model-context-protocol|MCP]] and agent-to-agent protocols, but "the most common is an API call." Direct API calls save tokens and guarantee accuracy when you know who you're talking to in advance ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+
 ## Sources
 
 - [[sources/2026-06-07-beginners-guide-to-learning-agentic-ai|The Beginner's Guide to Learning Agentic AI]] — tool usage as a core agent building block; tool selection as part of the execution loop; beginner advice on limiting tool scope
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on poor tool definition, tool loops, input constraints, sequential tool calling, and hybrid retrieval
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on "tool use is harmful"; tools as JSON + deterministic code; the wrong-abstraction debugging nightmare
+- [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on voice-to-voice model limitations with tool calling; agent reasoning through tool prerequisites; MCP/A2A protocol support for agent-to-agent communication

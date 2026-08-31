@@ -3,16 +3,16 @@ title: "Sub-Agents"
 type: concept
 aliases: ["sub-agents", "sub agents", "subagents", "custom sub-agents"]
 tags: [ai, agents, llm, architecture]
-source_count: 7
-last_updated: 2026-06-09
+source_count: 9
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/micro-agents]]", "[[concepts/smart-truncation]]", "[[concepts/agent-memory]]"]
+relates-to: ["[[concepts/agent-teams]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/reviewer-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/micro-agents]]", "[[concepts/smart-truncation]]", "[[concepts/agent-memory]]", "[[concepts/voice-agents]]", "[[concepts/multi-agent-orchestration]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-harness-engineering-how-to-build-software-when-humans-steer-agent]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Sub-Agents
@@ -124,6 +124,16 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
 
 > [!inference] Arize's production story reinforces the existing ontology's thesis that sub-agents are primarily a context-management primitive. The novelty is the data-plane split: sub-agents are not only for codebase exploration or role separation, but for isolating trace/search data so the user-facing conversation remains coherent.
 
+### From The Best AI Agents Are Simpler Than You Think (Zack Reno Wedeen, Sierra)
+
+- **"Monolith loyalist" on multi-agent systems** — Zack is skeptical of multi-agent architectures: "I think they are often not as useful as people think." If you build a multi-agent system to match your org chart, "you're shipping your org chart." If you do it for comfort, "you're not optimizing around impact" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Triage+task anti-pattern** — having one agent triage and another execute robs the task agent of triage context and the triage agent of procedure context. This is "destructive of value." Better context engineering in a single agent usually solves the problem ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **When multi-agent IS justified** — only when jobs are "truly separable" with no purpose of the first context being part of the second. Zack's take as of May 2026: "there are not a lot of great times for it" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Explorer + Ghostwriter as separate agents** — Sierra's analysis agent (Explorer, deep research on customer conversations) and authoring agent (Ghostwriter, agent builder) are separate but converging toward a shared harness that is expert at using Agent Studio ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Agent-to-agent via API, not just protocols** — most Sierra customers use direct API calls for agent-to-agent communication because "when you know who you're talking to in advance, you can save a lot of tokens and make sure you're 100% accurate." MCP and A2A are supported but not the default ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+
+> [!inference] Zack's multi-agent skepticism converges with Dex Horthy's "sub-agents are for controlling context, not anthropomorphizing roles." Both see multi-agent architectures as over-used — Zack from the enterprise perspective (org charts leaking into architecture), Dex from the context-engineering perspective (separate windows for roles is a solve for context, not for role-playing). The exceptions converge too: truly separable tasks with no shared context are legitimate sub-agent candidates.
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — Agent SDK primitives + closing how-to-build-your-own section
@@ -133,3 +143,11 @@ block for both [[concepts/agent-teams]] and the [[concepts/generator-evaluator-p
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on specialized sub-agents saving context via smaller static prompts; instruction clash in monolithic agents
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on micro-agents as the architectural pattern built on sub-agents; HumanLayer deploy bot as case study; 3-10 step agent loops in deterministic DAGs
 - [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on delegating trace/search-heavy work to sub-agents while the main conversation keeps light context
+- [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on multi-agent skepticism (shipping your org chart, monolith loyalist), Sierra's Explorer/Ghostwriter split, and agent-to-agent communication via API/MCP
+
+### From The Production AI Playbook (Sandipan Bhaumik, Databricks)
+
+- **Production multi-agent orchestration patterns** — at enterprise scale, sub-agents need coordination patterns: the **orchestrator-worker** pattern (central orchestrator controls and distributes work to specialized agents, providing a single place for logs and control) and the **choreography** pattern (autonomous agents listen to a message bus for events they're interested in, running in parallel with reduced latency since no central bottleneck). Bhaumik covers the real implications in a companion deep-dive on multi-agent orchestration ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Fault tolerance at scale** — when sub-agents fail in production, patterns like saga (compensating transactions), compensation (undo on failure), and circuit breaker (stop cascading failures) protect state consistency. These are operational necessities, not architectural niceties ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
+> [!inference] Bhaumik's enterprise production lens adds a dimension the existing sub-agents sources don't cover: the operational patterns needed when sub-agents run in production at scale with real customer traffic. Dex Horthy and Nupur Sharma focus on *context management* as the reason for sub-agents; Bhaumik adds *fault tolerance and coordination patterns* as the operational requirements once those sub-agents are in production.

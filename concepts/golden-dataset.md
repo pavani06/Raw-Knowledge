@@ -3,16 +3,16 @@ title: "Golden Dataset"
 type: concept
 aliases: ["golden dataset", "golden data set", "ground truth dataset", "eval dataset", "reference dataset"]
 tags: [ai, agents, llm, evals, testing, data]
-source_count: 3
-last_updated: 2026-06-09
+source_count: 4
+last_updated: 2026-06-25
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/garbage-collection-day]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/garbage-collection-day]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/test-case-library]]", "[[concepts/evaluation-pipeline]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]", "[[concepts/llm-as-judge]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Golden Dataset
@@ -59,6 +59,21 @@ This compounding property makes them a core component of the [[concepts/data-fly
 > non-functional requirements: it makes the implicit quality bar explicit and machine-readable,
 > so agents can be measured against it at scale.
 
+### From the Databricks Production Playbook (Bhaumik)
+
+- **The golden dataset as a living system** — "once you start, as you start building in
+  production, this is a living system. This will keep growing. And the bigger it grows,
+  the better your system will be." The dataset is never complete; it compounds with every
+  production incident ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Start with 200 real cases** — in the retail banking case study, the golden dataset
+  was seeded with 200 real cases collected from human agents answering customer queries
+  on simple questions. This captured real ground truth from domain experts, not synthetic
+  examples ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **Categorization by problem type** — the growing dataset must be organized into categories
+  (security, login, policy, etc.) so that targeted subsets can be tested efficiently. See
+  [[concepts/test-case-library]] for the governance layer
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ### From the EDD articles (Masood / Ramchandani)
 
 - **Data taxonomy: where test cases come from** — synthetic, domain-specific, purchased,
@@ -85,3 +100,4 @@ This compounding property makes them a core component of the [[concepts/data-fly
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on building, splitting, and growing golden datasets; inter-rater reliability; production-failure-to-test-case pipeline
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — data taxonomy (where cases come from); start-small sizing; failure backfill; benchmark-substitution anti-pattern
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — product-specific golden cases (SSO/refunds/API/retention) tied to expected source docs
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on the golden dataset as a living system, starting with 200 real human agent cases, and categorization by problem type

@@ -3,8 +3,8 @@ title: "Feedback Loops"
 type: concept
 aliases: ["feedback loops", "feedback loop", "quality ceiling", "tests types linters", "automated feedback"]
 tags: [ai, agents, llm, coding, workflow, testing, quality]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 2
+last_updated: 2026-06-25
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/verification-loop]]", "[[concepts/eval-driven-developme
 contradicts: []
 supports: ["[[concepts/verification-loop]]", "[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]"]
+sources: ["[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Feedback Loops
@@ -60,6 +60,9 @@ Feedback loops operate at multiple timescales:
 > feedback loops provide the quality signal the agent needs to self-correct. A harness
 > without feedback loops is a harness that can only fail silently.
 
+- **Production feedback loop in action** — a retail banking chatbot case study: CSAT dropped after a bank policy change. Because the eval dashboard detected the negative feedback and tracing showed the agent reading an outdated policy document in the vector DB (embeddings hadn't updated), the team could diagnose, fix, and add the test case. Without the feedback loop infrastructure, the problem would have gone undetected ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — TDD as primary feedback loop; types and linters; quality ceiling framing; AFK implementation dependency
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook]] — Sandipan Bhaumik on CSAT→trace→fix→test-case feedback loop in production AI

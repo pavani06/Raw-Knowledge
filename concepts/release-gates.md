@@ -3,8 +3,8 @@ title: "Release Gates"
 type: concept
 aliases: ["release gates", "release gate", "ship gate", "build gate", "eval gate", "release policy"]
 tags: [ai, agents, llm, evals, ci-cd, release]
-source_count: 2
-last_updated: 2026-06-09
+source_count: 3
+last_updated: 2026-06-25
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/eval-driven-development]]"]
 defines: []
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/continuous-evaluation]]", "[[concepts/golden-dataset]]"
 contradicts: []
 supports: ["[[concepts/eval-driven-development]]"]
 extends: []
-sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Release Gates
@@ -58,7 +58,10 @@ improves a few hand-picked examples. Each must pass the gate.
 > [[concepts/eval-governance|governance]] hooks in — the same threshold that blocks a bad
 > release is the audit evidence a regulator demands.
 
+- **Cost governance on eval gates** — when the eval dataset grows large (300-500+ cases), running full behavioral evals on every prompt change becomes expensive. Apply governance: run a small subset in CI on each change, full test only on merge to main. This reduces eval cost while maintaining quality gates ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — threshold-before-code; meet-or-analyze branch; minimum effect size; contract tests
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — release gate as a layer; block-on-safety-critical; ship only when improving without violating constraints
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook]] — Sandipan Bhaumik on cost governance: subset eval in CI, full test on merge

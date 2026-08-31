@@ -3,16 +3,16 @@ title: "Deterministic Checks"
 type: concept
 aliases: ["deterministic checks", "code evals", "deterministic evals", "hard rules", "programmatic checks", "the greater stack taxonomy"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 2
-last_updated: 2026-06-09
+source_count: 3
+last_updated: 2026-06-25
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/rag-evaluation]]", "[[concepts/golden-dataset]]", "[[concepts/failure-taxonomy]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/rag-evaluation]]", "[[concepts/golden-dataset]]", "[[concepts/failure-taxonomy]]", "[[concepts/behavioral-evaluation]]", "[[concepts/ai-governance]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
 ---
 
 # Deterministic Checks
@@ -55,7 +55,19 @@ expensive, slow, and fragile; reserve them for where judgment is actually requir
 > these EDD articles formalize *why*: cost, speed, and trustworthiness. Every check you can make
 > deterministic is one you don't have to pay a fragile [[concepts/llm-as-judge|judge]] to make.
 
+### From the Databricks Production Playbook (Bhaumik)
+
+- **Classic ML as deterministic checks** — beyond regex, use classic ML models for name entity
+  recognition (NER), intent classification, and PII detection. These are "easy stuff, cheap
+  stuff, you should get them out of the way. We have already been doing this for years."
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+- **PII detection as a deterministic gate** — in one customer project, 47 PII breaches were
+  detected during the testing phase by applying deterministic NER and pattern checks before
+  production launch. This is a governance requirement, not optional
+  ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
+
 ## Sources
 
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — the greater stack taxonomy; deterministic checks as the first layer; defense in depth
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — "the judge belongs where judgment is required"; hard rules that should never be subjective; unit/integration tests for deterministic components
+- [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on classic ML for NER/intent/PII as deterministic checks; 47 PII breaches caught in testing

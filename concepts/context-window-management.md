@@ -4,11 +4,11 @@ type: concept
 aliases: ["context window management", "context management", "context window", "context engineering"]
 tags: [ai, llm, context, architecture]
 source_count: 7
-last_updated: 2026-06-09
+last_updated: 2026-06-25
 parent: []
 part-of: []
 defines: ["[[concepts/context-rot]]", "[[concepts/smart-zone-dumb-zone]]"]
-relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/controlled-rag]]", "[[concepts/12-factor-agents]]", "[[concepts/agent-state-management]]", "[[concepts/smart-truncation]]", "[[concepts/long-session-evals]]", "[[concepts/agent-memory]]"]
+relates-to: ["[[concepts/compaction]]", "[[concepts/skills-progressive-disclosure]]", "[[concepts/programmatic-tool-calling]]", "[[concepts/long-running-agents]]", "[[concepts/prompt-injection-patterns]]", "[[concepts/harness-engineering]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/controlled-rag]]", "[[concepts/12-factor-agents]]", "[[concepts/agent-state-management]]", "[[concepts/smart-truncation]]", "[[concepts/long-session-evals]]", "[[concepts/agent-memory]]", "[[concepts/voice-agents]]", "[[concepts/no-code-agent-building]]"]
 contradicts: []
 supports: []
 extends: []
@@ -153,6 +153,13 @@ external memory instead of cramming everything into context.
 
 > [!inference] This source adds a product-operational layer to context engineering: context quality is not only a model-performance concern but a UX contract. If the product cannot decide what the agent should remember and forget, the user experiences that as an unreliable product rather than as a token-budget issue.
 
+### From The Best AI Agents Are Simpler Than You Think (Zack Reno Wedeen, Sierra)
+
+- **"Everything they need, nothing more"** — Zack's framing of context engineering: show agents what's required for the right action, but not more. Early on, the Agent SDK "spoon-fed" exactly what the model needed; now models are smarter so you can be less precise ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **[[concepts/skills-progressive-disclosure|Progressive disclosure]] timing matters** — don't bring context into the prompt before it's relevant, but also don't yank it out afterward (that risks incoherence). [[concepts/compaction|Compaction]] must not be lossy — if something stays in history that contradicts the system prompt, "it's not going to end well" ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **Prompt caching: quality first** — Sierra is not dogmatic about caching. They won't invalidate a cache for no reason, but "quality comes first." When outcomes are valuable enough (selling a $100 product), cost optimization is secondary ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+- **The model isn't dumb — you are** — "anytime you think the model's being dumb, it's probably you." When hallucinations occur, it's almost always a prompt coherence problem: one part says X, another says Y ([[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]).
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — recurring theme across the history tour and Q&A
@@ -162,3 +169,4 @@ external memory instead of cramming everything into context.
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber]] — Nupur Sharma on accuracy-drop data (70%→50% from 4K→90K tokens); static prompts as overhead; controlled RAG; sub-agents for context savings
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on owning context construction; error clearing/summarization over blind appending; token density optimization; context window as pause/resume enabler
 - [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on context engineering as product/UX, trace-analysis context loops, smart truncation, long-session evals, and sub-agents for heavy data
+- [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on Sierra's context engineering: "show agents everything they need to do the right thing, but nothing more"; progressive disclosure timing; prompt caching as quality-first (not speed/cost-first); prompt compaction coherence risk

@@ -119,6 +119,7 @@ within each section, with a one-line summary and source count.
 - [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents — Sally-Ann Delucia]] — Sally-Ann Delucia (AI Engineer, Arize) on context engineering, smart truncation memory, long-session evals, and sub-agents for trace-heavy agent products (video, 2026-06-09)
 - [[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou|Why More Context Makes Your Agent Dumber and What to Do About It]] — Nupur Sharma (AI Engineer, Qodo) on the four agent failure modes (instructions, tools, memory, evals) and why more context degrades quality (video, 2026-06-09)
 - [[sources/2026-06-25-futuro-ia-juros-brasil-visao-daniel-goldberg|O FUTURO DA IA, DOS JUROS E DO BRASIL — Daniel Goldberg]] — Daniel Goldberg (Market Makers #378) sobre ambiente institucional brasileiro, AI como transformação energética, juros, e investimentos (video, 2026-06-25)
+- [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (AI Engineer, Snowflake) on deploying internal GTM AI agents to 6,000 sales users: adoption, guardrails, and operational lessons (video, 2026-08-30)
 
 ## Digests
 

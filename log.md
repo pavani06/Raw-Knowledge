@@ -389,3 +389,9 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Video: https://www.youtube.com/watch?v=n34CIw3gk1k
 - Method: serpapi
 - Status: unprocessed (awaiting knowledge-indexer)
+
+## 2026-08-30T22:24Z — extract
+- Source: `sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users.md`
+- Video: https://www.youtube.com/watch?v=DrTdD-ttjCY
+- Method: api
+- Status: unprocessed (awaiting knowledge-indexer; pipeline analyze-and-improve chained)

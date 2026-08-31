@@ -420,3 +420,9 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Updated: `index.md` (4 new concept entries, alphabetically placed, one-line summaries, "(1 source)")
 - Pages touched: 6 (4 created + `index.md` + `log.md`). No source bodies touched. Sierra source frontmatter verified: the 4 concept slugs already matched the filenames exactly — no frontmatter fix required.
 - Lint: vault-scope broken-link grep now reports ZERO broken links (was exactly the 4 repaired pages before). Each new page has ≥2 inbound inline [[wikilink]]s (source appendix + referencing pages + intra-cluster cross-links).
+
+## 2026-08-31T12:00Z — extract
+- Source: `sources/2026-08-31-the-last-human-code-review-building-trust-in-ai-generated-co.md`
+- Video: https://www.youtube.com/watch?v=s-aixZYJG4c
+- Method: serpapi
+- Status: unprocessed (awaiting knowledge-indexer)

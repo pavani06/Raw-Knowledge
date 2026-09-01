@@ -3,16 +3,16 @@ title: "Agent Tracing"
 type: concept
 aliases: ["agent tracing", "centralized trace collection", "cross-framework tracing", "agent trace collection", "unified tracing"]
 tags: [ai, agents, observability, tracing, data, infrastructure, production]
-source_count: 1
-last_updated: 2026-06-25
+source_count: 2
+last_updated: 2026-08-31
 parent: ["[[concepts/tracing-observability]]"]
 part-of: ["[[concepts/data-foundation]]"]
 defines: []
-relates-to: ["[[concepts/tracing-observability]]", "[[concepts/data-foundation]]", "[[concepts/behavioral-evaluation]]", "[[concepts/continuous-evaluation]]", "[[concepts/ai-governance]]"]
+relates-to: ["[[concepts/tracing-observability]]", "[[concepts/data-foundation]]", "[[concepts/behavioral-evaluation]]", "[[concepts/continuous-evaluation]]", "[[concepts/ai-governance]]", "[[entities/langsmith]]", "[[entities/claggent]]", "[[concepts/agent-first-data-foundation]]"]
 contradicts: []
 supports: ["[[concepts/tracing-observability]]", "[[concepts/data-foundation]]"]
 extends: ["[[concepts/tracing-observability]]"]
-sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # Agent Tracing
@@ -52,6 +52,22 @@ centralized layer.
 > from N frameworks into one governed data store for M consumers). This is the operational
 > realization of the "tracking data" component in [[concepts/data-foundation]].
 
+### From Inside Clay's Eval Stack (LangChain channel)
+
+- **Volume kills trace reading before anything else** — [[entities/claggent|Claggent]] at
+  300M+ runs/month and [[entities/sculptor|Sculptor]] at 100k+ messages/week are "past that
+  threshold of where we could actually look at every trace or talk to every customer," even
+  at workspace or user level ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Bulk analysis + sampled human review replaces reading** — the posture at that scale is
+  bulk automated analysis of production traces (via the
+  [[entities/langsmith|LangSmith]] pipeline and use-case classifiers) plus human eval of
+  sampled traces and "vibe-based" review ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Traces are a lake citizen** — Clay's lake unifies LangSmith traces with Snowflake
+  analytics, Postgres, and ClickHouse, so trace data joins product data in one
+  agent-queryable platform (see [[concepts/agent-first-data-foundation]])
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+
 ## Sources
 
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on centralized cross-framework trace collection, multiple consumer use cases, and online monitoring with fallback strategies
+- [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — 300M runs/month as the trace-reading kill threshold; bulk LangSmith analysis + sampled human review; traces unified into the data lake

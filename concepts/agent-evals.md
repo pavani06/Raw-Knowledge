@@ -3,16 +3,16 @@ title: "Agent Evals"
 type: concept
 aliases: ["agent evals", "agentic evaluation", "evaluation framework", "evals", "eval suite"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 8
-last_updated: 2026-08-30
+source_count: 9
+last_updated: 2026-08-31
 parent: []
 part-of: ["[[concepts/harness-engineering]]"]
-defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/long-session-evals]]", "[[concepts/behavioral-evaluation]]"]
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/deflection-rate]]", "[[concepts/evaluation-pipeline]]", "[[concepts/simulations]]", "[[concepts/continual-learning]]", "[[concepts/quality-over-coverage]]", "[[entities/taobench]]"]
+defines: ["[[concepts/eval-driven-development]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/deterministic-checks]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/long-session-evals]]", "[[concepts/behavioral-evaluation]]", "[[concepts/eval-coverage-matrix]]", "[[concepts/production-to-offline-feedback-loop]]", "[[concepts/perceived-eval]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/verification-loop]]", "[[concepts/reading-traces]]", "[[concepts/tracing-observability]]", "[[concepts/data-flywheel]]", "[[concepts/rag-evaluation]]", "[[concepts/reward-hacking]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/context-window-management]]", "[[concepts/deflection-rate]]", "[[concepts/evaluation-pipeline]]", "[[concepts/simulations]]", "[[concepts/continual-learning]]", "[[concepts/quality-over-coverage]]", "[[entities/taobench]]", "[[entities/langsmith]]"]
 contradicts: []
 supports: ["[[concepts/agent-harness]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-09-why-more-context-makes-your-agent-dumber-and-what-to-do-abou]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # Agent Evals
@@ -156,6 +156,20 @@ The three tiers of evals, in order of cost and power:
 > [!contradiction] Contradicts [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]] and [[sources/2026-06-09-eval-driven-development-missing-discipline]]
 > Both sequence eval infrastructure *before* launch (Databricks: eval pipeline in weeks 1–2, model selection in week 7; EDD: write the eval before the feature). Snowflake launched to 6,000 users with instructions in a Google Doc and built the eval/CI-CD stack only when scale forced it — while still exiting beta at >70% weekly retention. Reconcilable — the pre-launch 150-question test served as the initial [[concepts/golden-dataset|golden dataset]] — but the sequencing doctrine genuinely differs. Unresolved as of 2026-08-30.
 
+### From Inside Clay's Eval Stack (LangChain channel)
+
+- **Scale makes evals non-negotiable** — [[entities/claggent|Claggent]] at 300M+ runs/month and [[entities/sculptor|Sculptor]] at 100k+ messages/week are both "past that threshold of where we could actually look at every trace or talk to every customer" ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **A good eval suite enables agentic development** — with trustworthy evals, you can let Claude Code / Codex / Devin-class coding agents make prompt changes for you, "and you know that you're not shipping anything that is going to ruin production" ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Multi-level evals, developer-shaped** — local evals are a cheap, fast CLI suite (no sandbox, no VFS); CI/staging runs the same harness as close to the production configuration as possible; every run is persisted and versioned in [[entities/langsmith|LangSmith]] even when executed locally; new product areas plug in their own evaluators (their own LLM judges) into a shared harness ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Coverage as a matrix** — Clay reasons about eval coverage on a deterministic↔non-deterministic × offline↔online grid with "a few things in each box"; see [[concepts/eval-coverage-matrix]], [[concepts/perceived-eval]], and the [[concepts/production-to-offline-feedback-loop|production-to-offline feedback loop]] Clay calls the hardest part ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+
+> [!inference] Clay's contribution to this page is the *where* axis: the three-tier stack
+> (and the greater stack taxonomy) says how to grade; the coverage matrix crosses grader
+> type with offline/online placement, folding [[concepts/continuous-evaluation]] into the
+> same grid as unit-level checks. Their eval suite is also the stated precondition for
+> letting coding agents modify prompts — [[concepts/eval-driven-development]] becoming
+> [[concepts/closed-loop-evaluation|closed-loop]].
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss (Arize) full workshop on the three-tier eval framework, impact hierarchy, and eval-iterate cycle
@@ -166,3 +180,4 @@ The three tiers of evals, in order of cost and power:
 - [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think|The best AI agents are simpler than you think]] — Zack Reno Wedeen on Sierra's [[concepts/simulations|simulations]] product (multi-persona, multi-language, adversarial evals) and monitors (always-on evaluators flagging conversations for review)
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on the 3-layer eval architecture, defining success in business numbers, building eval infrastructure before model selection, and the automated eval pipeline
 - [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (Snowflake) on quality-over-coverage scoping, post-launch eval infrastructure, and log-classification demand radar
+- [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — multi-level CLI-to-prod eval suite on LangSmith; the eval coverage matrix; scale (300M runs/month) as the forcing function; evals as the precondition for agentic development

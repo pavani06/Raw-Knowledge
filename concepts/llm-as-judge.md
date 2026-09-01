@@ -3,16 +3,16 @@ title: "LLM-as-Judge"
 type: concept
 aliases: ["llm as judge", "llm judge", "llm evaluator", "model-as-judge", "classification evaluator"]
 tags: [ai, agents, llm, evals, testing, quality]
-source_count: 4
-last_updated: 2026-06-25
+source_count: 5
+last_updated: 2026-08-31
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/golden-dataset]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/tracing-observability]]", "[[concepts/deterministic-checks]]", "[[concepts/reward-hacking]]", "[[concepts/evaluation-pipeline]]", "[[entities/mlflow]]"]
+relates-to: ["[[concepts/golden-dataset]]", "[[concepts/generator-evaluator-pattern]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/tracing-observability]]", "[[concepts/deterministic-checks]]", "[[concepts/reward-hacking]]", "[[concepts/evaluation-pipeline]]", "[[entities/mlflow]]", "[[concepts/eval-coverage-matrix]]", "[[concepts/production-to-offline-feedback-loop]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: ["[[concepts/generator-evaluator-pattern]]"]
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # LLM-as-Judge
@@ -97,9 +97,28 @@ patterns is identical — **adversarial separation beats self-review**.
   calibration and adversarial testing matter
   ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
 
+### From Inside Clay's Eval Stack (LangChain channel)
+
+- **Judge drift** — "all of these models and model families have their own internal biases,
+  and if you're only hill climbing on a specific LLM judge, you're probably overfitting on
+  it." The judge occupies the offline/non-deterministic quadrant of Clay's
+  [[concepts/eval-coverage-matrix|eval coverage matrix]], and its bias compounds over time
+  as prompts optimize against it ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Goldens as the judge's checkup** — Clay's countermeasure is human-annotated
+  [[concepts/golden-dataset|goldens]] used specifically to detect judging drift, making
+  meta-evaluation a recurring cadence rather than a one-time calibration (see
+  [[concepts/production-to-offline-feedback-loop]])
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+
+> [!inference] Judge drift extends this page's bias taxonomy (verbosity, authority,
+> self-preference) with a temporal dimension: the biases were known to be *present*; Clay's
+> framing shows they *accumulate* under hill-climbing — the judge-shaped instance of
+> [[concepts/reward-hacking|Goodhart]].
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on custom LLM-as-judge construction, bias taxonomy, meta-evaluation, and the CoreBench story
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — MT-Bench bias taxonomy; self-enhancement financial stakes; judges as fragile instruments; trap traces; the scale rationale
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — "the judge belongs where judgment is required"; don't over-trust LLM-as-judge for deterministic things
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on automatic LLM-as-judge on traces via MLflow, sample judge prompt structure, and judges as the semantic layer of the 3-layer eval stack
+- [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — judge drift: model-family biases compound under hill-climbing; human-annotated goldens as the drift detector

@@ -3,16 +3,16 @@ title: "MOC: Agent Evals"
 type: concept
 aliases: ["agent evals cluster", "eval cluster", "evaluation map", "moc agent evals", "eval-driven development cluster"]
 tags: [ai, agents, llm, evals, testing, moc, quality]
-source_count: 3
-last_updated: 2026-06-09
+source_count: 4
+last_updated: 2026-08-31
 parent: []
 part-of: []
 defines: []
-relates-to: ["[[concepts/agent-evals]]", "[[concepts/eval-driven-development]]", "[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/tracing-observability]]", "[[concepts/failure-taxonomy]]", "[[concepts/release-gates]]", "[[concepts/continuous-evaluation]]"]
+relates-to: ["[[concepts/agent-evals]]", "[[concepts/eval-driven-development]]", "[[concepts/llm-as-judge]]", "[[concepts/golden-dataset]]", "[[concepts/tracing-observability]]", "[[concepts/failure-taxonomy]]", "[[concepts/release-gates]]", "[[concepts/continuous-evaluation]]", "[[concepts/eval-coverage-matrix]]", "[[concepts/production-to-offline-feedback-loop]]", "[[concepts/perceived-eval]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # MOC: Agent Evals
@@ -25,7 +25,9 @@ duplicating them; read each linked page for the full treatment.
 
 The cluster grew from three complementary sources: Laurie Voss's hands-on Arize workshop (the
 mechanics), Adnan Masood's enterprise/governance framing (the *why*), and Toni Ramchandani's
-concrete RAG implementation (the *how*, in code).
+concrete RAG implementation (the *how*, in code). Later ingest batches (Sierra, Snowflake,
+Clay) widened it from chatbot/support agents to customer-experience, internal GTM, and
+developer-facing workflow agents.
 
 > [!inference]
 > This cluster has **no single parent concept**. [[concepts/agent-evals]] (the measurement
@@ -60,6 +62,9 @@ The recurring "greater stack taxonomy": cheap deterministic checks first, expens
 
 - [[concepts/deterministic-checks|Deterministic Checks]] — hard, code-checkable rules (schema,
   citations, leakage). The first and cheapest layer; "the judge belongs where judgment is required."
+- [[concepts/eval-coverage-matrix|Eval Coverage Matrix]] — the deterministic↔non-deterministic ×
+  offline↔online grid from Clay: a few evals in every quadrant; the *where* axis the grader
+  stack lacks. Deterministic multi-turn beats simulated users.
 - [[concepts/llm-as-judge|LLM-as-Judge]] — a separate LLM grades semantic quality; requires
   chain-of-thought, single-dimension rubrics, cross-model judging, and meta-evaluation. Carries
   verbosity / authority / self-enhancement bias — calibrate it.
@@ -79,6 +84,13 @@ The recurring "greater stack taxonomy": cheap deterministic checks first, expens
   probabilistic threshold; eval back-pressure on every change.
 - [[concepts/continuous-evaluation|Continuous Evaluation]] — evals on every change *and* on live
   production traffic; deployment is the start, not the end.
+- [[concepts/perceived-eval|Perceived Eval]] — online evaluators reading user perception from
+  behavior (corrections, pushback, redirection) rather than surveys; implicit labels from
+  production conversations.
+- [[concepts/production-to-offline-feedback-loop|Production-to-Offline Feedback Loop]] — the
+  dotted arrow of the coverage matrix: production learnings feeding the offline suite, with a
+  drift taxonomy (data drift, judge drift, eval-set overfitting) for everything that goes wrong
+  on the way.
 - [[concepts/eval-governance|Eval Governance]] — evals as audit/compliance evidence (EU AI Act,
   NIST AI RMF, SR 11-7, ISO 42001); "mathematical proof of safety."
 

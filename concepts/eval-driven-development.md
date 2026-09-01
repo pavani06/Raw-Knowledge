@@ -3,16 +3,16 @@ title: "Eval-Driven Development"
 type: concept
 aliases: ["eval-driven development", "EDD", "evaluation-first development", "capability-eval-first"]
 tags: [ai, agents, llm, evals, testing, methodology]
-source_count: 4
-last_updated: 2026-06-25
+source_count: 5
+last_updated: 2026-08-31
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/harness-engineering]]"]
 defines: ["[[concepts/continuous-evaluation]]", "[[concepts/release-gates]]", "[[concepts/eval-governance]]"]
-relates-to: ["[[concepts/agent-evals]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/verification-loop]]", "[[concepts/feedback-loops]]", "[[concepts/continuous-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/deterministic-checks]]", "[[concepts/reward-hacking]]"]
+relates-to: ["[[concepts/agent-evals]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/verification-loop]]", "[[concepts/feedback-loops]]", "[[concepts/continuous-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/deterministic-checks]]", "[[concepts/reward-hacking]]", "[[concepts/agent-first-data-foundation]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # Eval-Driven Development
@@ -108,9 +108,28 @@ which hadn't — without manual inspection.
 > layered stack on a concrete RAG system. The shared spine: **define success first, encode it,
 > measure continuously, ship only on evidence** — the eval-time twin of [[concepts/feedback-loops]].
 
+### From Inside Clay's Eval Stack (LangChain channel)
+
+- **The eval suite is the precondition for agentic development** — "if you have a good eval
+  suite, you can let Claude or Codex or Devin kind of go in and make prompt changes for
+  you... and you know that you're not shipping anything that is going to ruin production."
+  Evals are what make it safe to delegate agent development itself to coding agents
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Evals first, then the agents go** — for data work at [[entities/clay|Clay]]: "setting
+  up evals first and driving towards those, agents can go and do things with your data"
+  (see [[concepts/agent-first-data-foundation]])
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+
+> [!inference] Clay supplies the missing *why-now* for EDD at scale: when billions of runs
+> (Claggent) and end-to-end long-running tasks (Sculptor) make manual review impossible,
+> the eval suite stops being a quality tool and becomes the **delegation contract** — the
+> thing that lets [[concepts/closed-loop-evaluation|coding agents change the system
+> autonomously]].
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on EDD, the Claude Code example, and the capability→regression graduation pattern
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — EDD as quality operating system; upstream/downstream evals; enterprise value; vibe-checks-to-evidence
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — EDD vs. TDD; the sharp quality contract; the layered eval stack
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on model selection deferred to week 7, eval infrastructure before code, and data-driven model comparison
+- [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — the eval suite as the delegation contract that lets coding agents make prompt changes safely; evals first, then agents do data work

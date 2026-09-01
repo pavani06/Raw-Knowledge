@@ -3,7 +3,7 @@
  * validate.ts — Raw-Knowledge convention validator.
  *
  * Checks structural invariants defined in AGENTS.md against the vault
- * using @pavani/obsidian-eval for scan + frontmatter parsing.
+ * using @pavani_org/obsidian-eval for scan + frontmatter parsing.
  *
  * Usage:
  *   npm run validate
@@ -12,7 +12,7 @@
  * Exit: 0 if clean, 1 if violations found.
  */
 
-import { scan, parseFrontmatter } from "@pavani/obsidian-eval";
+import { scan, parseFrontmatter } from "@pavani_org/obsidian-eval";
 import { resolve, dirname } from "node:path";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";

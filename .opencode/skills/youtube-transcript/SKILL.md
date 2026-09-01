@@ -25,6 +25,15 @@ agent picks it up from there.
 
 ## Step 0 — Extract the video ID
 
+> **Run clock — capture once at the start of the run:**
+> ```bash
+> RUN_DATE=$(date +%F); RUN_TZ_OFFSET=$(date +%:z); RUN_TIMESTAMP_UTC=$(date -u +%Y-%m-%dT%H:%MZ)
+> ```
+> Use `RUN_DATE` for filenames and frontmatter dates; use `RUN_TIMESTAMP_UTC`
+> for log headers, recording the local offset alongside. Never write
+> placeholder timestamps; later corrections are new `errata` entries, never
+> retroactive edits.
+
 Always work with the 11-char video ID, not the raw URL (the Python API requires the ID,
 and it makes filenames deterministic).
 
@@ -273,7 +282,7 @@ After writing the source page, append to `log.md`:
 ## <YYYY-MM-DDTHH:MMZ> — extract
 - Source: `sources/<file>.md`
 - Video: <url>
-- Method: <api|yt-dlp|whisper>
+- Method: <serpapi|api|yt-dlp|whisper>
 - Status: unprocessed (awaiting knowledge-indexer)
 ```
 

@@ -41,6 +41,15 @@ Load ingest-and-improve with url=https://www.youtube.com/watch?v=VIDEO_ID
 3. Se sua cópia de trabalho difere do path canônico: **STOP e pergunte ao
    operador** — trabalhe no canônico, ou clone e sincronize com o operador
    ciente. Nunca trate um clone como canônico por conveniência.
+4. Se `target-repo` não foi passado: considere somente vaults registrados cujo
+   git root contenha os três diretórios exigidos (`docs/`, `curriculum/`,
+   `mapa-mental-repo/`). Exija exatamente UM candidato; zero ou múltiplos
+   candidatos = STOP e pergunte ao operador.
+5. Step -1 é hard gate: nenhum grep de dedup, acesso a `sources/` ou leitura
+   de vídeo pode ocorrer antes de `RAW_REPO` e `TARGET_REPO` estarem
+   resolvidos. Com dual-path divergente, não execute dedup em NENHUMA cópia
+   até o operador escolher. Após a escolha, os dois paths são imutáveis pelo
+   resto da sessão.
 
    **Exceção codificada (dual-path protocol, decisão do operador em
    2026-08-31):** quando o registry nomear o path canônico em `/mnt/c`
@@ -53,6 +62,9 @@ Load ingest-and-improve with url=https://www.youtube.com/watch?v=VIDEO_ID
    `\\wsl\...` de forma confiável para vaults grandes).
 
 ## Step 0 — Dedup guard (antes de gastar crédito SerpApi)
+
+> **Pré-condição:** o Step -1 foi concluído e `RAW_REPO`/`TARGET_REPO` estão
+> resolvidos e imutáveis. Dedup roda SOMENTE no path canônico escolhido.
 
 1. Extraia o `VIDEO_ID` da URL (11 chars).
 2. Grep em `<raw-knowledge>/sources/` por `video_id: "<VIDEO_ID>"` no frontmatter.
@@ -79,6 +91,16 @@ construção do slug, escrita de `sources/YYYY-MM-DD-slug.md` (frontmatter com
 `extraction_method` vindo do METHOD) e append em `log.md`.
 
 Guarde o **path absoluto** do arquivo criado — é o `source` do pipeline.
+
+## Step 1.5 — Source disposition gate (raw-knowledge)
+
+1. Se `@knowledge-indexer` NÃO for executado nesta sessão: append em `log.md`
+   uma entrada `deference` com owner (operador), data UTC e motivo (ex:
+   "curadoria ontológica fora do escopo do run analyze-and-improve").
+2. Commit Gate do raw-knowledge: mostre `git -C <RAW_REPO> diff --stat` + o
+   status das novas source pages e peça aprovação explícita para commitar
+   `sources/` + `log.md` (push é aprovação separada). O pipeline não prossegue
+   com a fonte sem persistência git ou deferência explícita registrada.
 
 ## Step 2 — Resolve Phase 0 mode (categories come from the harness mapping table)
 
@@ -128,6 +150,18 @@ Dentro da mesma sessão opencode:
 Load harness-analyze-and-improve with source=<abs-path-to-source.md>, mode=loop
 ```
 
+### Resolução cross-repo do harness
+
+Tente resolver `harness-analyze-and-improve` pelo skill registry da sessão. Se
+retornar NOT_FOUND e `<target-repo>/.opencode/skills/harness-analyze-and-improve/SKILL.md`
+existir, leia esse arquivo e execute sua prescrição inline como fonte
+autoritativa (junto com a `analyze-and-improve/SKILL.md` que ela referencia).
+Não use outra cópia da skill de outro path. Se ambos falharem: STOP e pergunte
+ao operador. Registre no report final:
+`harness_resolution: registry | target-repo-inline | failed`. Esta exceção ao
+anti-pattern "Intrometer nas fases" cobre apenas a mecânica de resolução — as
+decisões de fase continuam sendo do harness.
+
 O harness cuida de: bootstrap (`PROGRESS.md` + `harness/test-results.json`),
 cache check (Phases 1+2 por hash — HIT pula direto para Phase 3), execução das
 fases via `task()`, artifacts manifest, Phase 6 e Commit Gate. Não delegue por
@@ -137,7 +171,8 @@ bash (`harness-analysis.sh`) dentro de sessão opencode — não funciona.
 
 Ao encerrar, informe ao usuário em uma linha cada item:
 
-- Source page criada (ou reusada) + método de extração usado
+- Source page criada (ou reusada) + método de extração usado + disposition (indexada, commitada ou deference)
+- `harness_resolution` (registry, target-repo-inline ou failed)
 - Diretório `docs/analysis/<date>-<source-slug>/` e se houve cache HIT
 - Artefatos gerados (canonical docs, skills, exercises) pelo artifacts manifest
 - Status do Commit Gate (commits feitos, push pendente de confirmação)
@@ -159,8 +194,10 @@ Ao encerrar, informe ao usuário em uma linha cada item:
 - [ ] Dedup guard executado antes da extração
 - [ ] `sources/YYYY-MM-DD-slug.md` criado com `extraction_method` correto
 - [ ] `incremental` resolvido (auto → Passo 0-pre completo: recência + relevância + deltas)
-- [ ] Harness invocado com `source` path absoluto e `mode=loop`
-- [ ] Report final entrega os 4 itens do Step 4
+- [ ] Harness invocado com `source` path absoluto e `mode=loop` (ou resolução cross-repo registrada)
+- [ ] Source com disposition resolvida (indexada, commitada ou deference registrada)
+- [ ] Commit Gate do raw-knowledge executado (sources/ + log.md)
+- [ ] Report final entrega os 5 itens do Step 4
 - [ ] Estado residual reconciliado e declarado (Step 5)
 
 ## Anti-Patterns

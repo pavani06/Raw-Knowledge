@@ -3,16 +3,16 @@ title: "Golden Dataset"
 type: concept
 aliases: ["golden dataset", "golden data set", "ground truth dataset", "eval dataset", "reference dataset"]
 tags: [ai, agents, llm, evals, testing, data]
-source_count: 4
-last_updated: 2026-06-25
+source_count: 5
+last_updated: 2026-08-31
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/garbage-collection-day]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/test-case-library]]", "[[concepts/evaluation-pipeline]]"]
+relates-to: ["[[concepts/llm-as-judge]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/data-flywheel]]", "[[concepts/garbage-collection-day]]", "[[concepts/failure-taxonomy]]", "[[concepts/continuous-evaluation]]", "[[concepts/test-case-library]]", "[[concepts/evaluation-pipeline]]", "[[concepts/eval-coverage-matrix]]", "[[concepts/production-to-offline-feedback-loop]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]", "[[concepts/llm-as-judge]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # Golden Dataset
@@ -95,9 +95,29 @@ This compounding property makes them a core component of the [[concepts/data-fly
   invite [[concepts/reward-hacking|overfitting]]
   ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
 
+### From Inside Clay's Eval Stack (LangChain channel)
+
+- **Goldens are great for simple targets, too static for complex ones** — for something
+  like Clay's query language, goldens "work great for really simple things"; for complicated
+  behavior, reordering keywords or node ordering breaks them — and noisy evals "just end up
+  getting ignored." Clay moved to structured eval checks that only look at the parts of the
+  query they actually care about (see [[concepts/eval-coverage-matrix]])
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Human-annotated goldens as drift detectors** — beyond grading the agent, Clay keeps
+  human-annotated goldens specifically for judging drift: checking whether the
+  [[concepts/llm-as-judge|LLM judge]] has drifted as models and prompts hill-climb (see
+  [[concepts/production-to-offline-feedback-loop]])
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+
+> [!inference] Clay adds a failure mode this page lacked: a golden that fails noisily is
+> worse than no golden, because developers learn to ignore it. The mitigation (structured
+> partial checks) keeps the determinism while forgiving irrelevant variation — the
+> golden-dataset equivalent of grading the parts of the answer that matter.
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on building, splitting, and growing golden datasets; inter-rater reliability; production-failure-to-test-case pipeline
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — data taxonomy (where cases come from); start-small sizing; failure backfill; benchmark-substitution anti-pattern
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — product-specific golden cases (SSO/refunds/API/retention) tied to expected source docs
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on the golden dataset as a living system, starting with 200 real human agent cases, and categorization by problem type
+- [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — goldens' staticness limit on complex targets; noisy evals get ignored; human-annotated goldens for judge-drift detection

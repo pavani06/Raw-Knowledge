@@ -3,16 +3,16 @@ title: "Trajectory Evaluation"
 type: concept
 aliases: ["trajectory evaluation", "trajectory grading", "trace grading", "process evaluation", "trajectory quality", "grade the scratchpad"]
 tags: [ai, agents, llm, evals, observability, quality]
-source_count: 2
-last_updated: 2026-06-09
+source_count: 3
+last_updated: 2026-08-31
 parent: ["[[concepts/agent-evals]]"]
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/tracing-observability]]", "[[concepts/failure-taxonomy]]", "[[concepts/llm-as-judge]]", "[[concepts/react-pattern]]", "[[concepts/verification-loop]]"]
+relates-to: ["[[concepts/tracing-observability]]", "[[concepts/failure-taxonomy]]", "[[concepts/llm-as-judge]]", "[[concepts/react-pattern]]", "[[concepts/verification-loop]]", "[[concepts/eval-coverage-matrix]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]"]
+sources: ["[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # Trajectory Evaluation
@@ -59,7 +59,25 @@ strings.
 > extends the [[concepts/react-pattern|think→act→observe]] loop into the eval domain: grade
 > each step, not just the terminal observation.
 
+### From Inside Clay's Eval Stack (LangChain channel)
+
+- **Trajectory/tool assertions as a golden replacement** — "if the agent is answering
+  questions on pricing, make sure it's actually going and reading the pricing scale": a
+  deterministic check over the *route*, more forgiving than exact-output goldens when
+  behavior is complex (see [[concepts/eval-coverage-matrix]])
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Structured checks over query fragments** — when goldens broke under keyword/node
+  reordering, Clay moved to structured eval checks that inspect only the parts of the query
+  they care about — grading the trajectory's load-bearing steps rather than its full shape
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+
+> [!inference] Clay's structured checks and trajectory assertions are this page's thesis in
+> deterministic clothing: both grade *how the agent got there* (which tool it read, which
+> query parts it honored) instead of the final string — the cheapest layer of
+> trajectory evaluation, sitting below judge-based trace grading.
+
 ## Sources
 
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — grade-the-scratchpad; trace/trajectory; outcome/process/style/efficiency; the 47-calls example; process defects
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — trace records as the gradeable artifact; "a trace tells us how the system got there"
+- [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — trajectory/tool assertions (pricing questions must read the pricing scale); structured checks over query fragments as forgiving goldens

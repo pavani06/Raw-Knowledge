@@ -3,16 +3,16 @@ title: "Data Foundation"
 type: concept
 aliases: ["data foundation", "ai data strategy", "ai data infrastructure", "question data vs tracking data"]
 tags: [ai, agents, data, infrastructure, observability, production]
-source_count: 1
-last_updated: 2026-06-25
+source_count: 2
+last_updated: 2026-08-31
 parent: []
 part-of: []
 defines: []
-relates-to: ["[[concepts/tracing-observability]]", "[[concepts/agent-tracing]]", "[[concepts/data-quality-for-agents]]", "[[concepts/golden-dataset]]", "[[entities/delta-lake]]", "[[entities/unity-catalog]]"]
+relates-to: ["[[concepts/tracing-observability]]", "[[concepts/agent-tracing]]", "[[concepts/data-quality-for-agents]]", "[[concepts/golden-dataset]]", "[[entities/delta-lake]]", "[[entities/unity-catalog]]", "[[concepts/agent-first-data-foundation]]", "[[entities/clay]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]"]
 ---
 
 # Data Foundation
@@ -52,6 +52,26 @@ give you the wrong answer confidently."
 > data strategy for collecting, storing, and serving trace data, observability remains a
 > per-framework concern rather than an enterprise capability.
 
+### From Inside Clay's Eval Stack (LangChain channel)
+
+- **The agent-first specialization** — [[entities/clay|Clay]] ran into the limit of its data
+  primitives for scaling learning loops and is consolidating into a data lake where
+  **agents are the first-class users**: guardrails up front, safe shadow builds deployed to
+  S3, serving/dev compute separation, agent skills + CLI, and hour-long agent-driven data
+  builds over Athena. See [[concepts/agent-first-data-foundation]]
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+- **Unifying the question AND tracking stores** — Clay's lake folds together exactly the
+  two categories this page splits: question data (first-party + third-party GTM data) and
+  tracking data ([[entities/langsmith|LangSmith]] traces), plus [[entities/snowflake|Snowflake]]
+  analytics, Postgres, and ClickHouse — "one single platform" so agents don't have to tie
+  the databases together themselves ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
+
+> [!inference] Databricks frames data foundation as the pillar agents *consume*; Clay
+> reframes it as infrastructure agents *operate on* (shadow builds, long-running data
+> models). The [[concepts/agent-first-data-foundation]] page carries the specialization;
+> this page keeps the question-data/tracking-data distinction both stacks share.
+
 ## Sources
 
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on question data vs tracking data, centralized trace collection, and the data foundation technology stack
+- [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — the agent-first data lake: guardrails, shadow builds, compute separation, and unifying question + tracking + analytics stores on one platform

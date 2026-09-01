@@ -431,3 +431,14 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Source: `sources/2026-08-31-the-last-human-code-review-building-trust-in-ai-generated-co.md` (permanece `status: unprocessed`, `concepts: []`, `entities: []`)
 - Motivo: a curadoria ontológica (concepts/entities) ficou fora do escopo do run do pipeline `analyze-and-improve` em long-running-agents (commits 69cae32/382da27); a wrapper ingest-and-improve encerra na análise e não encadeia o indexer.
 - Dono: operador. Encaminhamento: re-executar `@knowledge-indexer` sobre esta source quando conveniente (regra nova no SKILL.md, Step 4 — source orphan check).
+
+## 2026-09-01T00:18Z — extract
+- Source: `sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel.md`
+- Video: https://www.youtube.com/watch?v=Uny6LpmjraI
+- Method: serpapi
+- Status: unprocessed (awaiting knowledge-indexer)
+
+## 2026-09-01T01:55Z — deference
+- Source: `sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel.md`
+- Motivo: curadoria ontológica (knowledge-indexer) fora do escopo do run analyze-and-improve
+- Owner: operador (autorização única do ciclo qi-iter3, epic pavani06/long-running-agents#181)

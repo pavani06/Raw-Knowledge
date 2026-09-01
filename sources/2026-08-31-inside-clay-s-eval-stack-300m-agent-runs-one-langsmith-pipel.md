@@ -10,28 +10,8 @@ created: 2026-08-31
 duration: "13:01"
 extraction_method: serpapi
 tags: [ai, agents, llm, evals, observability, data-platform, gtm]
-concepts:
-  - "[[concepts/eval-coverage-matrix]]"
-  - "[[concepts/production-to-offline-feedback-loop]]"
-  - "[[concepts/perceived-eval]]"
-  - "[[concepts/tool-unification-flywheel]]"
-  - "[[concepts/agent-first-data-foundation]]"
-  - "[[concepts/agent-evals]]"
-  - "[[concepts/golden-dataset]]"
-  - "[[concepts/llm-as-judge]]"
-  - "[[concepts/continuous-evaluation]]"
-  - "[[concepts/trajectory-evaluation]]"
-  - "[[concepts/eval-driven-development]]"
-  - "[[concepts/data-flywheel]]"
-  - "[[concepts/data-foundation]]"
-  - "[[concepts/agent-tracing]]"
-entities:
-  - "[[entities/clay]]"
-  - "[[entities/claggent]]"
-  - "[[entities/sculptor]]"
-  - "[[entities/langsmith]]"
-  - "[[entities/langchain]]"
-  - "[[entities/snowflake]]"
+concepts: ["[[concepts/eval-coverage-matrix]]", "[[concepts/production-to-offline-feedback-loop]]", "[[concepts/perceived-eval]]", "[[concepts/tool-unification-flywheel]]", "[[concepts/agent-first-data-foundation]]", "[[concepts/agent-evals]]", "[[concepts/golden-dataset]]", "[[concepts/llm-as-judge]]", "[[concepts/continuous-evaluation]]", "[[concepts/trajectory-evaluation]]", "[[concepts/eval-driven-development]]", "[[concepts/data-flywheel]]", "[[concepts/data-foundation]]", "[[concepts/agent-tracing]]"]
+entities: ["[[entities/clay]]", "[[entities/claggent]]", "[[entities/sculptor]]", "[[entities/langsmith]]", "[[entities/langchain]]", "[[entities/snowflake]]"]
 status: processed
 ---
 

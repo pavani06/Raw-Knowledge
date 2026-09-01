@@ -61,8 +61,8 @@ makes [[concepts/continuous-evaluation]] a cell of the grid rather than a separa
   of sampled traces all live there ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
 - **The hardest part is the dotted arrow** — everything learned in production should feed
   back into the offline quadrants; that loop is unsolved in general (see
-  [[concepts/production-to-offline-feedback-loop]]).
-  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]])
+  [[concepts/production-to-offline-feedback-loop]])
+  ([[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel]]).
 
 > [!contradiction] Contradicts [[sources/2026-06-25-the-best-ai-agents-are-simpler-than-you-think]]
 > Sierra built its [[concepts/simulations|simulations]] product on simulated users (20+

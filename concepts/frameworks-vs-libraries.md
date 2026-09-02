@@ -3,16 +3,16 @@ title: "Frameworks vs. Libraries"
 type: concept
 aliases: ["frameworks vs libraries", "frameworks versus libraries", "scaffolding vs wrappers"]
 tags: [ai, agents, software-engineering, tooling, architecture]
-source_count: 1
-last_updated: 2026-06-09
+source_count: 2
+last_updated: 2026-09-02
 parent: []
 part-of: ["[[concepts/12-factor-agents]]"]
 defines: []
-relates-to: ["[[concepts/harness-engineering]]", "[[entities/humanlayer]]", "[[concepts/code-as-free-resource]]"]
+relates-to: ["[[concepts/harness-engineering]]", "[[entities/humanlayer]]", "[[concepts/code-as-free-resource]]", "[[concepts/declarative-agent-definitions]]", "[[concepts/agent-kernel]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-09-12-factor-agents]]"]
+sources: ["[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
 ---
 
 # Frameworks vs. Libraries
@@ -55,7 +55,28 @@ contact) so builders can focus their energy on prompt and context engineering.
 > infra, human-in-loop) while leaving the *AI engineering* (prompts, context, eval) in
 > the builder's hands.
 
+### From Agent Frameworks Considered Harmful (Rémi Louf, .txt)
+
+- **The lived framework failure** — with frameworks, "I spent all my time actually editing
+  the prompt within the code"; the escape was [[concepts/declarative-agent-definitions|
+  markdown agent definitions]] + an [[concepts/agent-kernel|agent kernel]] that owns
+  runtime concerns, leaving no framework abstraction in between
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **Build before you buy (in this category)** — the agent-infra category "is definitely
+  unsettled"; for a small company, building first reveals what you actually need and where
+  existing tools fall short — and the CEO can do it without derailing engineers
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **Framework builders: eat your own dog food** — "sometimes it's pretty clear that people
+  are building agent orchestration frameworks but not eating their own dog food"
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+
+> [!inference] The two sources converge from different angles: 12-Factor says frameworks
+> abstract the wrong layer (own the scaffolding, not the AI parts); this talk goes further —
+> move runtime concerns into a kernel and agent logic into declarative files, so no one
+> owns your agent's control flow but you.
+
 ## Sources
 
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on Factor 12; the shadcn vs. bootstrap framing; critique of current frameworks
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — frameworks as prompt-in-code prisons; build-before-you-buy in unsettled infra; the dogfooding demand
 

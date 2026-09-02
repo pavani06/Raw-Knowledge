@@ -3,16 +3,16 @@ title: "Multi-Agent Orchestration"
 type: concept
 aliases: ["multi-agent orchestration", "agent orchestration", "orchestration patterns", "multi-agent patterns", "agent coordination"]
 tags: [ai, agents, architecture, orchestration, production]
-source_count: 1
-last_updated: 2026-06-25
+source_count: 2
+last_updated: 2026-09-02
 parent: []
 part-of: []
 defines: []
-relates-to: ["[[concepts/sub-agents]]", "[[concepts/agent-state-management]]", "[[concepts/fault-tolerance-patterns]]", "[[concepts/human-in-loop-vs-afk]]", "[[concepts/agent-teams]]", "[[concepts/data-foundation]]"]
+relates-to: ["[[concepts/sub-agents]]", "[[concepts/agent-state-management]]", "[[concepts/fault-tolerance-patterns]]", "[[concepts/human-in-loop-vs-afk]]", "[[concepts/agent-teams]]", "[[concepts/data-foundation]]", "[[concepts/event-driven-agents]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
 ---
 
 # Multi-Agent Orchestration
@@ -49,6 +49,23 @@ response synchronization. Multi-agent orchestration is the fourth pillar of the 
 > context windows); orchestration patterns define the coordination topology (centralized vs.
 > decentralized, synchronous vs. asynchronous, autonomous vs. supervised).
 
+### From Agent Frameworks Considered Harmful (Rémi Louf, .txt)
+
+- **Choreography as the whole answer** — "there are frameworks that are going to sell you
+  the fact that you need graphs for this in code. You do not need graphs in this case. All
+  you need is events": agents subscribe to events, fan-in/fan-out is free, and the topology
+  emerges from the log — no edges to maintain. See
+  [[concepts/event-driven-agents]] ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+
+> [!contradiction] Graphs/orchestrators vs. plain events
+> The Databricks playbook presents orchestrator-worker as the control-plane pattern for
+> multi-agent production systems. The .txt talk claims in-code graphs are unnecessary —
+> event subscriptions alone orchestrated 20 production agents. Resolution: they target
+> different topologies — orchestrators suit centralized control and single-plane debugging;
+> event choreography suits reactive workflows (morning briefs, note processing) where the
+> causal log substitutes for the orchestrator's debugging role.
+
 ## Sources
 
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on orchestrator-worker, choreography, human-in-the-loop patterns; state management and fault tolerance
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — events over in-code graphs; choreography in production at .txt

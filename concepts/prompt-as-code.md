@@ -3,16 +3,16 @@ title: "Prompt-as-Code"
 type: concept
 aliases: ["prompt as code", "prompt versioning", "prompt change management", "prompt governance", "prompt commit discipline"]
 tags: [ai, agents, llm, governance, prompts, versioning, production]
-source_count: 2
-last_updated: 2026-08-30
+source_count: 3
+last_updated: 2026-09-02
 parent: ["[[concepts/ai-governance]]"]
 part-of: ["[[concepts/ai-governance]]"]
 defines: []
-relates-to: ["[[concepts/model-change-management]]", "[[concepts/eval-governance]]", "[[concepts/production-incident-playbook]]", "[[concepts/release-gates]]", "[[concepts/eval-driven-development]]"]
+relates-to: ["[[concepts/model-change-management]]", "[[concepts/eval-governance]]", "[[concepts/production-incident-playbook]]", "[[concepts/release-gates]]", "[[concepts/eval-driven-development]]", "[[concepts/content-addressed-prompts]]", "[[concepts/declarative-agent-definitions]]"]
 contradicts: []
 supports: ["[[concepts/ai-governance]]"]
 extends: []
-sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]"]
+sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
 ---
 
 # Prompt-as-Code
@@ -52,7 +52,21 @@ the change addresses, and what correction is expected in the next version.
 
 - **Prompt-as-code by necessity** — the GTM agent launched to 6,000 people with a nine-page instruction doc whose versions were managed in a Google Doc; within months the team concluded "it's not going to work out. Let's figure out CI/CD." Agent instructions are prompts at product scale, and unmanaged instruction versioning is exactly the failure mode prompt-as-code exists to prevent ([[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]).
 
+### From Agent Frameworks Considered Harmful (Rémi Louf, .txt)
+
+- **The failure prompt-as-code prevents, lived** — a week of unversioned prompt tweaking
+  left the market brief "garbage" with no way to reconstruct which change broke it: "I
+  didn't version my changes and I couldn't remember actually what I changed in the prompt
+  that made the thing completely useless"
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **The structural fix goes deeper than commit discipline** — the remedy was
+  [[concepts/content-addressed-prompts|content addressing]]: every prompt component stored
+  as a hash, making every historical state recoverable, diffable, and replayable. And the
+  authoring fix was [[concepts/declarative-agent-definitions|markdown files]] — the prompt
+  you iterate on becomes the artifact you PR-review.
+
 ## Sources
 
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on prompt versioning as change management, commit message discipline, and failure-to-fix traceability
 - [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (Snowflake) on agent instructions versioned in a Google Doc as the cautionary tale; CI/CD adopted by necessity
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — the unversioned-prompt-drift failure and its structural fix (content addressing + declarative files)

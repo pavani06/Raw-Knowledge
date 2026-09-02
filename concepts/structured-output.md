@@ -3,16 +3,16 @@ title: "Structured Output"
 type: concept
 aliases: ["structured output", "NL to JSON", "natural language to JSON", "structured data extraction"]
 tags: [ai, llm, agents, data]
-source_count: 1
-last_updated: 2026-06-09
+source_count: 2
+last_updated: 2026-09-02
 parent: []
 part-of: ["[[concepts/12-factor-agents]]"]
 defines: []
-relates-to: ["[[concepts/tool-use]]", "[[concepts/agent-harness]]"]
+relates-to: ["[[concepts/tool-use]]", "[[concepts/agent-harness]]", "[[concepts/typed-agent-boundaries]]"]
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-09-12-factor-agents]]"]
+sources: ["[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
 ---
 
 # Structured Output
@@ -49,7 +49,23 @@ information into JSON that your deterministic code can act on.
 > reduced to NL → JSON → deterministic code?" If yes, you avoid all the reliability
 > challenges of autonomous agents while still getting the LLM's value.
 
+### From Agent Frameworks Considered Harmful (Rémi Louf, .txt)
+
+- **Structured output as company specialty** — [[entities/txt|.txt]] has worked on
+  structured outputs for three years; in the kernel story it is the primitive that makes
+  [[concepts/typed-agent-boundaries|typed events and typed tool calls]] enforceable at the
+  boundary ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **Provider quality is a production risk** — Anthropic's weak structured outputs caused
+  ~20% of events to be wrong and rejected, the origin story of .txt's own stack; a reminder
+  that NL→JSON reliability is not uniform across providers
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **Open-source models were good enough** — after switching to open-source models (even a
+  local one on a laptop), the workload ran without third-party APIs — for non-coding agent
+  work; coding is a different question
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+
 ## Sources
 
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on Factor 1; structured output as the foundation of all agent capabilities
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — structured outputs as the kernel's boundary primitive; provider-quality failure mode (20% rejected events)
 

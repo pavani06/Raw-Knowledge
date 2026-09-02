@@ -3,16 +3,16 @@ title: "Compaction"
 type: concept
 aliases: ["compaction", "server-side compaction", "context compaction", "intentional compaction", "frequent intentional compaction", "truncation and compression"]
 tags: [ai, llm, context, technique]
-source_count: 4
-last_updated: 2026-06-09
+source_count: 5
+last_updated: 2026-09-02
 parent: []
 part-of: ["[[concepts/context-window-management]]"]
 defines: []
-relates-to: ["[[concepts/context-rot]]", "[[concepts/ralph-loop]]", "[[concepts/long-running-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/smart-truncation]]", "[[concepts/agent-memory]]"]
+relates-to: ["[[concepts/context-rot]]", "[[concepts/ralph-loop]]", "[[concepts/long-running-agents]]", "[[concepts/research-plan-implement]]", "[[concepts/smart-zone-dumb-zone]]", "[[concepts/smart-truncation]]", "[[concepts/agent-memory]]", "[[concepts/content-addressed-prompts]]"]
 contradicts: []
 supports: ["[[concepts/research-plan-implement]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock]]", "[[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases]]", "[[sources/2026-06-09-how-we-solved-context-management-in-agents]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
 ---
 
 # Compaction
@@ -92,9 +92,23 @@ effectively indefinitely.
 > [!contradiction] Summarization vs. controlled truncation
 > Earlier compaction framings treat summarization/condensing as a useful way to extend long-running sessions. Arize's Alex case shows a failure mode: summary-based compaction can be unreliable when the system cannot control what the summary preserves. Their resolution is not "never compact," but to use a deterministic head/tail truncation plus retrievable memory store so the agent can recover omitted context explicitly.
 
+### From Agent Frameworks Considered Harmful (Rémi Louf, .txt)
+
+- **Compaction as graph manipulation** — with prompts stored as
+  [[concepts/content-addressed-prompts|content-addressed hashes]], "you're just
+  manipulating a graph, not strings" — compaction picks and re-links hash-addressed
+  components instead of rewriting opaque text, which makes it easier and auditable
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **Compaction is also why the chat lies** — part of what the model actually saw is hidden
+  by compaction (and by unshared thinking traces), so the live TUI session cannot be
+  trusted as a record of model input
+  ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]). See
+  [[concepts/tracing-observability]].
+
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — history tour + harness-adjustment + closing takeaways
 - [[sources/2026-06-07-full-walkthrough-workflow-for-ai-coding-matt-pocock|Full Walkthrough: Workflow for AI Coding — Matt Pocock]] — clear-context preference; predictability vs. continuity trade-off; Sandcastle clean-sandbox rationale
 - [[sources/2026-06-08-no-vibes-allowed-solving-hard-problems-in-complex-codebases|No Vibes Allowed: Solving Hard Problems in Complex Codebases — Dex Horthy, HumanLayer]] — intentional compaction (compress context to a reviewable markdown file); what-to-compact; frequent intentional compaction as the workflow spine
 - [[sources/2026-06-09-how-we-solved-context-management-in-agents|How we solved Context Management in Agents]] — Sally-Ann Delucia (Arize) on failed summarization and smart truncation as a controlled compression-plus-memory strategy
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — compaction as graph surgery on the content-addressed prompt graph; compaction as one reason the chat surface misrepresents model input

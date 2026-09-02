@@ -3,16 +3,16 @@ title: "Tracing & Observability"
 type: concept
 aliases: ["tracing", "observability", "agent tracing", "span tracing", "execution traces", "instrumentation"]
 tags: [ai, agents, llm, observability, debugging, evals]
-source_count: 4
-last_updated: 2026-06-25
+source_count: 5
+last_updated: 2026-09-02
 parent: []
 part-of: ["[[concepts/agent-evals]]"]
 defines: []
-relates-to: ["[[concepts/reading-traces]]", "[[concepts/agent-evals]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/llm-as-judge]]", "[[concepts/long-running-agents]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/agent-tracing]]", "[[concepts/behavioral-evaluation]]", "[[concepts/data-foundation]]"]
+relates-to: ["[[concepts/reading-traces]]", "[[concepts/agent-evals]]", "[[concepts/eval-iterate-cycle]]", "[[concepts/llm-as-judge]]", "[[concepts/long-running-agents]]", "[[concepts/trajectory-evaluation]]", "[[concepts/failure-taxonomy]]", "[[concepts/agent-tracing]]", "[[concepts/behavioral-evaluation]]", "[[concepts/data-foundation]]", "[[concepts/content-addressed-prompts]]", "[[concepts/agent-kernel]]"]
 contradicts: []
 supports: ["[[concepts/agent-evals]]", "[[concepts/reading-traces]]", "[[concepts/trajectory-evaluation]]"]
 extends: []
-sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-06-09-eval-driven-development-missing-discipline]]", "[[sources/2026-06-09-eval-driven-development-rag-support-assistant]]", "[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
 ---
 
 # Tracing & Observability
@@ -91,9 +91,27 @@ collect these and make them queryable, filterable, and annotatable.
   requirements make trace retention a compliance matter (see [[concepts/eval-governance]])
   ([[sources/2026-06-09-eval-driven-development-missing-discipline]]).
 
+### From Agent Frameworks Considered Harmful (Rémi Louf, .txt)
+
+- **"What you see when you're using Codex is kind of a lie"** — the live chat session does
+   not show what the model actually saw: [[concepts/compaction|compaction]] rewrites
+   history, and OpenAI/Anthropic don't share thinking traces — so the interactive surface
+   can't serve as the debugging record
+   ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **The log as the system's memory** — one append-only events table where nothing is lost
+   and everything is observed; events are causally linked (which event triggered which),
+   which is what untangles multi-agent debugging ("even with three-four agents you start
+   having major debugging headaches")
+   ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+- **Exact model input, not spans alone** — [[concepts/content-addressed-prompts|the prompt
+   graph]] records precisely what entered the model's context, enabling run diffs, replay
+   for evals, and auditability — the ground-truth layer this page's platforms approximate
+   ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
+
 ## Sources
 
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — Laurie Voss on setting up tracing with Arize Phoenix, span/trace concepts, production monitoring, and session-aware tracing
 - [[sources/2026-06-09-eval-driven-development-missing-discipline|Eval-Driven Development — The Missing Discipline in the Agentic AI Lifecycle]] — trace-native QA as the future; traces as prerequisite for failure taxonomy; observability cost as governance constraint
 - [[sources/2026-06-09-eval-driven-development-rag-support-assistant|Eval-Driven Development for AI Apps: RAG Support Assistant]] — the trace as the most important operational artifact; the full trace record schema
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on observability as regulatory mandate, duplicate API call detection, tracing for incident diagnosis, and centralized cross-framework trace collection
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — the chat-is-a-lie problem; the kernel's append-only causal event log; content-addressed prompts as exact model-input records

@@ -4,11 +4,11 @@ type: entity
 entity_type: company
 aliases: []
 tags: [ai, llm]
-source_count: 1
-last_updated: 2026-06-07
+source_count: 2
+last_updated: 2026-09-02
 relates-to: ["[[entities/claude-code]]", "[[entities/agent-sdk]]"]
 part-of: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
 ---
 
 # Anthropic
@@ -21,3 +21,4 @@ its applied AI team, and the talk covers Anthropic's research and product evolut
 ## Mentioned In
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — host org; covers its model releases (Sonnet/Opus 3.7 → 4.6), [[concepts/agent-harness]] research, [[concepts/design-taste-rubric]] post-training, and culture of reading traces by hand
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — Opus 4.6 as the "step function" that made agents really good (late 2025); criticized for weak structured outputs (~20% of events rejected in the kernel's early runs) and for not sharing thinking traces

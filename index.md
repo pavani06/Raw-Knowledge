@@ -12,6 +12,7 @@ within each section, with a one-line summary and source count.
 - [[concepts/agent-evals|Agent Evals]] — Three-tier evaluation framework (deterministic → semantic/LLM-as-judge → behavioral) for agentic systems; now spans code-level checks, long-session context degradation tests, tool-call correctness, duplicate API call detection, quality-over-coverage scoping, and Clay's multi-level CLI-to-prod coverage-matrix philosophy (9 sources)
 - [[concepts/agent-first-data-foundation|Agent-First Data Foundation]] — A data lake built with agents as first-class users: guardrails, shadow builds, serving/dev compute separation, agent skills/CLI, long-running data builds (1 source)
 - [[concepts/agent-harness|Agent Harness]] — Scaffolding around the model that fills its gaps; co-evolves with the model and owns context policy (3 sources)
+- [[concepts/agent-kernel|Agent Kernel]] — OS-like runtime treating agents as processes: schedules, isolates, and journals them; markdown definitions as userland; makes bad actions impossible, not just unlikely (1 source)
 - [[concepts/agent-memory|Agent Memory]] — Context retention across steps enabling multi-step task completion; session memory vs persistent memory (3 sources)
 - [[concepts/agent-planning|Agent Planning]] — Decomposing a goal into ordered steps before execution; the Planner role in agentic workflows (1 source)
 - [[concepts/agent-state-management|Agent State Management]] — Non-volatile execution and business state management enabling agent pause/resume via DB serialization; fault tolerance patterns (saga, compensation, circuit breaker) for multi-agent systems (3 sources)
@@ -33,6 +34,7 @@ within each section, with a one-line summary and source count.
 - [[concepts/compaction|Compaction]] — Server-side + intentional context condensing, with smart truncation as a controlled compression-plus-memory variant (4 sources)
 - [[concepts/consolidacao-substancial|Consolidação Substancial]] — Doutrina jurídica em RJs brasileiras que dilui o perímetro do credor; brecha legal ampliada pela prática jurisdicional, aumentando spread de risco vs Chapter 11 americano (1 source)
 - [[concepts/constellation-of-models|Constellation of Models]] — Routing different tasks to different models based on capability match and cost optimization (1 source)
+- [[concepts/content-addressed-prompts|Content-Addressed Prompts]] — Prompts as lists of content hashes (git/nix-style): exact trace-back of model input, run diffs, replay for evals, compaction as graph manipulation, auditability (1 source)
 - [[concepts/context-rot|Context Rot]] — Coherence loss, context anxiety, and late-session forgetting as long-run failure modes (2 sources)
 - [[concepts/context-window-management|Context Window Management]] — Techniques for staying effective within a finite context window; the core of "context engineering" and agent-product UX (7 sources)
 - [[concepts/continual-learning|Continual Learning]] — Production improvement loop: monitor detects an issue, agent suggests a fix, human reviews and deploys; confidence-gated self-improvement as the announced future (1 source)
@@ -42,6 +44,7 @@ within each section, with a one-line summary and source count.
 - [[concepts/data-flywheel|Data Flywheel]] — Compounding eval data as a competitive moat; each iteration deepens the dataset; test case library as a living system that grows with every production incident; demand-side flywheel from classified question logs; tool-surface flywheel at Clay (5 sources)
 - [[concepts/data-foundation|Data Foundation]] — Question data (serving AI) vs tracking data (observability data); centralized trace collection across heterogeneous agent frameworks; the agent-first specialization (2 sources)
 - [[concepts/data-quality-for-agents|Data Quality for Agents]] — Agents are unforgiving with bad data; data historically built for forgiving humans fails catastrophically with agents that give wrong answers confidently (1 source)
+- [[concepts/declarative-agent-definitions|Declarative Agent Definitions]] — Agents as markdown files dropped in a folder: versionable, diffable, PR-reviewable; prompts out of code; non-technical contribution at scale (1 source)
 - [[concepts/deep-modules|Deep Modules]] — Ousterhout's principle: large simple-interface modules that are easy to test and AI-navigable (1 source)
 - [[concepts/deflection-rate|Deflection Rate]] — Business metric: percentage of simple customer queries successfully handled by AI agent without human escalation (1 source)
 - [[concepts/design-taste-rubric|Design Taste Rubric]] — Written rubric for grading subjective design quality (1 source)
@@ -53,6 +56,7 @@ within each section, with a one-line summary and source count.
 - [[concepts/eval-governance|Eval Governance]] — Evals as audit/compliance evidence (EU AI Act, NIST, SR 11-7); PII breach detection (47 caught in testing phase); mathematical proof of safety (2 sources)
 - [[concepts/eval-iterate-cycle|Eval-Iterate Cycle]] — The core loop: instrument → trace → eval → annotate → improve → repeat; production incident playbook (Detect → Diagnose → Contain → Fix) as operational instantiation (2 sources)
 - [[concepts/evaluation-pipeline|Evaluation Pipeline]] — Automated system: capture user question + agent response → compare against eval dataset → rate → route below-threshold to human → fix → add test case (1 source)
+- [[concepts/event-driven-agents|Event-Driven Agents]] — Agents subscribe to events instead of in-code graphs: cron covers "when", events cover "what happened"; fan-in/fan-out free; topology emerges from the log (1 source)
 - [[concepts/emendas-impositivas|Emendas Impositivas]] — Reforma orçamentária que combinou orçamento congressual + financiamento público de campanha, criando um Congresso "descolado do povo" como efeito de segunda ordem (1 source)
 - [[concepts/failure-taxonomy|Failure Taxonomy]] — Categorizing failures by engineering cause, not "the bot was wrong"; "hallucination is too small a diagnosis" (2 sources)
 - [[concepts/fault-tolerance-patterns|Fault Tolerance Patterns]] — Saga pattern (compensating transactions), compensation pattern (undo on failure), and circuit breaker pattern (stop cascading failures) for agent systems in production (1 source)
@@ -126,6 +130,7 @@ within each section, with a one-line summary and source count.
 - [[concepts/tool-use|Tool Use]] — Agents calling search, files, APIs, and other external capabilities to act on the world; includes tool definition and sequential calling patterns (3 sources)
 - [[concepts/tracing-observability|Tracing & Observability]] — Capturing raw execution data (spans, traces) as the prerequisite for any eval; now includes behavioral layer (duplicate API call detection), online monitoring, and regulatory mandate (4 sources)
 - [[concepts/trajectory-evaluation|Trajectory Evaluation]] — Grading the process/trace an agent took, not just the final output; grade the scratchpad; structured checks and trajectory/tool assertions as the deterministic layer (3 sources)
+- [[concepts/typed-agent-boundaries|Typed Agent Boundaries]] — Typed tool calls and typed events as non-negotiable agent contracts; the kernel makes bad actions impossible, not just unlikely; enabled by structured output (1 source)
 - [[concepts/value-maturity-ladder|Value Maturity Ladder]] — Four-stage value climb (talk-to-data → workflow automation → team empowerment → hyper-personalization) that outruns collapsing expectations (1 source)
 - [[concepts/verification-loop|Verification Loop]] — The agent actually testing its running output (3 sources)
 - [[concepts/vertical-slices|Vertical Slices]] — Thin end-to-end features that cross all layers for fast feedback; also a research primitive (2 sources)
@@ -167,9 +172,11 @@ within each section, with a one-line summary and source count.
 - [[entities/sandcastle|Sandcastle]] — Matt Pocock's TypeScript library for parallelized AFK agent loops in Docker sandboxes (1 source)
 - [[entities/sculptor|Sculptor]] — Clay's GTM engineering agent: builds/orchestrates workflows, analyzes data, searches the companies/contacts DB; 100k+ messages/week; the tool-parity reference implementation (1 source)
 - [[entities/sierra|Sierra]] — Customer experience agent platform for Fortune 20; voice-first, outcome-priced, PCI-certified, no-code journeys layer (1 source)
+- [[entities/slack|Slack]] — Team messaging platform; agent-output delivery surface in the kernel story (daily brief via slack.message.post event) (1 source)
 - [[entities/snowflake|Snowflake]] — Data cloud company (~10k employees, half GTM); customer zero for its own agent platform; also one of Clay's analytics stores unified into its data lake (2 sources)
 - [[entities/snowflake-co-work|Snowflake Co-work]] — Snowflake's no-code agent platform (renamed from Snowflake Intelligence); Cortex services + inherited RBAC (1 source)
 - [[entities/taobench|TaoBench]] — Sierra's open-source benchmark suite (TaoBench, TaoVoice, TaoKnowledge, MuBench) for evaluating model providers on agent capabilities (1 source)
+- [[entities/txt|.txt]] — 15-person structured-outputs company (Rémi Louf); the agent kernel as dogfooding project; 20 internal agents on open-source models (1 source)
 - [[entities/unity-catalog|Unity Catalog]] — Databricks data catalog with centralized permissions, PII column tagging, metadata management, and data discovery at the catalog level (1 source)
 
 ## Sources
@@ -191,6 +198,7 @@ within each section, with a one-line summary and source count.
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks, AI Engineer) on the 5-pillar production framework: evaluation, observability, data foundation, orchestration, governance; includes a retail banking chatbot case study (video, 2026-06-25)
 - [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (AI Engineer, Snowflake) on deploying internal GTM AI agents to 6,000 sales users: adoption, guardrails, and operational lessons (video, 2026-08-30)
 - [[sources/2026-08-31-inside-clay-s-eval-stack-300m-agent-runs-one-langsmith-pipel|Inside Clay's Eval Stack: 300M Agent Runs, One LangSmith Pipeline]] — Clay team (LangChain channel) on the eval coverage matrix, production-to-offline drift loop, tool unification flywheel, and agent-first data foundation (video, 2026-08-31)
+- [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — Rémi Louf (.txt) on replacing agent frameworks with an agent kernel: event-driven orchestration, content-addressed prompts, typed boundaries, declarative markdown agents (video, 2026-09-02)
 
 ## Digests
 

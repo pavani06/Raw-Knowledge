@@ -457,3 +457,10 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Updated: `index.md` (5 new concept entries, 4 new entity entries, 10 count/summary updates on concepts + MOC, 2 on entities; source entry added — it did NOT pre-exist from extract, unlike the GTM batch).
 - Pages touched: 22 (1 source + 5 concepts + 4 entities created; 9 concepts + MOC + 2 entities compounded; index.md; log.md). Source `## Transcript` body untouched — verified byte-identical against commit 5b4b2dd (sha256 of transcript section 195d0329… before and after).
 - Lint: every new concept appears as inline [[wikilink]] in ≥2 other pages (source appendix + compound pages + intra-cluster cross-links + MOC). All new pages carry the full closed-vocabulary frontmatter with empty [] explicit. No commits, no push.
+
+## 2026-09-02T11:30Z — extract
+- Source: `sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt.md`
+- Video: https://www.youtube.com/watch?v=KHudyx5wW3U
+- Method: serpapi
+- Status: unprocessed (awaiting knowledge-indexer)
+- Deference: curadoria ontológica (@knowledge-indexer) fora do escopo do run analyze-and-improve. Owner: operador. Source permanece status: unprocessed até indexação dedicada. 2026-09-02T11:35Z

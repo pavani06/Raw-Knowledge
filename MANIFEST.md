@@ -1,10 +1,12 @@
 ---
+domain: raw-knowledge
 type: vault-manifest
 vault: raw-knowledge
 exports:
-  - papers
-  - talks
-  - transcripts
+  - sources
+  - concepts
+  - entities
+  - digests
 imports: []
 ---
 

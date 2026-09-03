@@ -471,3 +471,10 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Updated: `concepts/long-running-agents.md` (source_count: 1→2), `concepts/prompt-as-code.md` (2→3), `concepts/structured-output.md` (1→2), `concepts/compaction.md` (4→5), `concepts/tracing-observability.md` (4→5), `concepts/frameworks-vs-libraries.md` (1→2), `concepts/multi-agent-orchestration.md` (1→2), `entities/codex.md` (1→2), `entities/anthropic.md` (1→2)
 - Note: fecha a deferência registrada em 2026-09-02T11:35Z (curadoria ontológica fora do escopo do run analyze-and-improve; owner: operador)
 - Pages touched: 18
+
+## 2026-09-03T01:14Z — extract
+- Source: `sources/2026-09-02-the-prompting-playbook.md`
+- Video: https://www.youtube.com/watch?v=G2B0YWuJUgI
+- Method: serpapi
+- Status: unprocessed (awaiting knowledge-indexer)
+- Deference: curadoria ontológica (@knowledge-indexer) fora do escopo do run analyze-and-improve. Owner: operador. Source permanece status: unprocessed até indexação dedicada. 2026-09-03T01:14Z

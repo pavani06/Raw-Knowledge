@@ -478,3 +478,10 @@ Raw Knowledge knowledge system created: AGENTS.md schema, `source-extractor` and
 - Method: serpapi
 - Status: unprocessed (awaiting knowledge-indexer)
 - Deference: curadoria ontológica (@knowledge-indexer) fora do escopo do run analyze-and-improve. Owner: operador. Source permanece status: unprocessed até indexação dedicada. 2026-09-03T01:14Z
+
+## 2026-09-03T02:20Z — ingest | The Prompting Playbook
+- Source: `sources/2026-09-02-the-prompting-playbook.md`
+- Created: `concepts/capability-escalation-ladder.md`, `concepts/two-sided-trade-off-instruction.md`
+- Updated: `concepts/model-change-management.md` (source_count: 1→2), `concepts/deterministic-checks.md` (3→4), `concepts/structured-output.md` (2→3), `concepts/tool-use.md` (3→5; corrige drift pré-existente: frontmatter dizia 3 mas listava 4 fontes), `concepts/generator-evaluator-pattern.md` (2→3), `concepts/prompt-as-code.md` (3→4), `entities/anthropic.md` (2→3)
+- Note: fecha a deferência registrada em 2026-09-03T01:14Z (curadoria ontológica fora do escopo do run analyze-and-improve; owner: operador)
+- Pages touched: 11

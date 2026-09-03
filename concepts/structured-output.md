@@ -3,7 +3,7 @@ title: "Structured Output"
 type: concept
 aliases: ["structured output", "NL to JSON", "natural language to JSON", "structured data extraction"]
 tags: [ai, llm, agents, data]
-source_count: 2
+source_count: 3
 last_updated: 2026-09-02
 parent: []
 part-of: ["[[concepts/12-factor-agents]]"]
@@ -12,7 +12,7 @@ relates-to: ["[[concepts/tool-use]]", "[[concepts/agent-harness]]", "[[concepts/
 contradicts: []
 supports: []
 extends: []
-sources: ["[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
+sources: ["[[sources/2026-06-09-12-factor-agents]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]", "[[sources/2026-09-02-the-prompting-playbook]]"]
 ---
 
 # Structured Output
@@ -64,8 +64,16 @@ information into JSON that your deterministic code can act on.
   work; coding is a different question
   ([[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]).
 
+
+- **The output contract has two layers** — the prompt defines the format (e.g. XML tags
+  wrapping the answer), and the harness enforces it programmatically: a stop sequence that
+  detects the closing tag and halts generation, or structured outputs for nested JSON
+  schemas. The harness layer guarantees consistency to a higher degree than prompt text
+  alone and survives model migration better. Right-size the contract: a conversational bot
+  needs a light one; machine-consumed output needs heavy enforcement
+  ([[sources/2026-09-02-the-prompting-playbook]]).
 ## Sources
 
 - [[sources/2026-06-09-12-factor-agents|12-Factor Agents: Patterns of reliable LLM applications]] — Dex Horthy on Factor 1; structured output as the foundation of all agent capabilities
 - [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — structured outputs as the kernel's boundary primitive; provider-quality failure mode (20% rejected events)
-
+- - [[sources/2026-09-02-the-prompting-playbook|The Prompting Playbook]] — Claude (Anthropic, Code with Claude breakout) on maintaining a production prompt through a model migration (Meridian Mobile support bot: eval suite, XML-tag hygiene, stop sequences, tool integration, trade-off balancing) and building a scheduler agent from zero (model/thinking/prompt/architecture comparison, generate-evaluate-repair economics) — the two-layer output contract: prompt-level format definition + stop-sequence/structured-output enforcement in the harness

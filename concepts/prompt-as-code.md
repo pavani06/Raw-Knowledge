@@ -3,16 +3,16 @@ title: "Prompt-as-Code"
 type: concept
 aliases: ["prompt as code", "prompt versioning", "prompt change management", "prompt governance", "prompt commit discipline"]
 tags: [ai, agents, llm, governance, prompts, versioning, production]
-source_count: 3
+source_count: 4
 last_updated: 2026-09-02
 parent: ["[[concepts/ai-governance]]"]
 part-of: ["[[concepts/ai-governance]]"]
 defines: []
-relates-to: ["[[concepts/model-change-management]]", "[[concepts/eval-governance]]", "[[concepts/production-incident-playbook]]", "[[concepts/release-gates]]", "[[concepts/eval-driven-development]]", "[[concepts/content-addressed-prompts]]", "[[concepts/declarative-agent-definitions]]"]
+relates-to: ["[[concepts/model-change-management]]", "[[concepts/eval-governance]]", "[[concepts/production-incident-playbook]]", "[[concepts/release-gates]]", "[[concepts/eval-driven-development]]", "[[concepts/content-addressed-prompts]]", "[[concepts/declarative-agent-definitions]]", "[[concepts/two-sided-trade-off-instruction]]"]
 contradicts: []
 supports: ["[[concepts/ai-governance]]"]
 extends: []
-sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]"]
+sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users]]", "[[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt]]", "[[sources/2026-09-02-the-prompting-playbook]]"]
 ---
 
 # Prompt-as-Code
@@ -65,8 +65,19 @@ the change addresses, and what correction is expected in the next version.
   authoring fix was [[concepts/declarative-agent-definitions|markdown files]] — the prompt
   you iterate on becomes the artifact you PR-review.
 
+
+- **Defensive patches are debt with a decay date** — prompts accumulate defensive
+  instructions written for previous models' failures ("never give plan details, point to
+  the URL"). Newer models, being better instruction-followers, over-comply these stale
+  patches and start withholding information they actually have. The ledger discipline:
+  record the rationale for every defensive change at write time, and treat every model
+  migration as a patch audit — patches whose triggering failure no longer reproduces are
+  removal candidates, and ban lists get rebalanced into source-of-truth designations (see
+  [[concepts/two-sided-trade-off-instruction]])
+  ([[sources/2026-09-02-the-prompting-playbook]]).
 ## Sources
 
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on prompt versioning as change management, commit message discipline, and failure-to-fix traceability
 - [[sources/2026-08-30-gtm-ai-agents-lessons-from-deploying-to-6000-users|GTM AI Agents: Lessons from Deploying to 6,000 Users]] — Sait Izmit (Snowflake) on agent instructions versioned in a Google Doc as the cautionary tale; CI/CD adopted by necessity
 - [[sources/2026-09-02-agent-frameworks-considered-harmful-remi-louf-txt|Agent Frameworks Considered Harmful — Rémi Louf, .txt]] — the unversioned-prompt-drift failure and its structural fix (content addressing + declarative files)
+- - [[sources/2026-09-02-the-prompting-playbook|The Prompting Playbook]] — Claude (Anthropic, Code with Claude breakout) on maintaining a production prompt through a model migration (Meridian Mobile support bot: eval suite, XML-tag hygiene, stop sequences, tool integration, trade-off balancing) and building a scheduler agent from zero (model/thinking/prompt/architecture comparison, generate-evaluate-repair economics) — defensive patch ledger: rationale at write time, migration triggers the patch audit, over-compliance as the decay mechanism

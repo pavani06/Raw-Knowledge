@@ -3,16 +3,16 @@ title: "Generator-Evaluator Pattern"
 type: concept
 aliases: ["generator-evaluator", "generator evaluator pattern", "generator-critic", "adversarial evaluator", "GAN-style harness"]
 tags: [ai, agents, llm, architecture, verification]
-source_count: 2
-last_updated: 2026-06-07
+source_count: 3
+last_updated: 2026-09-02
 parent: []
 part-of: ["[[concepts/agent-harness]]"]
 defines: []
-relates-to: ["[[concepts/verification-loop]]", "[[concepts/design-taste-rubric]]", "[[concepts/sub-agents]]", "[[concepts/llm-as-judge]]", "[[concepts/agent-evals]]"]
+relates-to: ["[[concepts/verification-loop]]", "[[concepts/design-taste-rubric]]", "[[concepts/sub-agents]]", "[[concepts/llm-as-judge]]", "[[concepts/agent-evals]]", "[[concepts/capability-escalation-ladder]]"]
 contradicts: []
 supports: ["[[concepts/long-running-agents]]", "[[concepts/agent-evals]]"]
 extends: []
-sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]"]
+sources: ["[[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours]]", "[[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]", "[[sources/2026-09-02-the-prompting-playbook]]"]
 ---
 
 # Generator-Evaluator Pattern
@@ -62,7 +62,18 @@ hands a critique back to the generator, which then reflects and fixes.
   one evaluator to an evaluator ensemble
   ([[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications]]).
 
+
+- **The repairer can be a third independent prompt (generate-evaluate-repair)** — instead
+  of looping feedback back into the generator, a dedicated repairer prompt receives the
+  draft plus the violation report and applies targeted fixes. In the scheduling case this
+  three-prompt decomposition passed all cases with fewer tokens and lower latency than
+  both a larger model and a same-model-with-better-prompt route — and it accepts soft
+  requirements at runtime in the evaluator prompt ("Harry doesn't work with Sally")
+  without touching the backend checker. This makes the pattern the architecture rung of
+  the [[concepts/capability-escalation-ladder|capability escalation ladder]]
+  ([[sources/2026-09-02-the-prompting-playbook]]).
 ## Sources
 
 - [[sources/2026-06-07-anthropic-workshop-build-agents-that-run-for-hours|Anthropic Workshop: Build Agents That Run for Hours]] — the central state-of-the-art pattern presented by Ash
 - [[sources/2026-06-07-ship-real-agents-hands-on-evals-for-agentic-applications|Ship Real Agents: Hands-On Evals for Agentic Applications]] — LLM-as-judge as eval-time instantiation; cross-provider judging; multi-judge systems
+- - [[sources/2026-09-02-the-prompting-playbook|The Prompting Playbook]] — Claude (Anthropic, Code with Claude breakout) on maintaining a production prompt through a model migration (Meridian Mobile support bot: eval suite, XML-tag hygiene, stop sequences, tool integration, trade-off balancing) and building a scheduler agent from zero (model/thinking/prompt/architecture comparison, generate-evaluate-repair economics) — generate-evaluate-repair as the economic winner: three simple prompts beating model upsizing on tokens and latency

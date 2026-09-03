@@ -3,16 +3,16 @@ title: "Model Change Management"
 type: concept
 aliases: ["model change management", "model upgrade management", "model versioning", "model provider migration", "model selection governance"]
 tags: [ai, agents, llm, models, governance, evals, production]
-source_count: 1
-last_updated: 2026-06-25
+source_count: 2
+last_updated: 2026-09-02
 parent: ["[[concepts/ai-governance]]"]
 part-of: ["[[concepts/ai-governance]]"]
 defines: []
-relates-to: ["[[concepts/prompt-as-code]]", "[[concepts/eval-driven-development]]", "[[concepts/golden-dataset]]", "[[concepts/release-gates]]", "[[concepts/eval-governance]]"]
+relates-to: ["[[concepts/prompt-as-code]]", "[[concepts/eval-driven-development]]", "[[concepts/golden-dataset]]", "[[concepts/release-gates]]", "[[concepts/eval-governance]]", "[[concepts/capability-escalation-ladder]]", "[[concepts/two-sided-trade-off-instruction]]"]
 contradicts: []
 supports: ["[[concepts/ai-governance]]"]
 extends: []
-sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]"]
+sources: ["[[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]", "[[sources/2026-09-02-the-prompting-playbook]]"]
 ---
 
 # Model Change Management
@@ -43,6 +43,16 @@ your own eval criteria, and your own use cases before deployment.
   against it. This is [[concepts/eval-driven-development]] applied to model selection
   ([[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc]]).
 
+- **Migration diagnosis: behavior difference vs. capability gap** — when a prompt regresses
+  after a model switch, exactly two causes exist, each with a distinct remedy: (a) the new
+  model is capable but behaves differently → tune prompting/harness; (b) the new model
+  lacks the capability → no amount of prompting fixes it. The eval suite is the instrument
+  that distinguishes them, and violation counts give a directional signal (violations
+  falling while pass/fail is still flat means capability is arriving). The migration
+  procedure also triggers a [[concepts/prompt-as-code|patch audit]]: defensive
+  instructions written for the old model are the first suspects, and an unfixable
+  capability gap escalates via the [[concepts/capability-escalation-ladder|capability
+  escalation ladder]] ([[sources/2026-09-02-the-prompting-playbook]]).
 > [!inference] Model change management is the model-upgrade counterpart to
 > [[concepts/prompt-as-code]]: both treat changes to the AI system as governed,
 > testable, and auditable. Together they close the gap that most production AI
@@ -52,3 +62,4 @@ your own eval criteria, and your own use cases before deployment.
 ## Sources
 
 - [[sources/2026-06-25-the-production-ai-playbook-deploying-agents-at-enterprise-sc|The Production AI Playbook: Deploying Agents at Enterprise Scale]] — Sandipan Bhaumik (Databricks) on testing model upgrades against enterprise eval datasets, avoiding single-model dependency, and deferring model selection until eval infrastructure is built
+- - [[sources/2026-09-02-the-prompting-playbook|The Prompting Playbook]] — Claude (Anthropic) on maintaining a production prompt through a model migration (Meridian Mobile support bot: eval suite, XML-tag hygiene, stop sequences, tool integration, trade-off balancing) and building a scheduler agent from zero (model/thinking/prompt/architecture comparison, generate-evaluate-repair economics) — the migration diagnostic (behavior vs. capability) and patch-audit-on-migration

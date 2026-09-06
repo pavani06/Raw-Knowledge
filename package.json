@@ -12,7 +12,7 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@pavani_org/obsidian-eval": "0.5.1",
+    "@pavani_org/obsidian-eval": "0.5.3",
     "tsx": "4.22.4"
   }
 }
